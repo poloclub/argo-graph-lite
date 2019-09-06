@@ -6,6 +6,7 @@ import { requestNeighbors } from "../ipc/client";
 
 export default class ThreeJSVis extends React.Component {
   componentDidMount() {
+    console.log("!!!!!");
     const graphFrame = new Frame(appState.graph.computedGraph);
     graphFrame.init();
     graphFrame.display();
@@ -62,8 +63,8 @@ export default class ThreeJSVis extends React.Component {
       <div
         id="graph-container"
         style={{
-          width: "100%",
-          height: "100%",
+          width: "100vw",
+          height: "90vh",
           flex: "1",
           position: "absolute"
         }}
