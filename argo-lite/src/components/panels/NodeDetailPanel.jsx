@@ -6,7 +6,7 @@ import appState from "../../stores";
 import { observer } from "mobx-react/index";
 
 @observer
-export default class NodeDetail extends React.Component {
+class NodeDetail extends React.Component {
   render() {
     return (
       <div
@@ -41,3 +41,5 @@ export default class NodeDetail extends React.Component {
     );
   }
 }
+
+export default NodeDetail;

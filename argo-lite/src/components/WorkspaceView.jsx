@@ -14,7 +14,7 @@ import appState from "../stores/index";
 import { requestOpenWorkspaceFolder } from "../ipc/client";
 
 @observer
-export default class WorkspaceView extends React.Component {
+class WorkspaceView extends React.Component {
   render() {
     return (
       <div className="workspace">
@@ -73,3 +73,5 @@ export default class WorkspaceView extends React.Component {
     );
   }
 }
+
+export default WorkspaceView;

@@ -14,7 +14,7 @@ import classnames from "classnames";
 import appState from "../stores/index";
 
 @observer
-export default class ProjectDetailDialog extends React.Component {
+class ProjectDetailDialog extends React.Component {
   render() {
     return (
       appState.project.currentProject && (
@@ -104,3 +104,5 @@ export default class ProjectDetailDialog extends React.Component {
     );
   }
 }
+
+export default ProjectDetailDialog;

@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import appState from "../../stores";
 
 @observer
-export default class LayoutPanel extends React.Component {
+class LayoutPanel extends React.Component {
   render() {
     return (
       <div>
@@ -67,3 +67,5 @@ export default class LayoutPanel extends React.Component {
     );
   }
 }
+
+export default LayoutPanel;

@@ -29,7 +29,7 @@ const { DELETE, BACKSPACE, P, U } = Keys;
 
 @keydown
 @observer
-export default class App extends React.Component {
+class App extends React.Component {
   componentWillReceiveProps({ keydown }) {
     if (keydown.event) {
       if (keydown.event.which === DELETE || keydown.event.which === BACKSPACE) {
@@ -70,3 +70,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default App;

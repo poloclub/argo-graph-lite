@@ -4,7 +4,7 @@ import PreferencesStore from "./PreferencesStore";
 import GraphStore from "./GraphStore";
 import ImportStore from "./ImportStore";
 import ProjectStore from "./ProjectStore";
-import { peakCSV } from "../services/CSVUtils";
+// import { peakCSV } from "../services/CSVUtils";
 import SearchStore from "./SearchStore";
 import { runSearch } from "../ipc/client";
 
@@ -55,19 +55,19 @@ autorun(() => {
   }
 });
 
-autorun(() => {
-  const nodeFile = appState.import.importConfig.nodeFile;
-  if (nodeFile.path) {
-    peakCSV(nodeFile.path, nodeFile.hasColumns, edgeFile.delimiter).then(it => {
-      runInAction("preview top N lines of node file", () => {
-        nodeFile.topN = it;
-        nodeFile.columns = Object.keys(it[0]);
-        nodeFile.mapping.id = nodeFile.columns[0];
-        nodeFile.ready = true;
-      });
-    });
-  }
-});
+// autorun(() => {
+//   const nodeFile = appState.import.importConfig.nodeFile;
+//   if (nodeFile.path) {
+//     peakCSV(nodeFile.path, nodeFile.hasColumns, edgeFile.delimiter).then(it => {
+//       runInAction("preview top N lines of node file", () => {
+//         nodeFile.topN = it;
+//         nodeFile.columns = Object.keys(it[0]);
+//         nodeFile.mapping.id = nodeFile.columns[0];
+//         nodeFile.ready = true;
+//       });
+//     });
+//   }
+// });
 
 autorun(() => {
   const searchStr = appState.search.searchStr;

@@ -6,7 +6,7 @@ import GlobalPanel from "./GlobalPanel";
 import SelectionPanel from "./SelectionPanel";
 
 @observer
-export default class NodesPanel extends React.Component {
+class NodesPanel extends React.Component {
   getRenderedNodes = () => {
     if (appState.graph.selectedNodes.length === 0) {
       return (
@@ -37,3 +37,5 @@ export default class NodesPanel extends React.Component {
     );
   }
 }
+
+export default NodesPanel;

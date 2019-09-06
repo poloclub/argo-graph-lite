@@ -84,7 +84,8 @@
     "webpack": "4.39.1",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "threads": "^0.10.1"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -92,7 +93,12 @@
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-unused-expressions": "off",
+      "no-undef": "off",
+      "no-restricted-globals": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -156,7 +162,11 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "react-app",
+      "mobx"
     ]
+  },
+  "devDependencies": {
+    "babel-preset-mobx": "^2.0.0"
   }
 }

@@ -13,7 +13,7 @@ import SimpleSelect from "../utils/SimpleSelect";
 import CommonItemRenderer from "../utils/CommonItemRenderer";
 
 @observer
-export default class GlobalPanel extends React.Component {
+class GlobalPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -201,3 +201,5 @@ export default class GlobalPanel extends React.Component {
     );
   }
 }
+
+export default GlobalPanel;

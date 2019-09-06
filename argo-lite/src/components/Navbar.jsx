@@ -13,7 +13,7 @@ import { observer } from "mobx-react";
 import appState from "../stores/index";
 
 @observer
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
   render() {
     return (
       <nav className={classnames([Classes.NAVBAR])}>
@@ -198,3 +198,5 @@ export default class Navbar extends React.Component {
     );
   }
 }
+
+export default Navbar;

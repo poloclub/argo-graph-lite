@@ -32,7 +32,7 @@ class RenderOptionsCard extends React.Component {
 //
 
 @observer
-export default class FloatingCards extends React.Component {
+class FloatingCards extends React.Component {
   render() {
     return (
       <div className="floating-overlay">
@@ -247,3 +247,6 @@ export default class FloatingCards extends React.Component {
     );
   }
 }
+
+
+export default FloatingCards;

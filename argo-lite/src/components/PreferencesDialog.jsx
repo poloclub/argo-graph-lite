@@ -6,7 +6,7 @@ import appState from "../stores/index";
 import { requestChangeWorkspace } from "../ipc/client";
 
 @observer
-export default class PreferencesDialog extends React.Component {
+class PreferencesDialog extends React.Component {
   render() {
     return (
       <Dialog
@@ -69,3 +69,5 @@ export default class PreferencesDialog extends React.Component {
     );
   }
 }
+
+export default PreferencesDialog;

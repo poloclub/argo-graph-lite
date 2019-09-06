@@ -17,7 +17,7 @@ import {
 } from "../constants";
 
 @observer
-export default class OpenDialog extends React.Component {
+class OpenDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,3 +130,5 @@ export default class OpenDialog extends React.Component {
     );
   }
 }
+
+export default OpenDialog;

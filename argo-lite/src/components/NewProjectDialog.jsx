@@ -12,7 +12,7 @@ import classnames from "classnames";
 import appState from "../stores/index";
 
 @observer
-export default class NewProjectDialog extends React.Component {
+class NewProjectDialog extends React.Component {
   
   render() {
     const isNewProjectNameDuplicate = appState.project.projects.some(p => p.name === appState.project.newProjectName);
@@ -65,3 +65,5 @@ export default class NewProjectDialog extends React.Component {
     );
   }
 }
+
+export default NewProjectDialog;

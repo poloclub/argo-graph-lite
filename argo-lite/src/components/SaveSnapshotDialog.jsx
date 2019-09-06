@@ -14,7 +14,7 @@ import classnames from "classnames";
 import appState from "../stores/index";
 
 @observer
-export default class SaveSnapshotDialog extends React.Component {
+class SaveSnapshotDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,3 +71,5 @@ export default class SaveSnapshotDialog extends React.Component {
     );
   }
 }
+
+export default SaveSnapshotDialog;

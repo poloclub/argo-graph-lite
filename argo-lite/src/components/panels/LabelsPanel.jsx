@@ -6,7 +6,7 @@ import appState from "../../stores";
 import CommonItemRenderer from "../utils/CommonItemRenderer";
 
 @observer
-export default class LabelsPanel extends React.Component {
+class LabelsPanel extends React.Component {
   render() {
     return (
       <div>
@@ -74,3 +74,5 @@ export default class LabelsPanel extends React.Component {
     );
   }
 }
+
+export default LabelsPanel;

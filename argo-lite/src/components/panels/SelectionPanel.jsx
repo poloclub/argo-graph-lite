@@ -10,7 +10,7 @@ import SwitchCollapsable from "../utils/SwitchCollapsable";
 import CommonItemRenderer from "../utils/CommonItemRenderer";
 
 @observer
-export default class SelectionPanel extends React.Component {
+class SelectionPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -256,3 +256,5 @@ export default class SelectionPanel extends React.Component {
     );
   }
 }
+
+export default SelectionPanel;

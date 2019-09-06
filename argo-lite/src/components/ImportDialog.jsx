@@ -47,7 +47,7 @@ class PreviewTable extends React.Component {
 }
 
 @observer
-export default class ImportDialog extends React.Component {
+class ImportDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -266,3 +266,5 @@ export default class ImportDialog extends React.Component {
     );
   }
 }
+
+export default ImportDialog;
