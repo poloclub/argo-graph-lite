@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
+  <link rel="stylesheet" href="../node_modules/@blueprintjs/core/dist/blueprint.css">
+  <link rel="stylesheet" href="../node_modules/@blueprintjs/table/dist/table.css">
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0">
+<div class="app" id="App"></div>
+</body>
+
+<script type="text/jsx">
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+
+  const render = () => {
+    const App = require('./app').default;
+    ReactDOM.render(<App/>, document.getElementById('App'));
+  };
+
+  render();
+
+</script>
+</html>

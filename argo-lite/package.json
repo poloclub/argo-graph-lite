@@ -1,0 +1,58 @@
+{
+  "name": "argo-lite",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1",
+    "@blueprintjs/core": "^1.35.4",
+    "@blueprintjs/labs": "0.14.3",
+    "@blueprintjs/table": "^1.29.0",
+    "@vx/vx": "^0.0.158",
+    "bluebird": "^3.5.0",
+    "classnames": "^2.2.5",
+    "d3": "^4.13.0",
+    "d3-format": "^1.2.0",
+    "d3-scale": "^2.0.0",
+    "es6-mapify": "^1.0.0",
+    "event-emitter": "^0.3.4",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.5",
+    "lru-cache": "^4.1.1",
+    "mobx": "^3.5.1",
+    "mobx-react": "^4.4.1",
+    "ngraph.forcelayout": "^0.2.1",
+    "ngraph.generators": "^0.0.18",
+    "ngraph.graph": "^0.0.14",
+    "ngraph.pagerank": "^0.1.4",
+    "normalize.css": "^8.0.0",
+    "pluralize": "^7.0.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-color": "^2.13.5",
+    "react-keydown": "^1.9.6",
+    "three": "0.81.2",
+    "three-orbit-controls": "^82.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
