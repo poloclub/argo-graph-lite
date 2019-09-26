@@ -8,6 +8,10 @@ export default class ImportStore {
 
   @observable loading = false;
 
+  // Argo-lite specific: File object selected via the file input.
+  @observable selectedEdgeFileFromInput = null;
+  @observable selectedNodeFileFromInput = null;
+
   @observable
   importConfig = {
     nodeFile: {

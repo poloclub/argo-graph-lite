@@ -21,6 +21,7 @@
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "classnames": "^2.2.5",
     "css-loader": "2.1.1",
+    "csv-parse": "^4.4.6",
     "d3": "^4.13.0",
     "d3-format": "^1.2.0",
     "d3-scale": "^2.0.0",
@@ -77,6 +78,7 @@
     "semver": "6.3.0",
     "style-loader": "1.0.0",
     "terser-webpack-plugin": "1.4.1",
+    "threads": "^0.10.1",
     "three": "0.81.2",
     "three-orbit-controls": "^82.1.0",
     "ts-pnp": "1.1.2",
@@ -84,8 +86,7 @@
     "webpack": "4.39.1",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "4.3.1",
-    "threads": "^0.10.1"
+    "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

@@ -18,7 +18,7 @@ class Navbar extends React.Component {
     return (
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
-          <div className={classnames([Classes.NAVBAR_HEADING])}>ARGO</div>
+          <div className={classnames([Classes.NAVBAR_HEADING])}>ARGO <small>Lite</small></div>
           {// Show this only when a graph is opened
           appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
@@ -31,11 +31,12 @@ class Navbar extends React.Component {
               >
                 <InputGroup
                   leftIconName="search"
-                  placeholder="Search..."
+                  placeholder="Available in full Argo"
                   value={appState.search.searchStr}
-                  onChange={e => {
-                    appState.search.searchStr = e.target.value;
-                  }}
+                  disabled
+                  // onChange={e => {
+                  //   appState.search.searchStr = e.target.value;
+                  // }}
                 />
               </div>
 
@@ -170,7 +171,7 @@ class Navbar extends React.Component {
         <div
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
         >
-          {/* <Button
+          <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="import"
             onClick={() => (appState.import.dialogOpen = true)}
@@ -178,14 +179,14 @@ class Navbar extends React.Component {
             Import CSV
           </Button>
 
-          <Button
+          {/* <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="pt-icon-document-open"
             onClick={() => (appState.preferences.openDialogOpen = true)}
           >
             Load Graph
-          </Button>
-          <span className={Classes.NAVBAR_DIVIDER} /> */}
+          </Button> */}
+          <span className={Classes.NAVBAR_DIVIDER} />
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="cog"

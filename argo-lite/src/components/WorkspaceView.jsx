@@ -18,8 +18,6 @@ class WorkspaceView extends React.Component {
   render() {
     return (
       <div className="workspace">
-        <NonIdealState title="ARGO" visual="pt-icon-graph" />
-        <br />
         <Card
           interactive={true}
           elevation={Card.ELEVATION_TWO}

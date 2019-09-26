@@ -138,21 +138,16 @@ class ImportDialog extends React.Component {
         <div className={classnames(Classes.CONTROL_GROUP)}>
           <div className={classnames(Classes.INPUT_GROUP, Classes.FILL)}>
             <input
-              type="text"
-              className={classnames(Classes.DISABLED, Classes.INPUT)}
-              placeholder="Select edges file"
-              readOnly
-              value={edgeFile.path}
+              type="file"
+              className={classnames(Classes.DISABLED)}
+              onChange={(event) => {
+                if (event.target.files.length < 1) {
+                  return;
+                }
+                appState.import.selectedEdgeFileFromInput = event.target.files[0];
+              }}
             />
           </div>
-          <Button
-            intent={Intent.PRIMARY}
-            onClick={() => {
-              requestChooseEdgeFile(edgeFile.hasColumns);
-            }}
-          >
-            Choose File
-          </Button>
         </div>
         <Switch
           label="Has Headers"
@@ -231,7 +226,7 @@ class ImportDialog extends React.Component {
             <div className={classnames(Classes.DIALOG_BODY, "import-dialog")}>
               I have:
               <SimpleSelect
-                items={[NODE_AND_EDGE_FILE, ONLY_EDGE_FILE]}
+                items={[ONLY_EDGE_FILE, NODE_AND_EDGE_FILE]}
                 value={this.state.available}
                 onSelect={this.changeAvailable}
               />
