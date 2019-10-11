@@ -91,21 +91,16 @@ class ImportDialog extends React.Component {
         <div className={classnames(Classes.CONTROL_GROUP)}>
           <div className={classnames(Classes.INPUT_GROUP, Classes.FILL)}>
             <input
-              type="text"
-              className={classnames(Classes.DISABLED, Classes.INPUT)}
-              placeholder="Select node file"
-              readOnly
-              value={nodeFile.path}
+              type="file"
+              className={classnames(Classes.DISABLED)}
+              onChange={(event) => {
+                if (event.target.files.length < 1) {
+                  return;
+                }
+                appState.import.selectedNodeFileFromInput = event.target.files[0];
+              }}
             />
           </div>
-          <Button
-            intent={Intent.PRIMARY}
-            onClick={() => {
-              requestChooseNodeFile(nodeFile.hasColumns);
-            }}
-          >
-            Choose File
-          </Button>
         </div>
         <Switch
           label="Has Headers"

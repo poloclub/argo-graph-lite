@@ -459,13 +459,13 @@ async function importGraphFromCSV(config) {
   });
 
   const rank = pageRank(graph);
-  nodesArr = nodesArr.map(n => ({ ...n, pagerank: rank[n.id], degree: degreeDict[n.id] }));
+  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], degree: degreeDict[n.id] }));
   return {
     rawGraph: { nodes: nodesArr, edges: edgesArr },
     metadata: {
-      nodeProperties: config.nodes.columns || ['id'],
+      nodeProperties: Object.keys(nodesArr[0]),
       nodeComputed: ['pagerank', 'degree'],
-      edgeProperties: config.edges.columns || ['source_id', 'target_id'],
+      edgeProperties: ['source_id', 'target_id'],
     },
   }
 }

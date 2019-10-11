@@ -145,13 +145,62 @@ autorun(() => {
       appState.import.importConfig.edgeFile.mapping.toId = appState.import.importConfig.edgeFile.columns[0]
       appState.import.importConfig.edgeFile.ready = true;
     });
-    
   };
 
   reader.onerror = () => {
     console.error(reader.error);
   };
+});
 
+autorun(() => {
+  const file = appState.import.selectedNodeFileFromInput;
+  const hasHeader = appState.import.importConfig.nodeFile.hasColumns;
+  const delimiter = appState.import.importConfig.nodeFile.delimiter;
+
+  if (!file) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.readAsText(file);
+
+  reader.onload = () => {
+    // Read entire CSV into memory as string
+    const fileAsString = reader.result;
+    // Get top 20 lines. Or if there's less than 10 line, get all the lines.
+    const lines = fileAsString.split('\n');
+    const lineNumber = lines.length;
+    const topLinesAsString = lines.map(l => l.trim()).filter((l, i) => i < 20).join('\n');
+    console.log(topLinesAsString);
+
+    // Parse the top lines
+    const it = hasHeader ? parse(topLinesAsString, {
+        comment: "#",
+        trim: true,
+        auto_parse: true,
+        skip_empty_lines: true,
+        columns: hasHeader,
+        delimiter
+      }) : parse(topLinesAsString, {
+        comment: "#",
+        trim: true,
+        auto_parse: true,
+        skip_empty_lines: true,
+        columns: undefined,
+        delimiter
+      });
+
+    runInAction("preview top N lines of edge file", () => {
+      appState.import.importConfig.nodeFile.topN = it;
+      appState.import.importConfig.nodeFile.columns = Object.keys(it[0]);
+      appState.import.importConfig.nodeFile.mapping.fromId = appState.import.importConfig.nodeFile.columns[0];
+      appState.import.importConfig.nodeFile.mapping.toId = appState.import.importConfig.nodeFile.columns[0]
+      appState.import.importConfig.nodeFile.ready = true;
+    });
+  };
+
+  reader.onerror = () => {
+    console.error(reader.error);
+  };
 });
 
 export default appState;
