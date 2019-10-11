@@ -13,12 +13,14 @@ import {
 import appState from "../stores/index";
 import { requestOpenWorkspaceFolder } from "../ipc/client";
 
+// Argo-lite: In lite, home screen is replaced by a loading screen
+// since there will always be a default graph showing.
 @observer
 class WorkspaceView extends React.Component {
   render() {
     return (
       <div className="workspace">
-        <Card
+        {/* <Card
           interactive={true}
           elevation={Card.ELEVATION_TWO}
           onClick={() => {
@@ -66,6 +68,9 @@ class WorkspaceView extends React.Component {
               Workspace is empty. Start by creating a new project.
             </div>
           )}
+        </div> */}
+        <div style={{ textAlign: "center", height: "100vh" }}>
+          <Spinner />
         </div>
       </div>
     );
