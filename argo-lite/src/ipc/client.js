@@ -54,6 +54,14 @@ import {
 } from '../constants/index';
 import { toaster } from '../notifications/client';
 
+import createGraph from 'ngraph.graph';
+import pageRank from 'ngraph.pagerank';
+import parse from "csv-parse/lib/sync";
+// import worker from './worker';
+
+// TODO: Register web worker used by Argo-lite.
+
+// Argo-lite replacement for electron ipc.
 const ipcRenderer = {
   send: (eventString) => {
     console.log(`ipcRenderer.send(${eventString}, ...)`);
@@ -341,7 +349,7 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
     newProjectName = 'Test Project';
   }
   appState.import.loading = true;
-  ipcRenderer.send(IMPORT_GRAPH, {
+  const importConfig = {
     hasNodeFile,
     nodes: {
       path: appState.import.importConfig.nodeFile.path,
@@ -358,7 +366,108 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
     },
     delimiter,
     newProjectName
+  };
+  ipcRenderer.send(IMPORT_GRAPH, importConfig);
+
+  // TODO: Potentially separate this out to web worker.
+  importGraphFromCSV(importConfig).then(graph => {
+    runInAction('load imported graph', () => {
+      appState.graph.rawGraph = graph.rawGraph;
+      appState.graph.metadata = graph.metadata;
+      appState.import.loading = false;
+      appState.import.dialogOpen = false;
+    });
   });
+}
+
+async function readCSV(fileObject, hasHeader, delimiter) {
+  const file = fileObject;
+  const reader = new FileReader();
+  reader.readAsText(file);
+  return new Promise((resolve, reject) => {
+    reader.onload = () => {
+      const content = reader.result;
+      if (hasHeader) {
+        resolve(parse(content, {
+          comment: "#",
+          trim: true,
+          auto_parse: true,
+          skip_empty_lines: true,
+          columns: hasHeader,
+          delimiter
+        }));
+      }
+      resolve(parse(content, {
+        comment: "#",
+        trim: true,
+        auto_parse: true,
+        skip_empty_lines: true,
+        columns: undefined,
+        delimiter
+      }));
+    }
+  });
+  
+}
+
+async function importGraphFromCSV(config) {
+  let nodesArr = [];
+  const graph = createGraph();
+  const degreeDict = {};
+  if (config.hasNodeFile) {
+    nodesArr = await readCSV(appState.import.selectedNodeFileFromInput, config.nodes.hasColumns, config.delimiter);
+    nodesArr.forEach(node => graph.addNode(node[config.nodes.mapping.id].toString(),
+      { id: node[config.nodes.mapping.id].toString(), degree: 0, ...node }));
+    nodesArr =
+      nodesArr.map(
+        n => ({ ...n, id: n[config.nodes.mapping.id].toString(), degree: 0, pagerank: 0 }));
+    nodesArr.forEach(n => degreeDict[n.id] = 0);
+  }
+  const edges = await readCSV(appState.import.selectedEdgeFileFromInput, config.nodes.hasColumns, config.delimiter);
+  if (config.edges.createMissing) {
+    edges.forEach((it) => {
+      const from = it[config.edges.mapping.fromId].toString();
+      const to = it[config.edges.mapping.toId].toString();
+      if (!graph.hasNode(from)) {
+        graph.addNode(from, { id: from, degree: 0 });
+        nodesArr.push({ id: from, degree: 0, pagerank: 0 });
+        degreeDict[from] = 0;
+      }
+      if (!graph.hasNode(to)) {
+        graph.addNode(to, { id: to, degree: 0 });
+        nodesArr.push({ id: to, degree: 0, pagerank: 0 });
+        degreeDict[to] = 0;
+      }
+    });
+  }
+
+  const edgesSet = new Set(edges
+    .map(it => `${it[config.edges.mapping.fromId]}👉${it[config.edges.mapping.toId]}`).concat(
+      edges
+        .map(it => `${it[config.edges.mapping.toId]}👉${it[config.edges.mapping.fromId]}`),
+    ),
+  );
+  const edgesArr = [];
+  edgesSet.forEach((it) => {
+    const [from, to] = it.split('👉');
+    graph.addLink(from, to);
+    degreeDict[from] += 1;
+    edgesArr.push({
+      source_id: from,
+      target_id: to,
+    });
+  });
+
+  const rank = pageRank(graph);
+  nodesArr = nodesArr.map(n => ({ ...n, pagerank: rank[n.id], degree: degreeDict[n.id] }));
+  return {
+    rawGraph: { nodes: nodesArr, edges: edgesArr },
+    metadata: {
+      nodeProperties: config.nodes.columns || ['id'],
+      nodeComputed: ['pagerank', 'degree'],
+      edgeProperties: config.edges.columns || ['source_id', 'target_id'],
+    },
+  }
 }
 
 export function runSearch(searchStr) {
