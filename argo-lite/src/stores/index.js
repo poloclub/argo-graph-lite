@@ -31,8 +31,20 @@ const loadSnapshotFromURL = (url) => {
 };
 
 window.loadInitialSampleGraph = async () => {
-  const defaultURL = "https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json";
-  loadSnapshotFromURL(defaultURL).then(snapshotString => {
+  // default fallback url
+  let url = "https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json";
+
+  // check url hash
+  if (window.location.hash) {
+    const hash = window.location.hash.substring(1);
+    try {
+      url = decodeURIComponent(hash);
+    } catch (e) {
+      console.error(e);
+      alert('Provided URL is not valid.');
+    }
+  }
+  loadSnapshotFromURL(url).then(snapshotString => {
     appState.graph.loadImmediateStates(snapshotString);
   });
 };
