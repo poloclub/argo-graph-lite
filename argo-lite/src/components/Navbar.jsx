@@ -19,10 +19,20 @@ class Navbar extends React.Component {
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
           <div className={classnames([Classes.NAVBAR_HEADING])}>ARGO <small>Lite</small></div>
+          <a href="https://poloclub.github.io/argo-graph/" target='_blank'>
+            <div
+              style={{
+                padding: '6px 10px 6px 10px',
+                backgroundColor: 'pink',
+                color: 'white',
+                borderRadius: '4px',
+              }}
+            >Learn more about Argo</div>
+            </a>
           {// Show this only when a graph is opened
           appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
-              <div
+              {/* <div
                 style={{
                   display: "inline",
                   float: "left",
@@ -38,7 +48,7 @@ class Navbar extends React.Component {
                   //   appState.search.searchStr = e.target.value;
                   // }}
                 />
-              </div>
+              </div> */}
 
               <div style={{ display: "inline" }}>
                 {/* <Tooltip content={'Select'} position={Position.BOTTOM}>
