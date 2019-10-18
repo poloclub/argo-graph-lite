@@ -19,16 +19,19 @@ class Navbar extends React.Component {
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
           <div className={classnames([Classes.NAVBAR_HEADING])}>ARGO <small>Lite</small></div>
-          <a href="https://poloclub.github.io/argo-graph/" target='_blank'>
-            <div
-              style={{
-                padding: '6px 10px 6px 10px',
-                backgroundColor: 'pink',
-                color: 'white',
-                borderRadius: '4px',
-              }}
-            >Learn more about Argo</div>
-            </a>
+          <a
+            href="https://poloclub.github.io/argo-graph/"
+            target='_blank'
+            style={{
+              padding: '6px 10px 6px 10px',
+              backgroundColor: 'pink',
+              color: 'white',
+              borderRadius: '4px',
+              textDecoration: 'none'
+            }}
+          >
+            Learn more about Argo
+          </a>
           {// Show this only when a graph is opened
           appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
