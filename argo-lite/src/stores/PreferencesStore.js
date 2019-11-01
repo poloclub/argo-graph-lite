@@ -11,7 +11,7 @@ export default class PreferencesStore {
   // won't be active until the app exits and starts
   // next time.
 
-  @observable darkMode = false;
+  @observable darkMode = true;
 
   @observable workspacePath = '';
 
