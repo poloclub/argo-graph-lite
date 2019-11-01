@@ -12,6 +12,10 @@ import { observer } from "mobx-react";
 
 import appState from "../stores/index";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
+
 @observer
 class Navbar extends React.Component {
   render() {
@@ -207,6 +211,18 @@ class Navbar extends React.Component {
               appState.preferences.dialogOpen = true;
             }}
           />
+          <span className={Classes.NAVBAR_DIVIDER} />
+          <a
+            href="https://poloclub.github.io/argo-graph/"
+            target='_blank'
+            style={{
+              color: 'white',
+              fontSize: '120%',
+              textDecoration: 'none'
+            }}
+          >
+            <FontAwesomeIcon icon={faGithub} />
+            </a>
         </div>
       </nav>
     );
