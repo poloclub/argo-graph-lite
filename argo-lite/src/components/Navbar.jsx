@@ -181,7 +181,7 @@ class Navbar extends React.Component {
             href="https://poloclub.github.io/argo-graph/"
             target='_blank'
             style={{
-              color: 'white',
+              color: appState.preferences.darkMode ? 'white' : 'black',
               fontSize: '120%',
               textDecoration: 'none'
             }}
