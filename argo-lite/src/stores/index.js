@@ -30,6 +30,16 @@ const loadSnapshotFromURL = (url) => {
   }).then(response => response.text());
 };
 
+const loadAndDisplaySnapshotFromURL = (url) => {
+  loadSnapshotFromURL(url).then(snapshotString => {
+    // use filename/last segment of URL as title in Navbar
+    appState.graph.metadata.snapshotName = url.split('/').pop() || url.split('/').pop().pop();
+    appState.graph.loadImmediateStates(snapshotString);
+  });
+}
+
+window.loadAndDisplaySnapshotFromURL = loadAndDisplaySnapshotFromURL;
+
 window.loadInitialSampleGraph = async () => {
   // default fallback url
   let url = "https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json";
@@ -44,9 +54,7 @@ window.loadInitialSampleGraph = async () => {
       alert('Provided URL is not valid.');
     }
   }
-  loadSnapshotFromURL(url).then(snapshotString => {
-    appState.graph.loadImmediateStates(snapshotString);
-  });
+  loadAndDisplaySnapshotFromURL(url)
 };
 
 window.saveSnapshotToString = () => {

@@ -50,7 +50,8 @@ export default class GraphStore {
     file: "no-graph-loaded",
     nodeProperties: [],
     nodeComputed: ["pagerank", "degree"],
-    edgeProperties: []
+    edgeProperties: [],
+    snapshotName: "Les Miserables" // Optional: for display in Argo-lite only
   };
 
   // used for listing all the properties, either original or computed
