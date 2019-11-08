@@ -64,7 +64,7 @@ class Navbar extends React.Component {
               className={classnames([Classes.BUTTON, Classes.MINIMAL])}
               iconName="graph"
             >
-              Graph Snapshot: {appState.graph.metadata.snapshotName || "Unnamed"}
+              Graph Snapshot: {appState.graph.metadata.snapshotName || "Untitled Graph"}
             </Button>
           </Popover>
         </div>
