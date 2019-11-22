@@ -9,6 +9,8 @@ import parse from "csv-parse/lib/sync";
 import SearchStore from "./SearchStore";
 import { runSearch } from "../ipc/client";
 
+import { BACKEND_URL } from "../constants";
+
 export class AppState {
   constructor() {
     this.preferences = new PreferencesStore();
@@ -30,13 +32,29 @@ const loadSnapshotFromURL = (url) => {
   }).then(response => response.text());
 };
 
+const loadSnapshotFromStrapi = (uuid) => {
+  const url = `${BACKEND_URL}/snapshots/1`;
+  return fetch(url, {
+    method: 'GET',
+    mode: 'cors'
+  }).then(response => response.json()).then(json => json.body);
+};
+
 const loadAndDisplaySnapshotFromURL = (url) => {
   loadSnapshotFromURL(url).then(snapshotString => {
     // use filename/last segment of URL as title in Navbar
     appState.graph.metadata.snapshotName = url.split('/').pop() || url.split('/').pop().pop();
     appState.graph.loadImmediateStates(snapshotString);
   });
-}
+};
+
+const loadAndDisplaySnapshotFromStrapi = (uuid) => {
+  loadSnapshotFromStrapi(uuid).then(snapshotString => {
+    // TODO: use more sensible snapshot name
+    appState.graph.metadata.snapshotName = 'Shared';
+    appState.graph.loadImmediateStates(snapshotString);
+  });
+};
 
 window.loadAndDisplaySnapshotFromURL = loadAndDisplaySnapshotFromURL;
 
@@ -47,12 +65,21 @@ window.loadInitialSampleGraph = async () => {
   // check url hash
   if (window.location.hash) {
     const hash = window.location.hash.substring(1);
-    try {
-      url = decodeURIComponent(hash);
-    } catch (e) {
-      console.error(e);
-      alert('Provided URL is not valid.');
+    // If the hash component begins with http.
+    if (hash.length >= 4 && hash.startsWith('http')) {
+      try {
+        url = decodeURIComponent(hash);
+      } catch (e) {
+        console.error(e);
+        alert('Provided URL is not valid.');
+      }
+    } else {
+      // If the hash component does not begin with http
+      // treat it as a uuid in strapi.
+      loadAndDisplaySnapshotFromStrapi(hash);
+      return;
     }
+    
   }
   loadAndDisplaySnapshotFromURL(url)
 };

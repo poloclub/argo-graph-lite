@@ -161,14 +161,14 @@ class Navbar extends React.Component {
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
         >
 
-          {/* <Button
+          <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-            iconName="pt-icon-document-open"
-            onClick={() => (appState.preferences.openDialogOpen = true)}
+            iconName="pt-icon-document-share"
+            onClick={() => (appState.preferences.shareDialogOpen = true)}
           >
-            Load Graph
-          </Button> */}
-          {/* <span className={Classes.NAVBAR_DIVIDER} /> */}
+            Share Graph
+          </Button>
+          <span className={Classes.NAVBAR_DIVIDER} />
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="cog"

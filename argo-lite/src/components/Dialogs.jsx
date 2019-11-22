@@ -5,6 +5,7 @@ import OpenDialog from "./OpenDialog";
 import NewProjectDialog from "./NewProjectDialog";
 import ProjectDetailDialog from "./ProjectDetailDialog";
 import SaveSnapshotDialog from "./SaveSnapshotDialog";
+import ShareDialog from './ShareDialog';
 
 export default class Dialogs extends React.Component {
   render() {
@@ -16,6 +17,7 @@ export default class Dialogs extends React.Component {
         <NewProjectDialog />
         <ProjectDetailDialog />
         <SaveSnapshotDialog />
+        <ShareDialog />
       </div>
     );
   }
