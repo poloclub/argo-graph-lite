@@ -33,11 +33,13 @@ const loadSnapshotFromURL = (url) => {
 };
 
 const loadSnapshotFromStrapi = (uuid) => {
-  const url = `${BACKEND_URL}/snapshots/1`;
+  const url = `${BACKEND_URL}/snapshots?uuid=${uuid}`;
   return fetch(url, {
     method: 'GET',
     mode: 'cors'
-  }).then(response => response.json()).then(json => json.body);
+  }).then(response => response.json()).then(json => json[0].body).catch(error => {
+    // TODO: Show user an error dialog saying graph cannot be fetched.
+  });
 };
 
 const loadAndDisplaySnapshotFromURL = (url) => {
