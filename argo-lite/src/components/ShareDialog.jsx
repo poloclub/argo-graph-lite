@@ -31,7 +31,7 @@ class ShareDialog extends React.Component {
 
   async handleRequest(uuid) {
     // return await new Promise(resolve => setTimeout(resolve, 2000));
-    const backendURL = `${BACKEND_URL}/snapshot`;
+    const backendURL = `${BACKEND_URL}/snapshots`;
     // TODO: add better error handling
     return await fetch(backendURL, {
         method: 'POST',
@@ -43,7 +43,7 @@ class ShareDialog extends React.Component {
         referrer: 'no-referrer',
         body: JSON.stringify({
             uuid,
-            body: 'Test'
+            body: window.saveSnapshotToString()
         }),
     });
   }
