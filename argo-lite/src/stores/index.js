@@ -1,4 +1,5 @@
 import { autorun, runInAction } from "mobx";
+import { Intent } from "@blueprintjs/core";
 
 import PreferencesStore from "./PreferencesStore";
 import GraphStore from "./GraphStore";
@@ -10,6 +11,7 @@ import SearchStore from "./SearchStore";
 import { runSearch } from "../ipc/client";
 
 import { BACKEND_URL } from "../constants";
+import { toaster } from '../notifications/client';
 
 export class AppState {
   constructor() {
@@ -186,7 +188,8 @@ autorun(() => {
     console.log(topLinesAsString);
 
     // Parse the top lines
-    const it = hasHeader ? parse(topLinesAsString, {
+    try {
+      const it = hasHeader ? parse(topLinesAsString, {
         comment: "#",
         trim: true,
         auto_parse: true,
@@ -201,18 +204,29 @@ autorun(() => {
         columns: undefined,
         delimiter
       });
-
-    runInAction("preview top N lines of edge file", () => {
-      appState.import.importConfig.edgeFile.topN = it;
-      appState.import.importConfig.edgeFile.columns = Object.keys(it[0]);
-      appState.import.importConfig.edgeFile.mapping.fromId = appState.import.importConfig.edgeFile.columns[0];
-      appState.import.importConfig.edgeFile.mapping.toId = appState.import.importConfig.edgeFile.columns[0]
-      appState.import.importConfig.edgeFile.ready = true;
-    });
+      runInAction("preview top N lines of edge file", () => {
+        appState.import.importConfig.edgeFile.topN = it;
+        appState.import.importConfig.edgeFile.columns = Object.keys(it[0]);
+        appState.import.importConfig.edgeFile.mapping.fromId = appState.import.importConfig.edgeFile.columns[0];
+        appState.import.importConfig.edgeFile.mapping.toId = appState.import.importConfig.edgeFile.columns[0]
+        appState.import.importConfig.edgeFile.ready = true;
+      });
+    } catch {
+      toaster.show({
+        message: 'Error: Fails to parse file',
+        intent: Intent.DANGER,
+        timeout: -1
+      });
+    }
   };
 
   reader.onerror = () => {
     console.error(reader.error);
+    toaster.show({
+      message: 'Error: Fails to open file',
+      intent: Intent.DANGER,
+      timeout: -1
+    });
   };
 });
 
@@ -237,7 +251,8 @@ autorun(() => {
     console.log(topLinesAsString);
 
     // Parse the top lines
-    const it = hasHeader ? parse(topLinesAsString, {
+    try {
+      const it = hasHeader ? parse(topLinesAsString, {
         comment: "#",
         trim: true,
         auto_parse: true,
@@ -253,17 +268,29 @@ autorun(() => {
         delimiter
       });
 
-    runInAction("preview top N lines of edge file", () => {
-      appState.import.importConfig.nodeFile.topN = it;
-      appState.import.importConfig.nodeFile.columns = Object.keys(it[0]);
-      appState.import.importConfig.nodeFile.mapping.fromId = appState.import.importConfig.nodeFile.columns[0];
-      appState.import.importConfig.nodeFile.mapping.toId = appState.import.importConfig.nodeFile.columns[0]
-      appState.import.importConfig.nodeFile.ready = true;
-    });
+      runInAction("preview top N lines of edge file", () => {
+        appState.import.importConfig.nodeFile.topN = it;
+        appState.import.importConfig.nodeFile.columns = Object.keys(it[0]);
+        appState.import.importConfig.nodeFile.mapping.fromId = appState.import.importConfig.nodeFile.columns[0];
+        appState.import.importConfig.nodeFile.mapping.toId = appState.import.importConfig.nodeFile.columns[0]
+        appState.import.importConfig.nodeFile.ready = true;
+      });
+    } catch {
+      toaster.show({
+        message: 'Error: Fails to open file',
+        intent: Intent.DANGER,
+        timeout: -1
+      });
+    }
   };
 
   reader.onerror = () => {
     console.error(reader.error);
+    toaster.show({
+      message: 'Error: Fails to open file',
+      intent: Intent.DANGER,
+      timeout: -1
+    });
   };
 });
 

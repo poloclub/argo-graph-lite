@@ -441,21 +441,44 @@ async function importGraphFromCSV(config) {
     });
   }
 
-  const edgesSet = new Set(edges
-    .map(it => `${it[config.edges.mapping.fromId]}👉${it[config.edges.mapping.toId]}`).concat(
-      edges
-        .map(it => `${it[config.edges.mapping.toId]}👉${it[config.edges.mapping.fromId]}`),
-    ),
-  );
+  const edgesSet = new Set();
+  // const edgesSet = new Set(edges
+  //   .map(it => `${it[config.edges.mapping.fromId]}👉${it[config.edges.mapping.toId]}`).concat(
+  //     edges
+  //       .map(it => `${it[config.edges.mapping.toId]}👉${it[config.edges.mapping.fromId]}`),
+  //   ),
+  // );
   const edgesArr = [];
-  edgesSet.forEach((it) => {
-    const [from, to] = it.split('👉');
+  // edgesSet.forEach((it) => {
+  //   const [from, to] = it.split('👉');
+  //   graph.addLink(from, to);
+  //   degreeDict[from] += 1;
+  //   edgesArr.push({
+  //     source_id: from,
+  //     target_id: to,
+  //   });
+  // });
+
+  const addEdge = (from, to) => {
+    const edgeKey = `${from}👉${to}`;
+    if (edgesSet.has(edgeKey)) {
+      return;
+    }
+    edgesSet.add(edgeKey);
     graph.addLink(from, to);
-    degreeDict[from] += 1;
+    degreeDict[to] += 1;
     edgesArr.push({
       source_id: from,
       target_id: to,
     });
+  };
+  
+  edges.forEach(it => {
+    const from = it[config.edges.mapping.fromId].toString();
+    const to = it[config.edges.mapping.toId].toString();
+    // Argo currently works with undirected graph
+    addEdge(from, to);
+    addEdge(to, from);
   });
 
   const rank = pageRank(graph);
