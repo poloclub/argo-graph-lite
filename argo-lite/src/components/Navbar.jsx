@@ -43,13 +43,15 @@ class Navbar extends React.Component {
           <Popover
             content={
               <Menu>
-                <MenuItem
-                  iconName="graph"
-                  text="Les Miserables"
-                  onClick={() => {
-                    window.loadAndDisplaySnapshotFromURL("https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json");
-                  }}
-                />
+                <MenuItem text="Load Sample Graphs" iconName="graph">
+                  <MenuItem
+                    iconName="graph"
+                    text="Les Miserables"
+                    onClick={() => {
+                      window.loadAndDisplaySnapshotFromURL("https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json");
+                    }}
+                  />
+                </MenuItem>
                 <MenuDivider />
                 <MenuItem
                   iconName="import"
@@ -61,15 +63,29 @@ class Navbar extends React.Component {
                   text="Open Argo-lite Snapshot"
                   onClick={() => {appState.preferences.openSnapshotDialogOpen = true}}
                 />
+                <MenuDivider />
+                <MenuItem
+                  iconName="download"
+                  text="Save Snapshot"
+                  onClick={() => {
+                    appState.project.stringCopyOfSnapshot = appState.graph.saveImmediateStates();
+                    appState.project.isSaveSnapshotDialogOpen = true
+                  }}
+                />
+                <MenuItem
+                  iconName="pt-icon-document-share"
+                  text="Share Link"
+                  onClick={() => {appState.preferences.shareDialogOpen = true}}
+                />
               </Menu>
             }
             position={Position.BOTTOM}
           >
             <Button
               className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-              iconName="graph"
+              iconName="document"
             >
-              Graph Snapshot: {appState.graph.metadata.snapshotName || "Untitled Graph"}
+              Files
             </Button>
           </Popover>
         </div>
@@ -165,43 +181,12 @@ class Navbar extends React.Component {
         <div
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
         >
-
-          {/* <Button
+          <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-            iconName="pt-icon-document-share"
-            onClick={() => (appState.preferences.shareDialogOpen = true)}
+            iconName="graph"
           >
-            Share Graph
-          </Button> */}
-
-          <Popover
-            content={
-              <Menu>
-                <MenuItem
-                  iconName="download"
-                  text="Save Snapshot"
-                  onClick={() => {
-                    appState.project.stringCopyOfSnapshot = appState.graph.saveImmediateStates();
-                    appState.project.isSaveSnapshotDialogOpen = true
-                  }}
-                />
-                <MenuItem
-                  iconName="pt-icon-document-share"
-                  text="Share Link"
-                  onClick={() => {appState.preferences.shareDialogOpen = true}}
-                />
-              </Menu>
-            }
-            position={Position.BOTTOM}
-          >
-            <Button
-              className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-              iconName="download"
-            >
-              Save/Share Options
-            </Button>
-          </Popover>
-
+            Graph Snapshot: {appState.graph.metadata.snapshotName || "Untitled Graph"}
+          </Button>
           <span className={Classes.NAVBAR_DIVIDER} />
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
