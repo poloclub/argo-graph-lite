@@ -12,6 +12,8 @@ export default class ProjectStore {
   // @observable currentProjectPath = null;
   @observable currentSnapshotName = "Quick Save"; // TODO: If not loaded from snapshot, use this, otherwise use the name of the loaded snapshot
 
+  // [Argo-lite] for displaying snapshot file in textarea to be copied
+  @observable stringCopyOfSnapshot = 'Loading';
   
   /*
    * Dialogs and UI

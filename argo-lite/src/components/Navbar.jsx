@@ -56,6 +56,11 @@ class Navbar extends React.Component {
                   text="Import CSV"
                   onClick={() => (appState.import.dialogOpen = true)}
                 />
+                <MenuItem
+                  iconName="pt-icon-document-open"
+                  text="Open Argo-lite Snapshot"
+                  onClick={() => {appState.preferences.openSnapshotDialogOpen = true}}
+                />
               </Menu>
             }
             position={Position.BOTTOM}
@@ -161,13 +166,42 @@ class Navbar extends React.Component {
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
         >
 
-          <Button
+          {/* <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="pt-icon-document-share"
             onClick={() => (appState.preferences.shareDialogOpen = true)}
           >
             Share Graph
-          </Button>
+          </Button> */}
+
+          <Popover
+            content={
+              <Menu>
+                <MenuItem
+                  iconName="download"
+                  text="Save Snapshot"
+                  onClick={() => {
+                    appState.project.stringCopyOfSnapshot = appState.graph.saveImmediateStates();
+                    appState.project.isSaveSnapshotDialogOpen = true
+                  }}
+                />
+                <MenuItem
+                  iconName="pt-icon-document-share"
+                  text="Share Link"
+                  onClick={() => {appState.preferences.shareDialogOpen = true}}
+                />
+              </Menu>
+            }
+            position={Position.BOTTOM}
+          >
+            <Button
+              className={classnames([Classes.BUTTON, Classes.MINIMAL])}
+              iconName="download"
+            >
+              Save/Share Options
+            </Button>
+          </Popover>
+
           <span className={Classes.NAVBAR_DIVIDER} />
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}

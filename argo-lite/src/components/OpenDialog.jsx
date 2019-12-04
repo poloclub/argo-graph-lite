@@ -1,4 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-for */
+
+/**
+ * [Deprecated] This dialog is only used to open SQlite-based
+ * graph file and optionally along with a snapshot file.
+ * 
+ * For Argo-lite, which only has the JSON snapshot file,
+ * use OpenSnapshotDialog.
+ */
 import React from "react";
 import { Button, Classes, Dialog, Intent, Spinner } from "@blueprintjs/core";
 import { observer } from "mobx-react";
