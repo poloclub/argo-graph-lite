@@ -43,7 +43,7 @@ class Navbar extends React.Component {
           <Popover
             content={
               <Menu>
-                <MenuItem text="Load Sample Graphs" iconName="graph">
+                <MenuItem text="Load Sample" iconName="graph">
                   <MenuItem
                     iconName="graph"
                     text="Les Miserables"
@@ -55,12 +55,12 @@ class Navbar extends React.Component {
                 <MenuDivider />
                 <MenuItem
                   iconName="import"
-                  text="Import CSV"
+                  text="Import from CSV..."
                   onClick={() => (appState.import.dialogOpen = true)}
                 />
                 <MenuItem
                   iconName="pt-icon-document-open"
-                  text="Open Argo-lite Snapshot"
+                  text="Open Snapshot"
                   onClick={() => {appState.preferences.openSnapshotDialogOpen = true}}
                 />
                 <MenuDivider />
@@ -74,7 +74,7 @@ class Navbar extends React.Component {
                 />
                 <MenuItem
                   iconName="pt-icon-document-share"
-                  text="Share Link"
+                  text="Publish and Share Snapshot"
                   onClick={() => {appState.preferences.shareDialogOpen = true}}
                 />
               </Menu>
@@ -85,7 +85,7 @@ class Navbar extends React.Component {
               className={classnames([Classes.BUTTON, Classes.MINIMAL])}
               iconName="document"
             >
-              Files
+              Graph
             </Button>
           </Popover>
         </div>
