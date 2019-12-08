@@ -29,26 +29,26 @@ export default class ThreeJSVis extends React.Component {
             },
             text: `Unpin Selected`
           }),
-          MenuItemFactory({
-            onClick: () => {
-              requestNeighbors(
-                appState.graph.frame.rightClickedNode.id,
-                "degree",
-                "10"
-              );
-            },
-            text: `Add 10 Neighbors by Degree`
-          }),
-          MenuItemFactory({
-            onClick: () => {
-              requestNeighbors(
-                appState.graph.frame.rightClickedNode.id,
-                "pagerank",
-                "10"
-              );
-            },
-            text: `Add 10 Neighbors by Pagerank`
-          })
+          // MenuItemFactory({
+          //   onClick: () => {
+          //     requestNeighbors(
+          //       appState.graph.frame.rightClickedNode.id,
+          //       "degree",
+          //       "10"
+          //     );
+          //   },
+          //   text: `Add 10 Neighbors by Degree`
+          // }),
+          // MenuItemFactory({
+          //   onClick: () => {
+          //     requestNeighbors(
+          //       appState.graph.frame.rightClickedNode.id,
+          //       "pagerank",
+          //       "10"
+          //     );
+          //   },
+          //   text: `Add 10 Neighbors by Pagerank`
+          // })
         ]
       });
       ContextMenu.show(menu, { left: data.pageX, top: data.pageY }, () => {
