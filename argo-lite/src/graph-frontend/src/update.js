@@ -207,7 +207,9 @@ module.exports = function(self) {
     self.force.stop();
 
     if (numNodesAdded > 10) {
-      self.tickToStatic = true;
+      // This seems unnecessary for now
+      // self.tickToStatic = true;
+      self.tickToStatic = false;
     } else {
       self.tickToStatic = false;
     }

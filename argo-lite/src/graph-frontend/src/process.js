@@ -166,7 +166,7 @@ var Frame = function(graph, options) {
         self.force.force("link", d3.forceLink(self.lineIndices));
         self.force.restart();
         self.force.stop();
-        if (self.tickToStatic) {
+        if (self.tickToStatic && !self.paused) {
           // We don't tick and pause for now
           for (
             var i = 0,

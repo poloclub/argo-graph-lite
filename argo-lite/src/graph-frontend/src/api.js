@@ -72,6 +72,18 @@ module.exports = function(self) {
     self.mapShowing = !self.mapShowing;
   };
 
+  // Emits id of every node with label being displayed at this moment.
+  self.updateNodesShowingLabels = () => {
+    var nodes = [];
+    self.graph.forEachNode(n => {
+      var node = self.graph.getNode(n.id);
+      if (node.renderData.textHolder.children[0].element.override) {
+        nodes.push(n.id);
+      }
+    });
+    self.ee.emit("show-node-label", nodes);
+  };
+
   self.toggleSelectedLabels = () => {
     self.toggleLabels(self.selection.map(n => n.id));
   };
@@ -97,6 +109,7 @@ module.exports = function(self) {
           .renderData.textHolder.children[0].element.override;
       }
     });
+    self.updateNodesShowingLabels();
   };
 
   self.showLabels = nodeids => {
@@ -106,6 +119,7 @@ module.exports = function(self) {
         node.renderData.textHolder.children[0].element.override = true;
       }
     });
+    self.updateNodesShowingLabels();
   };
 
   self.hideLabels = nodeids => {
@@ -115,6 +129,7 @@ module.exports = function(self) {
         node.renderData.textHolder.children[0].element.override = false;
       }
     });
+    self.updateNodesShowingLabels();
   };
 
   self.hideAllLabels = () => {
@@ -122,6 +137,7 @@ module.exports = function(self) {
       var node = self.graph.getNode(node.id);
       node.renderData.textHolder.children[0].element.override = false;
     });
+    self.updateNodesShowingLabels();
   };
 
   self.showAllLabels = () => {
@@ -129,6 +145,7 @@ module.exports = function(self) {
       var node = self.graph.getNode(node.id);
       node.renderData.textHolder.children[0].element.override = true;
     });
+    self.updateNodesShowingLabels();
   };
 
   self.setCanvasSize = function(size) {

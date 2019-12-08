@@ -30,7 +30,12 @@ export default class GraphStore {
   @observable
   nodes = this.initialGlobalConfig.nodes;
 
+  // Updated by frame event
   @observable selectedNodes = [];
+  // Updated by frame event. Not being listened, only used to save label visibility.
+  nodesShowingLabels = [];
+  // Used by autorun during snapshot loading.
+  @observable initialNodesShowingLabels = [];
 
   @observable
   overrideConfig = {
@@ -161,6 +166,7 @@ export default class GraphStore {
     const snapshot = {
       rawGraph: this.rawGraph,
       overrides: this.overrides,
+      nodesShowingLabels: this.nodesShowingLabels,
       positions: this.frame.getPositions(),
       metadata: this.metadata,
       global: {
@@ -210,6 +216,9 @@ export default class GraphStore {
     this.rawGraph = savedStates.rawGraph;
     if (savedStates.positions) {
       this.positions = savedStates.positions;
+    }
+    if (savedStates.nodesShowingLabels) {
+      this.initialNodesShowingLabels = savedStates.nodesShowingLabels;
     }
   }
 }

@@ -125,6 +125,10 @@ autorun(() => {
     appState.graph.positions = null;
     console.log('[autorun] Positions updated.');
   }
+  if (appState.graph.frame && appState.graph.initialNodesShowingLabels) {
+    appState.graph.frame.showLabels(appState.graph.initialNodesShowingLabels);
+    appState.graph.initialNodesShowingLabels = null;
+  }
 });
 
 autorun(() => {

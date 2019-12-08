@@ -14,6 +14,9 @@ export default class ThreeJSVis extends React.Component {
     graphFrame.ee.on("select-nodes", nodes => {
       appState.graph.selectedNodes = nodes;
     });
+    graphFrame.ee.on("show-node-label", nodes => {
+      appState.graph.nodesShowingLabels = nodes;
+    });
     graphFrame.ee.on("right-click", data => {
       const menu = MenuFactory({
         children: [
