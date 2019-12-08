@@ -186,17 +186,22 @@ export default class GraphStore {
     );
     this.overrides.clear();
     this.overrides.merge(savedOverrides);
-    this.rawGraph = savedStates.rawGraph;
 
-    // TODO: add to UI showing a proper loading message
-    // Frame is created when Visualizer is first initialized.
-    // The folloing line needs to run after the initialization is complete.
-    const intervalID = setInterval(() => {
-      if (this.frame) {
-        this.frame.updatePositions(savedStates.positions);
-        clearInterval(intervalID);
-      }
-    }, 500);
-    
+    if (savedStates.metadata) {
+      this.metadata = savedStates.metadata;
+    }
+    if (savedStates.global) {
+      this.nodes = savedStates.global.nodes;
+    }
+    if (savedStates.frame) {
+      // TODO: pause layout if the saved snapshot is paused.
+      // Might need to use the autorun like the ones below.
+    }
+
+    // The following lines trigger autoruns.
+    this.rawGraph = savedStates.rawGraph;
+    if (savedStates.positions) {
+      this.positions = savedStates.positions;
+    }
   }
 }

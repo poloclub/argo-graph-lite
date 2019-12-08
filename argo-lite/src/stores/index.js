@@ -121,6 +121,7 @@ autorun(() => {
   if (appState.graph.frame && appState.graph.positions) {
     appState.graph.frame.updatePositions(appState.graph.positions);
     appState.graph.positions = null;
+    console.log('[autorun] Positions updated.');
   }
 });
 

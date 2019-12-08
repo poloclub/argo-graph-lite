@@ -444,22 +444,8 @@ async function importGraphFromCSV(config) {
   }
 
   const edgesSet = new Set();
-  // const edgesSet = new Set(edges
-  //   .map(it => `${it[config.edges.mapping.fromId]}👉${it[config.edges.mapping.toId]}`).concat(
-  //     edges
-  //       .map(it => `${it[config.edges.mapping.toId]}👉${it[config.edges.mapping.fromId]}`),
-  //   ),
-  // );
+  
   const edgesArr = [];
-  // edgesSet.forEach((it) => {
-  //   const [from, to] = it.split('👉');
-  //   graph.addLink(from, to);
-  //   degreeDict[from] += 1;
-  //   edgesArr.push({
-  //     source_id: from,
-  //     target_id: to,
-  //   });
-  // });
 
   const addEdge = (from, to) => {
     const edgeKey = `${from}👉${to}`;
