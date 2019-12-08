@@ -157,8 +157,8 @@ export default class GraphStore {
    * and metadata except nodes/edges deleted by users.
    * This is different from Argo-electron snapshot.
    */
-  saveImmediateStates() {
-    return JSON.stringify({
+  saveImmediateStates(optionalConfig) {
+    const snapshot = {
       rawGraph: this.rawGraph,
       overrides: this.overrides,
       positions: this.frame.getPositions(),
@@ -166,10 +166,22 @@ export default class GraphStore {
       global: {
         nodes: this.nodes,
       },
-      frame: {
-        paused: this.frame.paused,
-      },
-    });
+    };
+    // TODO: add corresponding options on frontend
+    // The optional options allows users to leave out
+    // certain app state when saving snapshot
+    if (optionalConfig) {
+      if (optionalConfig.noPosition) {
+        snapshot.positions = undefined;
+      }
+      if (optionalConfig.noGlobal) {
+        snapshot.global = undefined;
+      }
+      if (optionalConfig.noOverride) {
+        snapshot.overrides = undefined;
+      }
+    }
+    return JSON.stringify(snapshot);
   }
 
   @action
@@ -192,10 +204,6 @@ export default class GraphStore {
     }
     if (savedStates.global) {
       this.nodes = savedStates.global.nodes;
-    }
-    if (savedStates.frame) {
-      // TODO: pause layout if the saved snapshot is paused.
-      // Might need to use the autorun like the ones below.
     }
 
     // The following lines trigger autoruns.
