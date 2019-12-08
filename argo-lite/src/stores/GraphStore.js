@@ -166,6 +166,9 @@ export default class GraphStore {
       global: {
         nodes: this.nodes,
       },
+      frame: {
+        paused: this.frame.paused,
+      },
     });
   }
 
