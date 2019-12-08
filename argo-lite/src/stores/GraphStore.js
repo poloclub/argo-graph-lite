@@ -6,25 +6,29 @@ import uniq from "lodash/uniq";
 
 export default class GraphStore {
 
+  initialGlobalConfig = {
+    nodes: {
+      colorBy: "pagerank",
+      color: {
+        scale: "Linear Scale",
+        from: "#448AFF",
+        to: "#E91E63"
+      },
+      sizeBy: "pagerank",
+      size: {
+        min: 2,
+        max: 10,
+        scale: "Linear Scale"
+      },
+      labelBy: "node_id",
+      shape: "circle",
+      labelSize: 1,
+      labelLength: 10
+    },
+  }
+
   @observable
-  nodes = {
-    colorBy: "pagerank",
-    color: {
-      scale: "Linear Scale",
-      from: "#448AFF",
-      to: "#E91E63"
-    },
-    sizeBy: "pagerank",
-    size: {
-      min: 2,
-      max: 10,
-      scale: "Linear Scale"
-    },
-    labelBy: "node_id",
-    shape: "circle",
-    labelSize: 1,
-    labelLength: 10
-  };
+  nodes = this.initialGlobalConfig.nodes;
 
   @observable selectedNodes = [];
 
@@ -46,12 +50,10 @@ export default class GraphStore {
   metadata = {
     fullNodes: 0,
     fullEdges: 0,
-    presentedNodes: 200,
-    file: "no-graph-loaded",
     nodeProperties: [],
     nodeComputed: ["pagerank", "degree"],
     edgeProperties: [],
-    snapshotName: "Les Miserables" // Optional: for display in Argo-lite only
+    snapshotName: "loading..." // Optional: for display in Argo-lite only
   };
 
   // used for listing all the properties, either original or computed
@@ -148,11 +150,22 @@ export default class GraphStore {
     appState.graph.frame.removeSelected();
   }
 
+  /**
+   * [Argo-lite] Saves graph snapshot as String
+   * 
+   * Note that Argo-lite snapshot contains all graph data
+   * and metadata except nodes/edges deleted by users.
+   * This is different from Argo-electron snapshot.
+   */
   saveImmediateStates() {
     return JSON.stringify({
       rawGraph: this.rawGraph,
       overrides: this.overrides,
-      positions: this.frame.getPositions()
+      positions: this.frame.getPositions(),
+      metadata: this.metadata,
+      global: {
+        nodes: this.nodes,
+      },
     });
   }
 

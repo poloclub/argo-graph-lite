@@ -185,7 +185,12 @@ class Navbar extends React.Component {
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="graph"
           >
-            Graph Snapshot: {appState.graph.metadata.snapshotName || "Untitled Graph"}
+            {appState.graph.metadata.snapshotName || "Untitled Graph"}
+            {
+              (appState.graph.metadata.fullNodes && appState.graph.metadata.fullEdges) ? (
+                ` (Nodes: ${appState.graph.metadata.fullNodes} Edges: ${appState.graph.metadata.fullEdges} )`
+              ) : null
+            }
           </Button>
           <span className={Classes.NAVBAR_DIVIDER} />
           <Button

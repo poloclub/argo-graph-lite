@@ -374,6 +374,8 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
     runInAction('load imported graph', () => {
       appState.graph.rawGraph = graph.rawGraph;
       appState.graph.metadata = graph.metadata;
+      // Reinitialize global configs
+      appState.graph.nodes = appState.graph.initialGlobalConfig.nodes;
       appState.import.loading = false;
       appState.import.dialogOpen = false;
     });
@@ -486,6 +488,8 @@ async function importGraphFromCSV(config) {
   return {
     rawGraph: { nodes: nodesArr, edges: edgesArr },
     metadata: {
+      fullNodes: nodesArr.length,
+      fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
       nodeProperties: Object.keys(nodesArr[0]),
       nodeComputed: ['pagerank', 'degree'],
       edgeProperties: ['source_id', 'target_id'],
