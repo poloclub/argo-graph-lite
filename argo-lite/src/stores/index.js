@@ -110,10 +110,10 @@ autorun(() => {
 
 autorun(() => {
   if (appState.graph.frame) {
+    appState.graph.frame.updateGraph(appState.graph.computedGraph);
     appState.graph.frame.setAllNodesShape(appState.graph.nodes.shape);
     appState.graph.frame.setLabelRelativeSize(appState.graph.nodes.labelSize);
     appState.graph.frame.setLabelLength(appState.graph.nodes.labelLength);
-    appState.graph.frame.updateGraph(appState.graph.computedGraph);
   }
 });
 
