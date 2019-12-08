@@ -94,13 +94,13 @@ class Navbar extends React.Component {
         {appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
               <Tooltip
-                content={appState.graph.frame.paused ? "Resume" : "Pause"}
+                content={appState.graph.frame.paused ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
                 position={Position.BOTTOM}
               >
                 <Button
                   className={classnames([Classes.BUTTON, Classes.MINIMAL])}
                   iconName={appState.graph.frame.paused ? "play" : "pause"}
-                  text={appState.graph.frame.paused ? "Resume" : "Pause"}
+                  text={appState.graph.frame.paused ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
                     if (appState.graph.frame.paused) {
                       appState.graph.frame.resumeLayout();
