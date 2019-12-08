@@ -124,20 +124,6 @@ autorun(() => {
   }
 });
 
-// autorun(() => {
-//   const nodeFile = appState.import.importConfig.nodeFile;
-//   if (nodeFile.path) {
-//     peakCSV(nodeFile.path, nodeFile.hasColumns, edgeFile.delimiter).then(it => {
-//       runInAction("preview top N lines of node file", () => {
-//         nodeFile.topN = it;
-//         nodeFile.columns = Object.keys(it[0]);
-//         nodeFile.mapping.id = nodeFile.columns[0];
-//         nodeFile.ready = true;
-//       });
-//     });
-//   }
-// });
-
 autorun(() => {
   const searchStr = appState.search.searchStr;
   if (searchStr.length >= 3) {
@@ -150,21 +136,6 @@ autorun(() => {
     }
   }
 });
-
-// autorun(() => {
-//   const edgeFile = appState.import.importConfig.edgeFile;
-//   if (edgeFile.path) {
-//     peakCSV(edgeFile.path, edgeFile.hasColumns, edgeFile.delimiter).then(it => {
-//       runInAction("preview top N lines of edge file", () => {
-//         edgeFile.topN = it;
-//         edgeFile.columns = Object.keys(it[0]);
-//         edgeFile.mapping.fromId = edgeFile.columns[0];
-//         edgeFile.mapping.toId = edgeFile.columns[0];
-//         edgeFile.ready = true;
-//       });
-//     });
-//   }
-// });
 
 // Argo-lite specific: extract CSV from File object and update related fields.
 autorun(() => {
