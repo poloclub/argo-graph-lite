@@ -475,6 +475,7 @@ async function importGraphFromCSV(config) {
   return {
     rawGraph: { nodes: nodesArr, edges: edgesArr },
     metadata: {
+      snapshotName: 'Untitled Graph',
       fullNodes: nodesArr.length,
       fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
       nodeProperties: Object.keys(nodesArr[0]),

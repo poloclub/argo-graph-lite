@@ -184,6 +184,9 @@ class Navbar extends React.Component {
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="graph"
+            onClick={() => {
+              appState.project.isRenameSnapshotDialogOpen = true;
+            }}
           >
             {appState.graph.metadata.snapshotName || "Untitled Graph"}
             {
