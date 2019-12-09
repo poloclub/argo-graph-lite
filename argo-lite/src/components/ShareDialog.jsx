@@ -9,6 +9,7 @@ import {
   Spinner
 } from "@blueprintjs/core";
 import { observer } from "mobx-react";
+import { toaster } from '../notifications/client';
 
 import classnames from "classnames";
 import appState from "../stores/index";
@@ -45,6 +46,12 @@ class ShareDialog extends React.Component {
             uuid,
             body: window.saveSnapshotToString()
         }),
+    }).then(response => response.ok).catch(error => {
+        toaster.show({
+            message: 'Failed to publish to sharing server. Please try again later.',
+            intent: Intent.DANGER,
+            timeout: -1
+        });
     });
   }
 
@@ -93,9 +100,15 @@ class ShareDialog extends React.Component {
                         const sharedURL = `https://poloclub.github.io/argo-graph-lite/#${uuid}`;
 
                         // Wait for backend response
-                        await this.handleRequest(uuid);
+                        const requestSuccess = await this.handleRequest(uuid);
                         // Update local state
-                        this.setState({ isFetching: false, isShared: true, sharedURL });
+                        if (requestSuccess) {
+                            this.setState({ isFetching: false, isShared: true, sharedURL });
+                        } else {
+                            // request fails, toast fired
+                            this.setState({ isFetching: false, isShared: false });
+                        }
+                        
                     }}
                     text="Share"
                     />
