@@ -48,7 +48,7 @@ class ShareDialog extends React.Component {
         }),
     }).then(response => response.ok).catch(error => {
         toaster.show({
-            message: 'Failed to publish to sharing server. Please try again later.',
+            message: 'Failed to publish to sharing server. Unexpected error.',
             intent: Intent.DANGER,
             timeout: -1
         });
@@ -79,7 +79,16 @@ class ShareDialog extends React.Component {
             {
                 this.state.isShared && (
                     <div>
-                        Your graph has been shared to <code>{this.state.sharedURL}</code>
+                        Your graph has been shared to
+                        <input id="snapshot-textarea" type="textarea" value={this.state.sharedURL} readOnly />
+                        <button
+                            onClick={() => {
+                                document.getElementById('snapshot-textarea').select();
+                                document.execCommand("copy");
+                            }}
+                        >
+                            Copy to Clipboard
+                        </button>
                     </div>
                 )
             }
@@ -87,31 +96,75 @@ class ShareDialog extends React.Component {
 
             <div className={Classes.DIALOG_FOOTER}>
                 <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-                    <Button
-                    className={classnames({
-                        [Classes.DISABLED]: this.state.isFetching || this.state.isShared
-                    })}
-                    intent={Intent.PRIMARY}
-                    onClick={async () => {
-                        this.setState({ isFetching: true })
-                        // Generate a random UUID
-                        const uuid = uuidv4();
-                        // Generate URL corresponding to the UUID
-                        const sharedURL = `https://poloclub.github.io/argo-graph-lite/#${uuid}`;
-
-                        // Wait for backend response
-                        const requestSuccess = await this.handleRequest(uuid);
-                        // Update local state
-                        if (requestSuccess) {
-                            this.setState({ isFetching: false, isShared: true, sharedURL });
-                        } else {
-                            // request fails, toast fired
-                            this.setState({ isFetching: false, isShared: false });
-                        }
-                        
-                    }}
-                    text="Share"
-                    />
+                    {
+                        !this.state.isShared && (
+                            <Button
+                            className={classnames({
+                                [Classes.DISABLED]: this.state.isFetching
+                            })}
+                            intent={Intent.PRIMARY}
+                            onClick={async () => {
+                                this.setState({ isFetching: true });
+                                // Generate a random UUID
+                                const uuid = uuidv4();
+                                // Generate URL corresponding to the UUID
+                                const sharedURL = `https://poloclub.github.io/argo-graph-lite/#${uuid}`;
+        
+                                // Wait for backend response
+                                const requestSuccess = await this.handleRequest(uuid);
+                                // Update local state
+                                if (requestSuccess) {
+                                    this.setState({ isFetching: false, isShared: true, sharedURL });
+                                } else {
+                                    // request fails, toast fires
+                                    this.setState({ isFetching: false, isShared: false });
+                                    toaster.show({
+                                        message: 'Failed to publish to sharing server. Please try again later.',
+                                        intent: Intent.DANGER,
+                                        timeout: -1
+                                    });
+                                }
+                                
+                            }}
+                            text="Share"
+                            />
+                        )
+                    }
+                    {
+                        this.state.isShared && (
+                            <Button
+                            className={classnames({
+                                [Classes.DISABLED]: this.state.isFetching
+                            })}
+                            intent={Intent.PRIMARY}
+                            onClick={async () => {
+                                this.setState({ isFetching: true, isShared: false });
+                                // Generate a random UUID
+                                const uuid = uuidv4();
+                                // Generate URL corresponding to the UUID
+                                const sharedURL = `https://poloclub.github.io/argo-graph-lite/#${uuid}`;
+        
+                                // Wait for backend response
+                                const requestSuccess = await this.handleRequest(uuid);
+                                // Update local state
+                                if (requestSuccess) {
+                                    this.setState({ isFetching: false, isShared: true, sharedURL });
+                                } else {
+                                    // request fails, toast fires
+                                    this.setState({ isFetching: false, isShared: false });
+                                    toaster.show({
+                                        message: 'Failed to publish to sharing server. Please try again later.',
+                                        intent: Intent.DANGER,
+                                        timeout: -1
+                                    });
+                                }
+                                
+                            }}
+                            text="Share Again to a new URL"
+                            />
+                        )
+                    }
+                    
                 </div>
             </div>
         </Dialog>
