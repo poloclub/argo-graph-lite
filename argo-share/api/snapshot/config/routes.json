@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/snapshots",
+      "handler": "Snapshot.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/snapshots/count",
+      "handler": "Snapshot.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/snapshots/:id",
+      "handler": "Snapshot.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/snapshots",
+      "handler": "Snapshot.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/snapshots/:id",
+      "handler": "Snapshot.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/snapshots/:id",
+      "handler": "Snapshot.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
