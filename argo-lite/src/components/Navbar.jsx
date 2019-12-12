@@ -205,7 +205,7 @@ class Navbar extends React.Component {
           />
           <span className={Classes.NAVBAR_DIVIDER} />
           <a
-            href="https://poloclub.github.io/argo-graph/"
+            href="https://github.com/poloclub/argo-graph-lite"
             target='_blank'
             style={{
               color: appState.preferences.darkMode ? 'white' : 'black',

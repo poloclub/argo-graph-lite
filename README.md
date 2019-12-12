@@ -2,9 +2,9 @@
 
 A lightweight in-browser interactive graph exploration tool.
 
-[Open Argo Lite](https://poloclub.github.io/argo-graph-lite/)
+[Launch Argo Lite](https://poloclub.github.io/argo-graph-lite/)
 
-![Argo lite logo](img/readme-logo.png)
+[![Argo lite logo](img/readme-logo.png)](https://poloclub.github.io/argo-graph-lite/)
 
 ## Import Data
 
