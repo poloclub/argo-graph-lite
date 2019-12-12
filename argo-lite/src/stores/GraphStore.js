@@ -219,6 +219,7 @@ export default class GraphStore {
     }
     if (savedStates.nodesShowingLabels) {
       this.initialNodesShowingLabels = savedStates.nodesShowingLabels;
+      this.nodesShowingLabels = savedStates.nodesShowingLabels;
     }
   }
 }
