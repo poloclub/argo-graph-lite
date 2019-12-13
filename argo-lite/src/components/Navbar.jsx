@@ -26,7 +26,7 @@ class Navbar extends React.Component {
     return (
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
-          <div className={classnames([Classes.NAVBAR_HEADING])}>ARGO <small>Lite</small></div>
+          <div className={classnames([Classes.NAVBAR_HEADING])}>Argo <small>Lite</small></div>
           {/* <a
             href="https://poloclub.github.io/argo-graph/"
             target='_blank'
