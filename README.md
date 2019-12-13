@@ -1,4 +1,4 @@
-# Argo Graph Lite
+# Argo lite
 
 A lightweight in-browser interactive graph exploration tool.
 
