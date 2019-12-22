@@ -239,7 +239,7 @@ module.exports = function(self) {
   self.setupViewPort = function(rect) {
     self.viewPort = new THREE.Line(
       rect,
-      new THREE.LineBasicMaterial({ linewidth: 3, color: 0x333333 })
+      new THREE.LineBasicMaterial({ linewidth: 3, color: self.darkMode? 0xffffff : 0x000000})
     );
     self.scene.add(self.viewPort);
     self.setViewPortSize(self.ccamera);
