@@ -216,7 +216,12 @@ module.exports = function(self) {
 
   self.toggleDark = function() {
     self.darkMode = !self.darkMode;
+    self.updateViewPortEdgeColor();
   };
+
+  self.updateViewPortEdgeColor = function() {
+    self.viewPort.material.color = new THREE.Color( self.darkMode? 0xffffff : 0x000000 );       
+  }
 
   self.getGraph = function() {
     return self.graph;
