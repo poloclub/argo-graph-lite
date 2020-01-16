@@ -66,6 +66,9 @@ module.exports = function(self) {
         // if the node is present in either froms or tos arrays
         self.colorNodeOpacity(n, 1);
         self.colorNodeEdge(n, 0.3, 0.9);
+        if (n.renderData.draw_object.children[0]) {
+          self.highlightNode(n, true, def.ADJACENT_HIGHLIGHT);
+        }
       } else if (
         !self.prevHighlights ||
         self.prevHighlights.indexOf(n.id) == -1
