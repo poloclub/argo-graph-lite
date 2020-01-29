@@ -131,6 +131,20 @@ class Navbar extends React.Component {
                   }}
                 />
               </Tooltip>
+                <Button
+                  className={classnames([Classes.BUTTON, Classes.MINIMAL])}
+                  iconName={appState.preferences.showGraphOption ? "remove" : "add"}
+                  text={appState.preferences.showGraphOption ? "Hide Graph Options" : "Show Graph Options"}
+                  onClick={() => {
+                    if (appState.preferences.showGraphOption) {
+                      appState.preferences.showGraphOption = false;
+                      this.forceUpdate();
+                    } else {
+                      appState.preferences.showGraphOption = true;
+                      this.forceUpdate();
+                    }
+                  }}
+                />
 
               {// This menu only shows when there are nodes selected
               appState.graph.selectedNodes.length > 0 && (
