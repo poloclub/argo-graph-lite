@@ -19,14 +19,24 @@ class RenderOptionsCard extends React.Component {
   
   render() {
     return (
-      <div>
-            <h4>Graph Options</h4>
-            <Tabs2 animate id="graph-options">
+      <div
+            className={classnames(
+              Classes.CARD,
+              Classes.ELEVATION_2,
+              "overlay-card",
+              "left-overlay-card",
+              "transparent-frame"
+            )}
+          >
+        <div>
+          <h4>Graph Options</h4>
+          <Tabs2 animate id="graph-options">
             <Tab2 id="nodes" title="Nodes" panel={<NodesPanel />} />
             <Tab2 id="labels" title="Labels" panel={<LabelsPanel />} />
             {/* <Tab2 id="layout" title="Layout" panel={<LayoutPanel />} /> */}
             <Tabs2.Expander />
-            </Tabs2>
+          </Tabs2>
+        </div>
       </div>
     );
   }
@@ -248,27 +258,7 @@ class FloatingCards extends React.Component {
             </div>
           )}
           
-          <div
-            className={classnames(
-              Classes.CARD,
-              Classes.ELEVATION_2,
-              "overlay-card",
-              "left-overlay-card",
-              "transparent-frame", 
-              "left-cards"
-            )} style = {appState.preferences.graphOptionsOpen ? this.optionsInvisible : this.optionsVisible}>
-              <button className = "openbtn2" onClick = {this.toggleOptions}>
-              </button>
-              <br/>
-              <br/>
-            <RenderOptionsCard/>
-          </div>
-          <div className = {classnames(Classes.CARD, Classes.ELEVATION_2, "overlay-card",
-          "transparent-frame")} style = {{width: "1em", paddingTop: "1em", paddingRight: "0.7em", paddingBottom: "0.5em", marginLeft: "-5.4em"}}>
-            <button className = "openbtn" onClick = {this.toggleOptions} style = {appState.preferences.graphOptionsOpen ? this.sideButtonVis : this.sideButtonInv}>
-            &#9776;
-              </button>
-          </div>
+          { appState.preferences.showGraphOption ? <RenderOptionsCard /> : null }
         </div>
         {appState.graph.selectedNodes.length === 1 && (
           <NodeDetail node={appState.graph.selectedNodes[0].data.ref} />
