@@ -16,14 +16,24 @@ import Legends from "./Legends";
 class RenderOptionsCard extends React.Component {
   render() {
     return (
-      <div>
-        <h4>Graph Options</h4>
-        <Tabs2 animate id="graph-options">
-          <Tab2 id="nodes" title="Nodes" panel={<NodesPanel />} />
-          <Tab2 id="labels" title="Labels" panel={<LabelsPanel />} />
-          {/* <Tab2 id="layout" title="Layout" panel={<LayoutPanel />} /> */}
-          <Tabs2.Expander />
-        </Tabs2>
+      <div
+            className={classnames(
+              Classes.CARD,
+              Classes.ELEVATION_2,
+              "overlay-card",
+              "left-overlay-card",
+              "transparent-frame"
+            )}
+          >
+        <div>
+          <h4>Graph Options</h4>
+          <Tabs2 animate id="graph-options">
+            <Tab2 id="nodes" title="Nodes" panel={<NodesPanel />} />
+            <Tab2 id="labels" title="Labels" panel={<LabelsPanel />} />
+            {/* <Tab2 id="layout" title="Layout" panel={<LayoutPanel />} /> */}
+            <Tabs2.Expander />
+          </Tabs2>
+        </div>
       </div>
     );
   }
@@ -227,17 +237,8 @@ class FloatingCards extends React.Component {
               </center>
             </div>
           )}
-          <div
-            className={classnames(
-              Classes.CARD,
-              Classes.ELEVATION_2,
-              "overlay-card",
-              "left-overlay-card",
-              "transparent-frame"
-            )}
-          >
-            <RenderOptionsCard />
-          </div>
+          
+          { appState.preferences.showGraphOption ? <RenderOptionsCard /> : null }
         </div>
         {appState.graph.selectedNodes.length === 1 && (
           <NodeDetail node={appState.graph.selectedNodes[0].data.ref} />
