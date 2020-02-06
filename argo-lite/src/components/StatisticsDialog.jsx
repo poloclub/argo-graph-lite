@@ -59,7 +59,7 @@ class StatisticsDialog extends React.Component {
                     </tr>
                     <tr>
                         <td>Clustering Coefficient</td>
-                        <td>Under Construction</td>
+                        <td>{appState.graph.hasGraph ? appState.graph.averageClustering : 'loading graph'}</td>
                     </tr>
                 </tbody>
             </table>

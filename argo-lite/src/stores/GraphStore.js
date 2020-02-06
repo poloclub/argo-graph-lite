@@ -3,6 +3,7 @@ import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
 import appState from ".";
 import uniq from "lodash/uniq";
+import { averageClusteringCoefficient } from "../services/AlgorithmUtils";
 
 export default class GraphStore {
 
@@ -155,14 +156,7 @@ export default class GraphStore {
     appState.graph.frame.removeSelected();
   }
 
-  /**
-   * [Argo-lite] Saves graph snapshot as String
-   * 
-   * Note that Argo-lite snapshot contains all graph data
-   * and metadata except nodes/edges deleted by users.
-   * This is different from Argo-electron snapshot.
-   */
-  saveImmediateStates(optionalConfig) {
+  getSnapshot() {
     const snapshot = {
       rawGraph: this.rawGraph,
       overrides: this.overrides,
@@ -173,6 +167,18 @@ export default class GraphStore {
         nodes: this.nodes,
       },
     };
+    return snapshot;
+  }
+
+  /**
+   * [Argo-lite] Saves graph snapshot as String
+   * 
+   * Note that Argo-lite snapshot contains all graph data
+   * and metadata except nodes/edges deleted by users.
+   * This is different from Argo-electron snapshot.
+   */
+  saveImmediateStates(optionalConfig) {
+    const snapshot = this.getSnapshot();
     // TODO: add corresponding options on frontend
     // The optional options allows users to leave out
     // certain app state when saving snapshot
@@ -222,4 +228,13 @@ export default class GraphStore {
       this.nodesShowingLabels = savedStates.nodesShowingLabels;
     }
   }
+
+  @computed
+  get averageClustering() {
+    const snapshot = {
+      rawGraph: this.rawGraph,
+    };
+    return averageClusteringCoefficient(snapshot);
+  }
 }
+
