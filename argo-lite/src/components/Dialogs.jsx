@@ -8,6 +8,7 @@ import SaveSnapshotDialog from "./SaveSnapshotDialog";
 import RenameSnapshotDialog from "./RenameSnapshotDialog";
 import OpenSnapshotDialog from "./OpenSnapshotDialog";
 import ShareDialog from './ShareDialog';
+import StatisticsDialog from './StatisticsDialog';
 
 export default class Dialogs extends React.Component {
   render() {
@@ -22,6 +23,7 @@ export default class Dialogs extends React.Component {
         <SaveSnapshotDialog />
         <RenameSnapshotDialog />
         <ShareDialog />
+        <StatisticsDialog />
       </div>
     );
   }

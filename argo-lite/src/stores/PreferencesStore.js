@@ -7,6 +7,7 @@ export default class PreferencesStore {
   @observable openDialogOpen = false;
   @observable openSnapshotDialogOpen = false;
   @observable shareDialogOpen = false;
+  @observable statisticsDialogOpen = false;
 
   // The following fields are asynchronously loaded.
   // Any writes to these fields through saveUserConfig
