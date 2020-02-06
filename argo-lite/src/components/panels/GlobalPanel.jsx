@@ -37,21 +37,24 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-            Color by:
+            Color by: {'      '}
+            
             <SimpleSelect
               items={appState.graph.allPropertiesKeyList}
               onSelect={it => (appState.graph.nodes.colorBy = it)}
               value={appState.graph.nodes.colorBy}
             />
             <br />
-            With scale:
+            <br/>
+            With scale: {'      '}
             <SimpleSelect
               items={Object.keys(scales)}
               onSelect={it => (appState.graph.nodes.color.scale = it)}
               value={appState.graph.nodes.color.scale}
             />
             <br />
-            Using Gradient from
+            <br />
+            Using Gradient from {'      '}
             <Popover2>
               <Button
                 text="  "
@@ -65,7 +68,7 @@ class GlobalPanel extends React.Component {
                 onChange={it => (appState.graph.nodes.color.from = it.hex)}
               />
             </Popover2>
-            to
+            {'   '} to {'   '}
             <Popover2>
               <Button
                 text="  "
@@ -79,8 +82,6 @@ class GlobalPanel extends React.Component {
                 onChange={it => (appState.graph.nodes.color.to = it.hex)}
               />
             </Popover2>
-            :
-            <br />
             <svg width="220" height="30" className="gradient-preview">
               <defs>
                 <linearGradient
@@ -123,7 +124,7 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-            Scale by:
+            Scale by:{'      '}
             <Select
               items={appState.graph.allPropertiesKeyList}
               itemRenderer={CommonItemRenderer}
@@ -133,7 +134,8 @@ class GlobalPanel extends React.Component {
               <Button text={appState.graph.nodes.sizeBy} />
             </Select>
             <br />
-            With scale:
+            <br/>
+            With scale: {'      '}
             <Select
               items={Object.keys(scales)}
               itemRenderer={CommonItemRenderer}
@@ -143,6 +145,7 @@ class GlobalPanel extends React.Component {
               <Button text={appState.graph.nodes.size.scale} />
             </Select>
             <br />
+            <br/>
             Size Range:
             <br />
             <RangeSlider
@@ -174,7 +177,7 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-            Node Shape:
+            Node Shape: {'      '}
             <Select
               items={[
                 "circle",
@@ -193,9 +196,10 @@ class GlobalPanel extends React.Component {
           </div>
         </Collapsable>
         <small>
+          <br/>
           {pluralize("node", appState.graph.overrides.size, true)}<span> </span>
           have override styles.
-          <a onClick={() => (appState.graph.overrides = new Map())}>Clear.</a>
+          <a onClick={() => (appState.graph.overrides = new Map())}>{'      '} Clear.</a>
         </small>
       </div>
     );

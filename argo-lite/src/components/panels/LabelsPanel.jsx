@@ -11,7 +11,7 @@ class LabelsPanel extends React.Component {
     return (
       <div>
         <Button
-          iconName="eye-off"
+          iconName="eye-on"
           className={Classes.FILL}
           onClick={() => appState.graph.frame.showAllLabels()}
         >

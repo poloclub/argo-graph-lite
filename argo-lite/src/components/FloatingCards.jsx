@@ -15,16 +15,17 @@ import StatusBar from './StatusBar';
 
 @observer
 class RenderOptionsCard extends React.Component {
+  
   render() {
     return (
       <div>
-        <h4>Graph Options</h4>
-        <Tabs2 animate id="graph-options">
-          <Tab2 id="nodes" title="Nodes" panel={<NodesPanel />} />
-          <Tab2 id="labels" title="Labels" panel={<LabelsPanel />} />
-          {/* <Tab2 id="layout" title="Layout" panel={<LayoutPanel />} /> */}
-          <Tabs2.Expander />
-        </Tabs2>
+            <h4>Graph Options</h4>
+            <Tabs2 animate id="graph-options">
+            <Tab2 id="nodes" title="Nodes" panel={<NodesPanel />} />
+            <Tab2 id="labels" title="Labels" panel={<LabelsPanel />} />
+            {/* <Tab2 id="layout" title="Layout" panel={<LayoutPanel />} /> */}
+            <Tabs2.Expander />
+            </Tabs2>
       </div>
     );
   }
@@ -34,7 +35,31 @@ class RenderOptionsCard extends React.Component {
 
 @observer
 class FloatingCards extends React.Component {
+  constructor (props) {
+    super (props);
+  this.state = {
+    isRenderOptionsCardHidden: false 
+  };
+}
+
+  toggleOptions = () => {
+    this.setState({
+      isRenderOptionsCardHidden: !this.state.isRenderOptionsCardHidden
+    });
+  };
   render() {
+    const optionsVisible = {
+      left: "0em"
+    };
+    const optionsInvisible = {
+      left: "-22em"
+    };
+    const sideButtonVis = {
+      marginLeft: "50px"
+    };
+    const sideButtonInv = {
+      marginLeft: "-15px"
+    };
     return (
       <div className="floating-overlay">
         <div className="left-cards">
@@ -228,16 +253,27 @@ class FloatingCards extends React.Component {
               </center>
             </div>
           )}
+          
           <div
             className={classnames(
               Classes.CARD,
               Classes.ELEVATION_2,
               "overlay-card",
               "left-overlay-card",
-              "transparent-frame"
-            )}
-          >
-            <RenderOptionsCard />
+              "transparent-frame", 
+              "left-cards"
+            )} style = {this.state.isRenderOptionsCardHidden ? optionsInvisible : optionsVisible}>
+              <button className = "openbtn2" onClick = {this.toggleOptions}>
+              </button>
+              <br/>
+              <br/>
+            <RenderOptionsCard/>
+          </div>
+          <div className = {classnames(Classes.CARD, Classes.ELEVATION_2, "overlay-card",
+          "transparent-frame")} style = {{width: "1em", paddingTop: "1em", paddingRight: "0.7em", paddingBottom: "0.5em", marginLeft: "-5.4em"}}>
+            <button className = "openbtn" onClick = {this.toggleOptions} style = {this.state.isRenderOptionsCardHidden ? sideButtonVis : sideButtonInv}>
+            &#9776;
+              </button>
           </div>
         </div>
         {appState.graph.selectedNodes.length === 1 && (
