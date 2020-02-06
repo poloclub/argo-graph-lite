@@ -9,6 +9,7 @@ import NodesPanel from "./panels/NodesPanel";
 import LabelsPanel from "./panels/LabelsPanel";
 import NodeDetail from "./panels/NodeDetailPanel";
 import Legends from "./Legends";
+import StatusBar from './StatusBar';
 
 // TODO: migrate to simple select
 
@@ -279,6 +280,7 @@ class FloatingCards extends React.Component {
           <NodeDetail node={appState.graph.selectedNodes[0].data.ref} />
         )}
         <Legends />
+        <StatusBar />
       </div>
     );
   }

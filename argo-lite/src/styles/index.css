@@ -122,6 +122,27 @@ html {
   position: absolute;
 }
 
+.bottom-status-bar {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 25px;
+  background-color: #30404D; /* Fallback background color, please set color programmatically according to theme */
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.bottom-status-bar__left {
+  margin: 5px 10px 5px 10px;
+}
+
+.bottom-status-bar__right {
+  margin: 5px 10px 5px 10px;
+}
+
 button.pt-fill.text-align-left {
   display: flex;
   justify-content: space-between;
@@ -172,8 +193,8 @@ div.legends {
   display: flex;
   justify-content: space-between;
   position: absolute;
-  right: 1em;
-  bottom: 1em;
+  right: 10px;
+  bottom: 40px;
 }
 
 div.legends .scale-legend {

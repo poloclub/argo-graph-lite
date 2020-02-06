@@ -1,3 +1,6 @@
+# For Heroku (though this file should usually be commited, it's not recommended for Heroku)
+package-lock.json
+
 ############################
 # OS X
 ############################

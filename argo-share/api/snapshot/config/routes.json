@@ -13,7 +13,7 @@
       "path": "/snapshots/count",
       "handler": "Snapshot.count",
       "config": {
-        "policies": []
+        "policies": ["plugins.users-permissions.isAuthenticated"]
       }
     },
     {
@@ -37,7 +37,7 @@
       "path": "/snapshots/:id",
       "handler": "Snapshot.update",
       "config": {
-        "policies": []
+        "policies": ["plugins.users-permissions.isAuthenticated"]
       }
     },
     {
@@ -45,7 +45,7 @@
       "path": "/snapshots/:id",
       "handler": "Snapshot.delete",
       "config": {
-        "policies": []
+        "policies": ["plugins.users-permissions.isAuthenticated"]
       }
     }
   ]

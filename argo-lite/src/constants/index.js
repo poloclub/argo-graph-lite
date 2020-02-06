@@ -1,7 +1,9 @@
 import * as scale from "d3-scale";
 
 // Argo-lite Graph Sharing backend Strapi Server:
-export const BACKEND_URL = "https://sleepy-brushlands-57948.herokuapp.com";
+export const BACKEND_URL = "https://argo-share.herokuapp.com"; // for production
+// export const BACKEND_URL = "https://sleepy-brushlands-57948.herokuapp.com"; // for free heroku
+// export const BACKEND_URL = "http://localhost:1337"; // for local strapi development
 
 export const SCALE_LINEAR = "Linear Scale";
 export const SCALE_LOG = "Log Scale";
