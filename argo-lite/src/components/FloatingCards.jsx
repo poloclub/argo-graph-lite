@@ -50,7 +50,7 @@ class FloatingCards extends React.Component {
     marginLeft: '-15px'
   }
   toggleOptions = () => {
-      appState.preferences.isRenderOptionsCardHidden = !appState.preferences.isRenderOptionsCardHidden;
+      appState.preferences.graphOptionsOpen = !appState.preferences.graphOptionsOpen;
   };
 
   render() {
@@ -256,7 +256,7 @@ class FloatingCards extends React.Component {
               "left-overlay-card",
               "transparent-frame", 
               "left-cards"
-            )} style = {appState.preferences.isRenderOptionsCardHidden ? this.optionsInvisible : this.optionsVisible}>
+            )} style = {appState.preferences.graphOptionsOpen ? this.optionsInvisible : this.optionsVisible}>
               <button className = "openbtn2" onClick = {this.toggleOptions}>
               </button>
               <br/>
@@ -265,7 +265,7 @@ class FloatingCards extends React.Component {
           </div>
           <div className = {classnames(Classes.CARD, Classes.ELEVATION_2, "overlay-card",
           "transparent-frame")} style = {{width: "1em", paddingTop: "1em", paddingRight: "0.7em", paddingBottom: "0.5em", marginLeft: "-5.4em"}}>
-            <button className = "openbtn" onClick = {this.toggleOptions} style = {appState.preferences.isRenderOptionsCardHidden ? this.sideButtonVis : this.sideButtonInv}>
+            <button className = "openbtn" onClick = {this.toggleOptions} style = {appState.preferences.graphOptionsOpen ? this.sideButtonVis : this.sideButtonInv}>
             &#9776;
               </button>
           </div>
