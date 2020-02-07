@@ -18,8 +18,6 @@ export default class PreferencesStore {
 
   @observable workspacePath = '';
 
-  @observable showGraphOption = true;
-
   // This is called at the beginning of the app.
   loadUserConfig() {
     requestLoadUserConfig();
