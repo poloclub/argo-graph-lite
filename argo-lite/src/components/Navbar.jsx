@@ -88,6 +88,25 @@ class Navbar extends React.Component {
               Graph
             </Button>
           </Popover>
+          <Popover
+            content={
+              <Menu>
+                <MenuItem
+                  text="Statistics"
+                  iconName="pt-icon-timeline-bar-chart"
+                  onClick={() => {appState.preferences.statisticsDialogOpen = true}}
+                />
+              </Menu>
+            }
+            position={Position.BOTTOM}
+          >
+            <Button
+              className={classnames([Classes.BUTTON, Classes.MINIMAL])}
+              iconName="pt-icon-wrench"
+            >
+              Tools
+            </Button>
+          </Popover>
         </div>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
         <span className={Classes.NAVBAR_DIVIDER} />
