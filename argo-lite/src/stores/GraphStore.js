@@ -3,7 +3,7 @@ import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
 import appState from ".";
 import uniq from "lodash/uniq";
-import { averageClusteringCoefficient } from "../services/AlgorithmUtils";
+import { averageClusteringCoefficient, connectedComponents} from "../services/AlgorithmUtils";
 
 export default class GraphStore {
 
@@ -235,6 +235,11 @@ export default class GraphStore {
       rawGraph: this.rawGraph,
     };
     return averageClusteringCoefficient(snapshot);
+  }
+
+  @computed
+  get components() {
+    return connectedComponents(this.rawGraph);
   }
 }
 
