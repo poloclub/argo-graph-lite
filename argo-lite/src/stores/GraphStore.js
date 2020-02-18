@@ -239,7 +239,10 @@ export default class GraphStore {
 
   @computed
   get components() {
-    return connectedComponents(this.rawGraph);
+    const snapshot = {
+      rawGraph: this.rawGraph,
+    };
+    return connectedComponents(snapshot);
   }
 }
 
