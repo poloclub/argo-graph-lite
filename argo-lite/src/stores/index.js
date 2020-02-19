@@ -184,7 +184,7 @@ autorun(() => {
       });
       runInAction("preview top N lines of edge file", () => {
         appState.import.importConfig.edgeFile.topN = it;
-        appState.import.importConfig.edgeFile.columns = Object.keys(it[0]);
+        appState.import.importConfig.edgeFile.columns = Object.keys(it[0]).map(key => `${key}`);
         appState.import.importConfig.edgeFile.mapping.fromId = appState.import.importConfig.edgeFile.columns[0];
         appState.import.importConfig.edgeFile.mapping.toId = appState.import.importConfig.edgeFile.columns[0]
         appState.import.importConfig.edgeFile.ready = true;
@@ -248,7 +248,7 @@ autorun(() => {
 
       runInAction("preview top N lines of edge file", () => {
         appState.import.importConfig.nodeFile.topN = it;
-        appState.import.importConfig.nodeFile.columns = Object.keys(it[0]);
+        appState.import.importConfig.nodeFile.columns = Object.keys(it[0]).map(key => `${key}`);
         appState.import.importConfig.nodeFile.mapping.fromId = appState.import.importConfig.nodeFile.columns[0];
         appState.import.importConfig.nodeFile.mapping.toId = appState.import.importConfig.nodeFile.columns[0]
         appState.import.importConfig.nodeFile.ready = true;
