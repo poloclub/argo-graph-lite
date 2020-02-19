@@ -414,6 +414,14 @@ async function readCSV(fileObject, hasHeader, delimiter) {
 }
 
 async function importGraphFromCSV(config) {
+  // Since the CSV lib we use uses int index when there's not header/column names specified
+  // but the frontend selector always convert int to string values, we need to
+  // manually convert the user-selected fromId and toId values back to int.
+  // Note that this should only be done when there's no header provided on the CSV (hasColumns == false).
+  const fromId = config.nodes.hasColumns ? config.edges.mapping.fromId : parseInt(config.edges.mapping.fromId);
+  const toId = config.nodes.hasColumns ? config.edges.mapping.toId : parseInt(config.edges.mapping.toId);
+
+  // Create temporary data structures.
   let nodesArr = [];
   const graph = createGraph();
   const degreeDict = {};
@@ -426,11 +434,11 @@ async function importGraphFromCSV(config) {
         n => ({ ...n, id: n[config.nodes.mapping.id].toString(), degree: 0, pagerank: 0 }));
     nodesArr.forEach(n => degreeDict[n.id] = 0);
   }
-  const edges = await readCSV(appState.import.selectedEdgeFileFromInput, config.nodes.hasColumns, config.delimiter);
+  const edges = await readCSV(appState.import.selectedEdgeFileFromInput, config.edges.hasColumns, config.delimiter);
   if (config.edges.createMissing) {
     edges.forEach((it) => {
-      const from = it[config.edges.mapping.fromId].toString();
-      const to = it[config.edges.mapping.toId].toString();
+      const from = it[fromId].toString();
+      const to = it[toId].toString();
       if (!graph.hasNode(from)) {
         graph.addNode(from, { id: from, degree: 0 });
         nodesArr.push({ id: from, degree: 0, pagerank: 0 });
@@ -463,8 +471,8 @@ async function importGraphFromCSV(config) {
   };
   
   edges.forEach(it => {
-    const from = it[config.edges.mapping.fromId].toString();
-    const to = it[config.edges.mapping.toId].toString();
+    const from = it[fromId].toString();
+    const to = it[toId].toString();
     // Argo currently works with undirected graph
     addEdge(from, to);
     addEdge(to, from);
