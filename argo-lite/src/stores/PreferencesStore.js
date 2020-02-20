@@ -4,10 +4,10 @@ import { requestLoadUserConfig, requestSaveUserConfig } from "../ipc/client";
 export default class PreferencesStore {
   @observable dialogOpen = false;
   @observable openDialogOpen = false;
-  @observable graphOptionsOpen = true;
   @observable openSnapshotDialogOpen = false;
   @observable shareDialogOpen = false;
-  @observable statisticsDialogOpen = false;
+  @observable isRenderOptionsCardHidden = false;
+
 
   // The following fields are asynchronously loaded.
   // Any writes to these fields through saveUserConfig
