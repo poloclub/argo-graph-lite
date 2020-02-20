@@ -10,6 +10,7 @@ import LabelsPanel from "./panels/LabelsPanel";
 import NodeDetail from "./panels/NodeDetailPanel";
 import Legends from "./Legends";
 import StatusBar from './StatusBar';
+import { observable } from "mobx";
 
 // TODO: migrate to simple select
 
@@ -35,31 +36,25 @@ class RenderOptionsCard extends React.Component {
 
 @observer
 class FloatingCards extends React.Component {
-  constructor (props) {
-    super (props);
-  this.state = {
-    isRenderOptionsCardHidden: false 
-  };
-}
+  
+  @observable isRenderOptionsCardHidden = false;
 
-  toggleOptions = () => {
-    this.setState({
-      isRenderOptionsCardHidden: !this.state.isRenderOptionsCardHidden
-    });
+  @observable optionsVisible = {
+    left: '0em'
+  }
+  @observable optionsInvisible = {
+   left: '-22em'
+  }
+  @observable sideButtonVis = {
+    marginLeft: '50px'
+  }
+  @observable sideButtonInv = {
+    marginLeft: '-15px'
+  }
+  @observable toggleOptions = () => {
+      this.isRenderOptionsCardHidden = !this.isRenderOptionsCardHidden;
   };
   render() {
-    const optionsVisible = {
-      left: "0em"
-    };
-    const optionsInvisible = {
-      left: "-22em"
-    };
-    const sideButtonVis = {
-      marginLeft: "50px"
-    };
-    const sideButtonInv = {
-      marginLeft: "-15px"
-    };
     return (
       <div className="floating-overlay">
         <div className="left-cards">
@@ -262,7 +257,7 @@ class FloatingCards extends React.Component {
               "left-overlay-card",
               "transparent-frame", 
               "left-cards"
-            )} style = {this.state.isRenderOptionsCardHidden ? optionsInvisible : optionsVisible}>
+            )} style = {this.isRenderOptionsCardHidden ? this.optionsInvisible : this.optionsVisible}>
               <button className = "openbtn2" onClick = {this.toggleOptions}>
               </button>
               <br/>
@@ -271,7 +266,7 @@ class FloatingCards extends React.Component {
           </div>
           <div className = {classnames(Classes.CARD, Classes.ELEVATION_2, "overlay-card",
           "transparent-frame")} style = {{width: "1em", paddingTop: "1em", paddingRight: "0.7em", paddingBottom: "0.5em", marginLeft: "-5.4em"}}>
-            <button className = "openbtn" onClick = {this.toggleOptions} style = {this.state.isRenderOptionsCardHidden ? sideButtonVis : sideButtonInv}>
+            <button className = "openbtn" onClick = {this.toggleOptions} style = {this.isRenderOptionsCardHidden ? this.sideButtonVis : this.sideButtonInv}>
             &#9776;
               </button>
           </div>
