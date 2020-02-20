@@ -6,26 +6,8 @@ export default class PreferencesStore {
   @observable graphOptionsOpen = true;
   @observable openSnapshotDialogOpen = false;
   @observable shareDialogOpen = false;
-
-
-
   @observable isRenderOptionsCardHidden = false;
 
-  @observable optionsVisible = {
-    left: '0em'
-  }
-  @observable optionsInvisible = {
-   left: '-22em'
-  }
-  @observable sideButtonVis = {
-    marginLeft: '50px'
-  }
-  @observable sideButtonInv = {
-    marginLeft: '-15px'
-  }
-  @action toggleOptions = () => {
-      this.isRenderOptionsCardHidden = !this.isRenderOptionsCardHidden;
-  };
 
   // The following fields are asynchronously loaded.
   // Any writes to these fields through saveUserConfig
