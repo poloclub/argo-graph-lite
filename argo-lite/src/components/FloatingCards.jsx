@@ -54,6 +54,8 @@ class FloatingCards extends React.Component {
   @observable toggleOptions = () => {
       this.isRenderOptionsCardHidden = !this.isRenderOptionsCardHidden;
   };
+
+  
   render() {
     return (
       <div className="floating-overlay">
