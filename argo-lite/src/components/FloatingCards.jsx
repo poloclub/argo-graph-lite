@@ -10,7 +10,6 @@ import LabelsPanel from "./panels/LabelsPanel";
 import NodeDetail from "./panels/NodeDetailPanel";
 import Legends from "./Legends";
 import StatusBar from './StatusBar';
-import { observable } from "mobx";
 
 // TODO: migrate to simple select
 
