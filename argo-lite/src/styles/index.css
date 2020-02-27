@@ -63,6 +63,50 @@ html {
   margin-top: 5em;
 }
 
+
+.openbtn {
+  margin-left: 8px;
+  margin-top: 1em;
+  font-size: 10px;
+  cursor: pointer;
+  background-color: #465d6e;
+  padding: 18px 23px;
+  border: black;
+  border-radius: 10%;
+  font-size: 15pt;
+  color: white;
+  transition: margin-left 0.2s;
+}
+
+.openbtn:hover {
+  background-color: rgb(20, 23, 36);
+}
+
+.openbtn:active {
+  background-color: #465d6e;
+
+}
+.openbtn2 {
+  margin-left: 255px;
+  margin-top: 1.3em;
+  font-size: 10px;
+  cursor: pointer;
+  background-color: rgb(106, 123, 158);
+  padding: 8px 8px;
+  border: black;
+  border-radius: 100%;
+  transition: margin-left 0.3s;
+}
+
+.openbtn2:hover {
+  background-color: rgb(20, 23, 36);
+}
+
+.openbtn2:active {
+  background-color: rgb(106, 123, 158);
+
+}
+
 .legend-card {
   margin-top: 5em;
 }
