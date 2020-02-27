@@ -59,11 +59,11 @@ class StatisticsDialog extends React.Component {
                     </tr>
                     <tr>
                         <td>Clustering Coefficient</td>
-                        <td>{(appState.graph.hasGraph & statisticsDialogOpen) ? appState.graph.averageClustering : 'loading graph'}</td>
+                        <td>{(appState.graph.hasGraph & appState.preferences.statisticsDialogOpen) ? appState.graph.averageClustering : 'loading graph'}</td>
                     </tr>
                     <tr>
                         <td>Connected Component</td>
-                        <td>{(appState.graph.hasGraph & statisticsDialogOpen) ? appState.graph.components : 'loading graph'}</td>
+                        <td>{(appState.graph.hasGraph & appState.preferences.statisticsDialogOpen) ? appState.graph.components : 'loading graph'}</td>
                     </tr>
                 </tbody>
             </table>
