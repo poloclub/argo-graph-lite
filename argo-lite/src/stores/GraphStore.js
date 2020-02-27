@@ -229,7 +229,7 @@ export default class GraphStore {
     }
   }
 
-  @computed
+  
   get averageClustering() {
     const snapshot = {
       rawGraph: this.rawGraph,
@@ -237,7 +237,7 @@ export default class GraphStore {
     return averageClusteringCoefficient(snapshot);
   }
 
-  @computed
+  
   get components() {
     const snapshot = {
       rawGraph: this.rawGraph,
