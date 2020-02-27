@@ -8,6 +8,7 @@ export default class PreferencesStore {
   @observable openSnapshotDialogOpen = false;
   @observable shareDialogOpen = false;
   @observable statisticsDialogOpen = false;
+  @observable isRenderOptionsCardHidden = false;
 
   // The following fields are asynchronously loaded.
   // Any writes to these fields through saveUserConfig
