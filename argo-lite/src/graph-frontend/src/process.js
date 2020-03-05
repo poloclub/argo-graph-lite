@@ -1,6 +1,7 @@
 var def = require("./imports").default;
 const spawn = require("threads").spawn;
 var THREE = def.THREE;
+var STATS = def.STATS;
 var Edge = def.Edge;
 var Node = def.Node;
 var OrbitControls = def.OrbitControls;
@@ -65,28 +66,35 @@ var Frame = function(graph, options) {
   /**
    *  Starting point, run once to create scene
    */
+  let stats = new STATS();
   this.display = function() {
+    stats.showPanel(0); // show fps panel
+    document.body.appendChild(stats.dom);
     this.animate();
   };
 
   /**
    *  Creates loop called on every animation frame
    */
+  
   let fps = 30;
-  let now;
-  let then = Date.now();
-  let interval = 1000 / fps;
-  let delta;
+  // let now;
+  // let then = Date.now();
+  // let interval = 1000 / fps;
+  // let delta;
   this.animate = function() {
     requestAnimationFrame(self.animate);
-
-    now = Date.now();
-    delta = now - then;
-    if (delta > interval) {
-      then = now;
-      self.controls.update();
-      self.render();
-    }
+    stats.begin(); // Begin stats.js panel timing
+    self.controls.update();
+    self.render();
+    stats.end(); // End stats.js panel timing
+    // now = Date.now();
+    // delta = now - then;
+    // if (delta > interval) {
+    //   then = now;
+    //   self.controls.update();
+    //   self.render();
+    // }
   };
 
   /**
