@@ -83,7 +83,6 @@ var Frame = function(graph, options) {
   // let interval = 1000 / fps;
   // let delta;
   this.animate = function() {
-    requestAnimationFrame(self.animate);
     stats.begin(); // Begin stats.js panel timing
     self.controls.update();
     self.render();
@@ -95,6 +94,7 @@ var Frame = function(graph, options) {
     //   self.controls.update();
     //   self.render();
     // }
+    requestAnimationFrame(self.animate);
   };
 
   /**
@@ -116,7 +116,7 @@ var Frame = function(graph, options) {
     self.setupSelect();
 
     self.element.appendChild(self.renderer.domElement);
-    self.element.appendChild(self.cssRenderer.domElement);
+    // self.element.appendChild(self.cssRenderer.domElement);
 
     self.canvas = document.querySelector("graph-container");
 
@@ -148,7 +148,7 @@ var Frame = function(graph, options) {
     self.ccamera.updateProjectionMatrix();
 
     self.renderer.setSize(self.width, self.height);
-    self.cssRenderer.setSize(self.width, self.height);
+    // self.cssRenderer.setSize(self.width, self.height);
   };
 
   /**
@@ -196,7 +196,7 @@ var Frame = function(graph, options) {
     self.renderer.setScissor(0, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
-    self.cssRenderer.render(self.scene, self.ccamera);
+    // self.cssRenderer.render(self.scene, self.ccamera);
     if (self.mapShowing) {
       self.minimap.width = 0.2 * self.height;
       self.minimap.height = 0.2 * self.height;

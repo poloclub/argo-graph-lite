@@ -68,10 +68,10 @@ module.exports = function(self) {
 
   self.setRendererParams = function() {
     self.renderer.setSize(self.width, self.height);
-    self.cssRenderer = new THREE.CSS3DRenderer();
-    self.cssRenderer.setSize(self.width, self.height);
-    self.cssRenderer.domElement.style.position = "absolute";
-    self.cssRenderer.domElement.style.top = 0;
+    // self.cssRenderer = new THREE.CSS3DRenderer();
+    // self.cssRenderer.setSize(self.width, self.height);
+    // self.cssRenderer.domElement.style.position = "absolute";
+    // self.cssRenderer.domElement.style.top = 0;
     self.renderer.setPixelRatio(window.devicePixelRatio);
   };
 
