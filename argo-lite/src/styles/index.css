@@ -93,23 +93,23 @@ html {
 
 }
 .openbtn2 {
-  margin-left: 255px;
-  margin-top: 1.3em;
-  font-size: 10px;
+  margin-left: 245px;
+  padding-top: 2em;
+  margin-top: -2.3em;
+  font-size: 60px;
+  color: rgb(162, 175, 201);
   cursor: pointer;
-  background-color: rgb(106, 123, 158);
-  padding: 8px 8px;
+  background-color: transparent;
   border: black;
-  border-radius: 100%;
   transition: margin-left 0.3s;
 }
 
 .openbtn2:hover {
-  background-color: rgb(20, 23, 36);
+  color: rgb(20, 23, 36);
 }
 
 .openbtn2:active {
-  background-color: rgb(106, 123, 158);
+  color: rgb(106, 123, 158);
 
 }
 
