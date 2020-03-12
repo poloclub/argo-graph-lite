@@ -253,9 +253,8 @@ class FloatingCards extends React.Component {
               "left-cards"
             )} style = {appState.preferences.isRenderOptionsCardHidden ? this.optionsInvisible : this.optionsVisible}
             >
-            <button className = "openbtn2" onClick = {this.toggleOptions}>
+            <button className = "openbtn2" onClick = {this.toggleOptions}> &#129168;
             </button>
-            <br/>
             <br/>
             <RenderOptionsCard />
           </div>
