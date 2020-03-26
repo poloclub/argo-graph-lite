@@ -39,6 +39,7 @@ exports.default = {
   LAYOUT: "d3",
   LINES: "notfancy",
   MAP: true,
+  MAP_RENDER_PER_NUMBER_OF_FRAME: 20,
   TEXT_SCALE: true,
   TEXT_SIZE: 0.07,
   TEXT_X_OFFSET: 0.52,

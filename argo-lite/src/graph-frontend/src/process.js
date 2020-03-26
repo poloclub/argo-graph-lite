@@ -43,6 +43,7 @@ var Frame = function(graph, options) {
   this.labelSize = 6;
   this.relativeFontSize = 1;
   this.mapShowing = def.MAP;
+  this.mapRenderPerNumberOfFrame = def.MAP_RENDER_PER_NUMBER_OF_FRAME;
   this.darkMode = true;
   this.lastNode = null;
   this.fakeNodes = [];
@@ -155,6 +156,7 @@ var Frame = function(graph, options) {
    *  Draws graphics
    */
   var stage = 0;
+  var numberOfFrameSinceMiniMapRerender = 1;
   this.render = function() {
     self.updateCamera();
     self.updateNodes();
@@ -164,6 +166,7 @@ var Frame = function(graph, options) {
       stage = 0;
     }
     stage += 1;
+    numberOfFrameSinceMiniMapRerender += 1;
     if (self.options.layout == "d3") {
       if (self.layoutInit == true) {
         var nodes = [];
@@ -197,7 +200,8 @@ var Frame = function(graph, options) {
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     // self.cssRenderer.render(self.scene, self.ccamera);
-    if (self.mapShowing) {
+    if (self.mapShowing && numberOfFrameSinceMinimapRerender >= this.mapRenderPerNumberOfFrame) {
+      numberOfFrameSinceMiniMapRerender = 0;
       self.minimap.width = 0.2 * self.height;
       self.minimap.height = 0.2 * self.height;
       self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
