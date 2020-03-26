@@ -104,7 +104,8 @@ var Frame = function(graph, options) {
   this.init = function(aa = true) {
     self.renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: aa
+      antialias: aa,
+      preserveDrawingBuffer: true,
     });
     //self.renderer.setPixelRatio(window.devicePixelRatio);
     //self.renderer.setPixelRatio(0.1);
@@ -196,18 +197,23 @@ var Frame = function(graph, options) {
       }
     }
     self.renderer.setViewport(0, 0, 1 * self.width, 1 * self.height);
-    self.renderer.setScissor(0, 0, 1 * self.width, 1 * self.height);
+    self.renderer.setScissor(self.minimap.width, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     // self.cssRenderer.render(self.scene, self.ccamera);
-    if (self.mapShowing && numberOfFrameSinceMinimapRerender >= this.mapRenderPerNumberOfFrame) {
+
+    // Render MiniMap at a lower framerate.
+    if (numberOfFrameSinceMiniMapRerender >= this.mapRenderPerNumberOfFrame) {
       numberOfFrameSinceMiniMapRerender = 0;
-      self.minimap.width = 0.2 * self.height;
-      self.minimap.height = 0.2 * self.height;
-      self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
-      self.renderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
-      self.renderer.setScissorTest(true);
-      self.renderer.render(self.scene, self.minimap.camera);
+
+      if (self.mapShowing) {
+        self.minimap.width = 0.2 * self.height;
+        self.minimap.height = 0.2 * self.height;
+        self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
+        self.renderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
+        self.renderer.setScissorTest(true);
+        self.renderer.render(self.scene, self.minimap.camera);
+      }
     }
   };
 };
