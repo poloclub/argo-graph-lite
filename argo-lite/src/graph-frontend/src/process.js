@@ -128,7 +128,7 @@ var Frame = function(graph, options) {
     self.setupSelect();
 
     self.element.appendChild(self.renderer.domElement);
-    // self.element.appendChild(self.cssRenderer.domElement);
+    self.element.appendChild(self.cssRenderer.domElement);
 
     self.canvas = document.querySelector("graph-container");
 
@@ -160,7 +160,7 @@ var Frame = function(graph, options) {
     self.ccamera.updateProjectionMatrix();
 
     self.renderer.setSize(self.width, self.height);
-    // self.cssRenderer.setSize(self.width, self.height);
+    self.cssRenderer.setSize(self.width, self.height);
   };
 
   /**
@@ -210,7 +210,7 @@ var Frame = function(graph, options) {
     self.renderer.setScissor(self.minimap.width, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
-    // self.cssRenderer.render(self.scene, self.ccamera);
+    self.cssRenderer.render(self.scene, self.ccamera);
 
     // Render MiniMap at a lower framerate.
     if (numberOfFrameSinceMiniMapRerender >= this.mapRenderPerNumberOfFrame) {

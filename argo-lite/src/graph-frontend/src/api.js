@@ -72,7 +72,25 @@ module.exports = function(self) {
     self.mapShowing = !self.mapShowing;
   };
 
+  // The CSS Renderer for rendering labels is the most expensive
+  // renderer. For 300+ nodes it's recommended to turn it off by
+  // default and only use it when no node is moving to prevent
+  // visible lagging (during layout, dragging etc.)
+  self.turnOffLabelCSSRenderer = () => {
+    self.element.removeChild(self.cssRenderer.domElement);
+    self.cssRenderer.isPaused = true;
+  };
+
+  // See turnOffLabelCSSRenderer.
+  self.turnOnLabelCSSRenderer = () => {
+    self.element.appendChild(self.cssRenderer.domElement);
+    self.cssRenderer.isPaused = false;
+  };
+
   // Emits id of every node with label being displayed at this moment.
+  // Used to keep mobx state in sync since GraphStore and snapshot
+  // needs to save what nodes have labels shown and what not.
+  // Also turns off label CSSRenderer when no node is showing label.
   self.updateNodesShowingLabels = () => {
     var nodes = [];
     self.graph.forEachNode(n => {
@@ -81,6 +99,16 @@ module.exports = function(self) {
         nodes.push(n.id);
       }
     });
+
+    // Turns off label CSSRenderer when no node is showing label.
+    // This is because CSSRenderer is slow.
+    if (nodes.length == 0) {
+      self.turnOffLabelCSSRenderer();
+    } else {
+      // TODO: Only turn on when no node is moving?
+      self.turnOnLabelCSSRenderer();
+    }
+
     self.ee.emit("show-node-label", nodes);
   };
 
