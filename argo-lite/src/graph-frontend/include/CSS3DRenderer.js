@@ -67,6 +67,9 @@ THREE.CSS3DRenderer = function() {
 
   this.setClearColor = function() {};
 
+  // Added by Argo-lite, for optimization
+  this.isPaused = false;
+
   this.getSize = function() {
     return {
       width: _width,
@@ -211,6 +214,9 @@ THREE.CSS3DRenderer = function() {
   }
 
   this.render = function(scene, camera) {
+    if (this.isPaused) {
+      return;
+    }
     var fov =
       (0.5 / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() * 0.5))) *
       _height;

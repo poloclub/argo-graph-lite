@@ -1,6 +1,8 @@
 var def = require("./imports").default;
 const spawn = require("threads").spawn;
 var THREE = def.THREE;
+var STATS = def.STATS;
+var STATS_SHOW = def.STATS_SHOW;
 var Edge = def.Edge;
 var Node = def.Node;
 var OrbitControls = def.OrbitControls;
@@ -42,6 +44,7 @@ var Frame = function(graph, options) {
   this.labelSize = 6;
   this.relativeFontSize = 1;
   this.mapShowing = def.MAP;
+  this.mapRenderPerNumberOfFrame = def.MAP_RENDER_PER_NUMBER_OF_FRAME;
   this.darkMode = true;
   this.lastNode = null;
   this.fakeNodes = [];
@@ -65,28 +68,44 @@ var Frame = function(graph, options) {
   /**
    *  Starting point, run once to create scene
    */
+  let stats = new STATS();
   this.display = function() {
+    if (STATS_SHOW) {
+      stats.showPanel(0); // show fps panel
+      document.body.appendChild(stats.dom);
+    }
     this.animate();
   };
 
   /**
    *  Creates loop called on every animation frame
    */
+  
   let fps = 30;
-  let now;
-  let then = Date.now();
-  let interval = 1000 / fps;
-  let delta;
+  // let now;
+  // let then = Date.now();
+  // let interval = 1000 / fps;
+  // let delta;
   this.animate = function() {
-    requestAnimationFrame(self.animate);
-
-    now = Date.now();
-    delta = now - then;
-    if (delta > interval) {
-      then = now;
-      self.controls.update();
-      self.render();
+    if (STATS_SHOW) {
+      stats.begin(); // Begin stats.js panel timing
     }
+    
+    self.controls.update();
+    self.render();
+
+    if (STATS_SHOW) {
+      stats.end(); // End stats.js panel timing
+    }
+    
+    // now = Date.now();
+    // delta = now - then;
+    // if (delta > interval) {
+    //   then = now;
+    //   self.controls.update();
+    //   self.render();
+    // }
+    requestAnimationFrame(self.animate);
   };
 
   /**
@@ -95,7 +114,8 @@ var Frame = function(graph, options) {
   this.init = function(aa = true) {
     self.renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: aa
+      antialias: aa,
+      preserveDrawingBuffer: true,
     });
     //self.renderer.setPixelRatio(window.devicePixelRatio);
     //self.renderer.setPixelRatio(0.1);
@@ -147,6 +167,7 @@ var Frame = function(graph, options) {
    *  Draws graphics
    */
   var stage = 0;
+  var numberOfFrameSinceMiniMapRerender = 1;
   this.render = function() {
     self.updateCamera();
     self.updateNodes();
@@ -156,6 +177,7 @@ var Frame = function(graph, options) {
       stage = 0;
     }
     stage += 1;
+    numberOfFrameSinceMiniMapRerender += 1;
     if (self.options.layout == "d3") {
       if (self.layoutInit == true) {
         var nodes = [];
@@ -185,17 +207,23 @@ var Frame = function(graph, options) {
       }
     }
     self.renderer.setViewport(0, 0, 1 * self.width, 1 * self.height);
-    self.renderer.setScissor(0, 0, 1 * self.width, 1 * self.height);
+    self.renderer.setScissor(self.minimap.width, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     self.cssRenderer.render(self.scene, self.ccamera);
-    if (self.mapShowing) {
-      self.minimap.width = 0.2 * self.height;
-      self.minimap.height = 0.2 * self.height;
-      self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
-      self.renderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
-      self.renderer.setScissorTest(true);
-      self.renderer.render(self.scene, self.minimap.camera);
+
+    // Render MiniMap at a lower framerate.
+    if (numberOfFrameSinceMiniMapRerender >= this.mapRenderPerNumberOfFrame) {
+      numberOfFrameSinceMiniMapRerender = 0;
+
+      if (self.mapShowing) {
+        self.minimap.width = 0.2 * self.height;
+        self.minimap.height = 0.2 * self.height;
+        self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
+        self.renderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
+        self.renderer.setScissorTest(true);
+        self.renderer.render(self.scene, self.minimap.camera);
+      }
     }
   };
 };

@@ -1,4 +1,5 @@
 var THREE = require("three");
+var STATS = require("stats.js");
 window.THREE = THREE;
 require("../include/QuickHull");
 require("../include/ConvexGeometry");
@@ -13,6 +14,8 @@ var ee = require("event-emitter");
 
 exports.default = {
   THREE: THREE,
+  STATS: STATS, // stats.js panel for showing fps and other stats.
+  STATS_SHOW: false,
   Edge: Edge,
   Node: Node,
   OrbitControls: OrbitControls,
@@ -37,6 +40,7 @@ exports.default = {
   LAYOUT: "d3",
   LINES: "notfancy",
   MAP: true,
+  MAP_RENDER_PER_NUMBER_OF_FRAME: 10,
   TEXT_SCALE: true,
   TEXT_SIZE: 0.07,
   TEXT_X_OFFSET: 0.52,
