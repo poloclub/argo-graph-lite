@@ -15,7 +15,7 @@ var ee = require("event-emitter");
 exports.default = {
   THREE: THREE,
   STATS: STATS, // stats.js panel for showing fps and other stats.
-  STATS_SHOW: true,
+  STATS_SHOW: false,
   Edge: Edge,
   Node: Node,
   OrbitControls: OrbitControls,
