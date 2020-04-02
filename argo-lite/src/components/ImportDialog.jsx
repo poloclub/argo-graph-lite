@@ -245,6 +245,10 @@ class ImportDialog extends React.Component {
                     requestImportGraphFromCSV( //edgefile.delimiter and nodefile.delimiter are the same
                       this.state.available === NODE_AND_EDGE_FILE, appState.import.importConfig.edgeFile.delimiter, appState.project.newProjectName
                     );
+
+                    // Importing a graph means no label would be shown by default,
+                    // thus turn off label CSSRenderer for better performance.
+                    appState.graph.frame.turnOffLabelCSSRenderer();
                   }}
                   text="Import"
                 />

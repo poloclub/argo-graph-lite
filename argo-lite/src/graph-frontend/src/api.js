@@ -77,12 +77,18 @@ module.exports = function(self) {
   // default and only use it when no node is moving to prevent
   // visible lagging (during layout, dragging etc.)
   self.turnOffLabelCSSRenderer = () => {
+    if (self.cssRenderer.isPaused) {
+      return;
+    }
     self.element.removeChild(self.cssRenderer.domElement);
     self.cssRenderer.isPaused = true;
   };
 
   // See turnOffLabelCSSRenderer.
   self.turnOnLabelCSSRenderer = () => {
+    if (!self.cssRenderer.isPaused) {
+      return;
+    }
     self.element.appendChild(self.cssRenderer.domElement);
     self.cssRenderer.isPaused = false;
   };
