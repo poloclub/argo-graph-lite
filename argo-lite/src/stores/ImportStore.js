@@ -5,12 +5,15 @@ export default class ImportStore {
   @observable stateFile = "";
 
   @observable dialogOpen = false;
+  @observable gexfDialogOpen = false;
 
   @observable loading = false;
 
   // Argo-lite specific: File object selected via the file input.
   @observable selectedEdgeFileFromInput = null;
   @observable selectedNodeFileFromInput = null;
+
+  @observable selectedGexfFileFromInput = null;
 
   @observable
   importConfig = {
