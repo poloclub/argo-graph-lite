@@ -62,6 +62,11 @@ class Navbar extends React.Component {
                   onClick={() => (appState.import.dialogOpen = true)}
                 />
                 <MenuItem
+                  iconName="import"
+                  text="Import from GEXF..."
+                  onClick={() => (appState.import.gexfDialogOpen = true)}
+                />
+                <MenuItem
                   iconName="pt-icon-document-open"
                   text="Open Snapshot"
                   onClick={() => {appState.preferences.openSnapshotDialogOpen = true}}
