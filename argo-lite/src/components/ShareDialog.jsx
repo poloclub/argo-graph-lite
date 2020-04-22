@@ -89,6 +89,22 @@ class ShareDialog extends React.Component {
                         >
                             Copy to Clipboard
                         </button>
+                        <br/> 
+                        <br/>                        
+                        Embedded Link: {"  "}
+                        <input id="iframe-textarea" type="textarea" value=
+                        {"<iframe src = " + this.state.sharedURL + " width = 850 height = 500><p>Your browser does not support iframes.</p> </iframe>"}
+
+                        readOnly />
+                        {"   "}
+                        <button
+                            onClick={() => {
+                                document.getElementById('iframe-textarea').select();
+                                document.execCommand("copy");
+                            }}
+                        >
+                        Copy to Clipboard
+                        </button>
                     </div>
                 )
             }
