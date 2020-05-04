@@ -110,8 +110,8 @@ module.exports = function(self) {
     // This is because CSSRenderer is slow.
     if (nodes.length == 0) {
       self.turnOffLabelCSSRenderer();
-    } else {
-      // TODO: Only turn on when no node is moving?
+    } else if (appState.graph.frame.paused) {
+      //Only turns on when no node is moving
       self.turnOnLabelCSSRenderer();
     }
 
