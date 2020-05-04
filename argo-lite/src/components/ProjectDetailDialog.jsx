@@ -78,12 +78,10 @@ class ProjectDetailDialog extends React.Component {
                           <Button
                             className={classnames([Classes.BUTTON])}
                             onClick={() => {
-                            if (confirm("This action will delete the snapshot. Would you like to proceed?")) {
                                 requestDelete(snapshotPath);
                                 appState.project.currentProject.snapshotPaths = appState.project.currentProject.snapshotPaths.filter(
                                   path => path !== snapshotPath
                                 );
-                              }
                             }}
                           >
                             Delete
