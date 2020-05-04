@@ -40,7 +40,11 @@ const loadSnapshotFromStrapi = (uuid) => {
     method: 'GET',
     mode: 'cors'
   }).then(response => response.json()).then(json => json[0].body).catch(error => {
-    // TODO: Show user an error dialog saying graph cannot be fetched.
+    toaster.show({
+      message: 'Error: Graph cannot be fetched',
+      intent: Intent.DANGER,
+      timeout: -1
+    });
   });
 };
 
