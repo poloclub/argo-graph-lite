@@ -18,7 +18,7 @@ import appState from "../stores/index";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-
+import argologo from '../images/argologo.png';
 
 @observer
 class Navbar extends React.Component {
@@ -26,7 +26,11 @@ class Navbar extends React.Component {
     return (
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
-          <div className={classnames([Classes.NAVBAR_HEADING])}>Argo <small>Lite</small></div>
+          <a href = "https://github.com/poloclub/argo-graph-lite" target="_blank">
+            <img id= "Argo logo" src= {argologo} width = "35" height = "35"></img>
+          </a>
+          <br></br>
+    <div className={classnames([Classes.NAVBAR_HEADING])}> &nbsp; Argo <small>Lite</small></div>
           {/* <a
             href="https://poloclub.github.io/argo-graph/"
             target='_blank'
