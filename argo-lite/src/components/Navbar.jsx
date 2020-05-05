@@ -27,9 +27,8 @@ class Navbar extends React.Component {
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
           <a href = "https://github.com/poloclub/argo-graph-lite" target="_blank">
-            <img id= "Argo logo" src= {argologo} width = "35" height = "35"></img>
+            <img title = "Argo Lite" id= "Argo logo" src= {argologo} width = "35" height = "35"></img>
           </a>
-          <br></br>
     <div className={classnames([Classes.NAVBAR_HEADING])}> &nbsp; Argo <small>Lite</small></div>
           {/* <a
             href="https://poloclub.github.io/argo-graph/"
