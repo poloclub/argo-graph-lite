@@ -13,16 +13,16 @@ class LabelsPanel extends React.Component {
         <Button
           iconName="eye-off"
           className={Classes.FILL}
-          onClick={() => appState.graph.frame.showAllLabels()}
-        >
-          Show All Labels
-        </Button>
-        <Button
-          iconName="eye-off"
-          className={Classes.FILL}
           onClick={() => appState.graph.frame.hideAllLabels()}
         >
           Hide All Labels
+        </Button>
+        <Button
+          iconName="eye-on"
+          className={Classes.FILL}
+          onClick={() => appState.graph.frame.showAllLabels()}
+        >
+          Show All Labels
         </Button>
         <Button
           iconName="eye-off"
