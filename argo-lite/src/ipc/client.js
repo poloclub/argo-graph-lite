@@ -383,6 +383,21 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
   });
 }
 
+export function requestImportGraphFromGexf() {
+  importGraphFromGexf().then(graph => {
+    runInAction('load imported graph', () => {
+      appState.graph.rawGraph = graph.rawGraph;
+      appState.graph.metadata = graph.metadata;
+    });
+    // Reinitialize global configs
+    appState.graph.nodes = appState.graph.initialGlobalConfig.nodes;
+    appState.graph.overrides = new Map();
+    appState.import.loading = false;
+    appState.import.gexfDialogOpen = false;
+  });
+}
+
+
 async function readCSV(fileObject, hasHeader, delimiter) {
   const file = fileObject;
   const reader = new FileReader();
@@ -410,7 +425,43 @@ async function readCSV(fileObject, hasHeader, delimiter) {
       }));
     }
   });
+}
+
+function parseXML(content) {
+  const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(content,"text/xml");
+      const xmlEdges = xmlDoc.getElementsByTagName('edge');
+      const xmlNodes = xmlDoc.getElementsByTagName('node');
+      const edgesArr = [];
+      const nodesArr = [];
+      for (let i = 0, l = xmlEdges.length; i < l; i++) {
+        const currEdge = xmlEdges[i];
+        const s = currEdge.getAttribute('source');
+        const t = currEdge.getAttribute('target');
+        edgesArr.push({
+          source_id: s,
+          target_id: t,
+        });
+      }
+      for (let i = 0, l = xmlNodes.length; i < l; i++) {
+        const currNode = xmlNodes[i];
+        const id = currNode.getAttribute('id');
+        nodesArr.push({ id: id, degree: 0, pagerank: 0, node_id: id});
+      }
+      return edgesArr;
+}
+
+async function readGEXF(fileObject) {
+  const file = fileObject;
+  const reader = new FileReader();
+  reader.readAsText(file);
   
+  return new Promise((resolve, reject) => {
+      reader.onload = () => {
+      const content = reader.result;
+      resolve(parseXML(content));
+    }
+  });
 }
 
 async function importGraphFromCSV(config) {
@@ -473,6 +524,67 @@ async function importGraphFromCSV(config) {
   edges.forEach(it => {
     const from = it[fromId].toString();
     const to = it[toId].toString();
+    // Argo currently works with undirected graph
+    addEdge(from, to);
+    addEdge(to, from);
+  });
+
+  const rank = pageRank(graph);
+  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], degree: degreeDict[n.id] }));
+  return {
+    rawGraph: { nodes: nodesArr, edges: edgesArr },
+    metadata: {
+      snapshotName: 'Untitled Graph',
+      fullNodes: nodesArr.length,
+      fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
+      nodeProperties: Object.keys(nodesArr[0]),
+      nodeComputed: ['pagerank', 'degree'],
+      edgeProperties: ['source_id', 'target_id'],
+    },
+  }
+}
+
+export async function importGraphFromGexf() {
+  const edges = await readGEXF(appState.import.selectedGexfFileFromInput);
+  const graph = createGraph();
+  let nodesArr = [];
+  const degreeDict = {};
+  edges.forEach((it) => {
+    const from = it.source_id.toString();
+    const to = it.target_id.toString();
+    if (!graph.hasNode(from)) {
+      graph.addNode(from, { id: from, degree: 0 });
+      nodesArr.push({ id: from, degree: 0, pagerank: 0 });
+      degreeDict[from] = 0;
+    }
+    if (!graph.hasNode(to)) {
+      graph.addNode(to, { id: to, degree: 0 });
+      nodesArr.push({ id: to, degree: 0, pagerank: 0 });
+      degreeDict[to] = 0;
+    }
+  });
+
+  const edgesSet = new Set();
+  
+  const edgesArr = [];
+
+  const addEdge = (from, to) => {
+    const edgeKey = `${from}👉${to}`;
+    if (edgesSet.has(edgeKey)) {
+      return;
+    }
+    edgesSet.add(edgeKey);
+    graph.addLink(from, to);
+    degreeDict[to] += 1;
+    edgesArr.push({
+      source_id: from,
+      target_id: to,
+    });
+  };
+  
+  edges.forEach(it => {
+    const from = it.source_id.toString();
+    const to = it.target_id.toString();
     // Argo currently works with undirected graph
     addEdge(from, to);
     addEdge(to, from);
