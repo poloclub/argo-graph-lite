@@ -17,7 +17,8 @@ import {
   requestChooseEdgeFile,
   requestChooseNodeFile,
   requestImportGraphFromCSV,
-  requestCreateNewProject
+  requestCreateNewProject,
+  requestImportGraphFromGexf
 } from "../ipc/client";
 import Collapsable from "./utils/Collapsable";
 import SimpleSelect from "./utils/SimpleSelect";
@@ -110,7 +111,8 @@ class GEXFImportDialog extends React.Component {
             intent={Intent.PRIMARY}
             onClick={() => {
               // Temp
-              appState.import.gexfDialogOpen = false;
+              requestImportGraphFromGexf();
+              // appState.import.gexfDialogOpen = false;
               // appState.import.selectedGexfFileFromInput = null;
             }}
             text="Import"
