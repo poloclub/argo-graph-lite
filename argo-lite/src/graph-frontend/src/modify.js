@@ -228,7 +228,6 @@ module.exports = function(self) {
     self.boundaries.position.x = -size;
     self.boundaries.position.y = -size;
     self.controls.maxDistance = size * 2;
-    self.minimap.camera.position.z = self.renderWidth * 2;
   };
 
   /**

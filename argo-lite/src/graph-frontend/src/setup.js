@@ -96,58 +96,6 @@ module.exports = function(self) {
     self.controls = controls;
   };
 
-  /**
-   *  Create minimap
-   */
-  self.setupMinimap = function() {
-    self.minimap = {};
-    self.minimap.camera = new THREE.PerspectiveCamera(
-      self.fov,
-      1,
-      self.near,
-      self.far
-    );
-    self.minimap.camera.position.z = self.renderWidth * 2;
-
-    (self.oldCoords = {
-      x: null,
-      y: null,
-      z: null
-    }),
-      /**
-       * Pan the ccamera according to mouse position on screen (should be called only when mouse is on minimap)
-       * @param coordX mouse position on screen returned by relMouseCoords
-       * @param coordY mouse position on screen returned by relMouseCoords
-       */
-      (self.minimap.panToMousePosition = function(coordX, coordY) {
-        // ensures that the camera position is updated from the last pan.
-        if (
-          self.ccamera.position.x == self.oldCoords.x &&
-          self.ccamera.position.y == self.oldCoords.y &&
-          self.ccamera.position.z == self.oldCoords.z
-        ) {
-          return;
-        }
-
-        self.oldCoords.x = self.ccamera.position.x;
-        self.oldCoords.y = self.ccamera.position.y;
-        self.oldCoords.z = self.ccamera.position.z;
-
-        // 850 is an approximation
-        const coefficient = (self.height - 200) / self.ccamera.position.z;
-
-        self.controls.pan(
-          ((coordX / self.minimap.width) * 2000 -
-            1000 -
-            self.ccamera.position.x) *
-            -coefficient,
-          (((self.height - coordY) / self.minimap.height) * 2000 -
-            1000 -
-            self.ccamera.position.y) *
-            coefficient
-        );
-      });
-  };
 
   /**
    *  Create initial scene geometry and attributes
@@ -264,14 +212,7 @@ module.exports = function(self) {
         mousePosition.unproject(self.ccamera);
         var dir = mousePosition.sub(self.ccamera.position).clone();
         mousePosition.normalize();
-        // Determine whether mouse is on minimap
-        self.isMouseCoordinatesOnMinimap =
-          coords.x <= self.minimap.width &&
-          self.height - coords.y <= self.minimap.height;
-        if (self.isMouseCoordinatesOnMinimap) {
-          self.minimap.mouseX = coords.x;
-          self.minimap.mouseY = coords.y;
-        }
+
 
         // Determine intersects
         var raycaster = new THREE.Raycaster(

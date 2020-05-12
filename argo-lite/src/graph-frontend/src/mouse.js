@@ -40,31 +40,7 @@ module.exports = function(self) {
     if (!self.mouseDown) {
       self.onHover(selection);
       self.mouseStart = new THREE.Vector3(mouseX, mouseY, 0);
-    } else {
-      // if mouse is in minimap, do nothing else
-      if (self.isMouseCoordinatesOnMinimap) {
-        self.minimap.panToMousePosition(
-          self.minimap.mouseX,
-          self.minimap.mouseY
-        );
-        return;
-      }
-
-      // update selection box size/position
-      if (self.leftMouseDown && !self.dragging) {
-        if (self.showBox) {
-          self.selectBox.visible = true;
-          self.showBox = false;
-        }
-        self.selectBox.position.x = mouseX;
-        self.selectBox.position.y = mouseY;
-        var diffx = self.mouseStart.x - mouseX;
-        var diffy = self.mouseStart.y - mouseY;
-        self.selectBox.scale.set(diffx, diffy, 1);
-      } else {
-        self.selectBox.visible = false;
-      }
-    }
+    } 
   };
 
   /**
@@ -103,12 +79,6 @@ module.exports = function(self) {
    * Mouse down event to start a selection box or start dragging a node
    */
   self.onMouseDown = function(selection, mouseX, mouseY, button, ctrl) {
-    // if mouse is in minimap, do nothing else
-    if (self.isMouseCoordinatesOnMinimap) {
-      self.mouseDown = true;
-      self.minimap.panToMousePosition(self.minimap.mouseX, self.minimap.mouseY);
-      return;
-    }
     startTime = Date.now();
     self.leftMouseDown = button == 0;
     // left or right mouse button

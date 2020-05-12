@@ -123,7 +123,6 @@ var Frame = function(graph, options) {
     self.setRendererParams();
 
     self.setupCamera();
-    self.setupMinimap();
     self.setupGeometry();
     self.setupSelect();
 
@@ -153,8 +152,6 @@ var Frame = function(graph, options) {
     self.clientRect = self.element.getBoundingClientRect();
     self.width = self.clientRect.width;
     self.height = self.clientRect.height;
-    self.minimap.width = 0.2 * self.height;
-    self.minimap.height = 0.2 * self.height;
     self.aspect = self.width / self.height;
     self.ccamera.aspect = self.aspect;
     self.ccamera.updateProjectionMatrix();
@@ -167,7 +164,6 @@ var Frame = function(graph, options) {
    *  Draws graphics
    */
   var stage = 0;
-  var numberOfFrameSinceMiniMapRerender = 1;
   this.render = function() {
     self.updateCamera();
     self.updateNodes();
@@ -177,7 +173,6 @@ var Frame = function(graph, options) {
       stage = 0;
     }
     stage += 1;
-    numberOfFrameSinceMiniMapRerender += 1;
     if (self.options.layout == "d3") {
       if (self.layoutInit == true) {
         var nodes = [];
@@ -207,24 +202,11 @@ var Frame = function(graph, options) {
       }
     }
     self.renderer.setViewport(0, 0, 1 * self.width, 1 * self.height);
-    self.renderer.setScissor(self.minimap.width, 0, 1 * self.width, 1 * self.height);
+    self.renderer.setScissor(0, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     self.cssRenderer.render(self.scene, self.ccamera);
 
-    // Render MiniMap at a lower framerate.
-    if (numberOfFrameSinceMiniMapRerender >= this.mapRenderPerNumberOfFrame) {
-      numberOfFrameSinceMiniMapRerender = 0;
-
-      if (self.mapShowing) {
-        self.minimap.width = 0.2 * self.height;
-        self.minimap.height = 0.2 * self.height;
-        self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
-        self.renderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
-        self.renderer.setScissorTest(true);
-        self.renderer.render(self.scene, self.minimap.camera);
-      }
-    }
   };
 };
 
