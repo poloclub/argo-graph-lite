@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 
 function Legends() {
   return (
-    <div className="legends">
+    <div className="legends" style={{visibility: appState.preferences.isLegendShowing ? 'visible' : 'hidden'}}>
       <LegendSize
         className="scale-legend"
         direction="row"

@@ -10,7 +10,8 @@ class StatusBar extends React.Component {
             <div
                 className={classnames("bottom-status-bar")}
                 style={{
-                    backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF'
+                    backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
+                    visibility: appState.preferences.isStatusBarShowing? "visible" : "hidden"
                 }}
             >
                 <div className={classnames("bottom-status-bar__left")}>{appState.graph.selectedNodes.length} nodes selected</div>

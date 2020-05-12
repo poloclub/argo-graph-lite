@@ -123,6 +123,12 @@ html {
   position: absolute;
 }
 
+.minimal-navbar {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
 .bottom-status-bar {
   position: absolute;
   bottom: 0px;
