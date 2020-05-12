@@ -207,7 +207,7 @@ var Frame = function(graph, options) {
       }
     }
     self.renderer.setViewport(0, 0, 1 * self.width, 1 * self.height);
-    self.renderer.setScissor(self.minimap.width, 0, 1 * self.width, 1 * self.height);
+    self.renderer.setScissor(self.mapShowing ? self.minimap.width : 0, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     self.cssRenderer.render(self.scene, self.ccamera);

@@ -16,6 +16,7 @@ export default class PreferencesStore {
   // next time.
 
   @observable darkMode = true;
+  @observable minimapShowing = true;
 
   @observable workspacePath = '';
 

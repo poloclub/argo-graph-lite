@@ -68,8 +68,16 @@ module.exports = function(self) {
     });
   };
 
-  self.toggleMap = () => {
+  self.toggleMiniMap = () => {
     self.mapShowing = !self.mapShowing;
+  };
+
+  self.showMiniMap = () => {
+    self.mapShowing = true;
+  };
+
+  self.hideMiniMap = () => {
+    self.mapShowing = false;
   };
 
   // The CSS Renderer for rendering labels is the most expensive
