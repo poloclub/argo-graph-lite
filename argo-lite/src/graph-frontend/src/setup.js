@@ -137,12 +137,12 @@ module.exports = function(self) {
         const coefficient = (self.height - 200) / self.ccamera.position.z;
 
         self.controls.pan(
-          ((coordX / self.minimap.width) * 2000 -
-            1000 -
+          ((coordX / self.minimap.width) * 4000 -
+            2000 -
             self.ccamera.position.x) *
             -coefficient,
-          (((self.height - coordY) / self.minimap.height) * 2000 -
-            1000 -
+          (((self.height - coordY) / self.minimap.height) * 4000 -
+            2000 -
             self.ccamera.position.y) *
             coefficient
         );
@@ -228,7 +228,7 @@ module.exports = function(self) {
     self.boundaries = new THREE.Line(
       rect,
       new THREE.LineBasicMaterial({ linewidth: 3, color: 0x999999 })
-    );
+    ); 
     self.scene.add(self.boundaries);
     self.setBoundarySize(self.renderWidth * 2);
   };
