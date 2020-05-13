@@ -21,6 +21,7 @@ class NodeDetail extends React.Component {
             className={classnames(Classes.TABLE, Classes.TABLE_STRIPED)}
             style={{ width: "100%" }}
           >
+            
             <thead>
               <tr>
                 <th>Property</th>

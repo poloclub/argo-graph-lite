@@ -111,9 +111,8 @@ class GEXFImportDialog extends React.Component {
             intent={Intent.PRIMARY}
             onClick={() => {
               // Temp
+              appState.import.loading = true;
               requestImportGraphFromGexf();
-              // appState.import.gexfDialogOpen = false;
-              // appState.import.selectedGexfFileFromInput = null;
             }}
             text="Import"
           />
@@ -132,6 +131,7 @@ class GEXFImportDialog extends React.Component {
         isOpen={appState.import.gexfDialogOpen}
         onClose={() => {
           appState.import.gexfDialogOpen = false;
+          appState.import.loading = false;
         }}
         title="Import GEXF"
       >
