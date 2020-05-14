@@ -1,5 +1,15 @@
 import * as scale from "d3-scale";
 
+// Argo-lite Iframe widget mode
+// Build the app separately and host it on a different URL
+// If set to true, the app will begin in widget mode
+// hiding certain panels, logo, and minimap
+// and show a minimalist Navbar.
+export const IS_IFRAME_WIDGET = window.location !== window.parent.location;
+
+export const FRONTEND_URL = "https://poloclub.github.io/argo-graph-lite";
+export const LOGO_URL = "https://github.com/poloclub/argo-graph-lite";
+export const GITHUB_URL = "https://github.com/poloclub/argo-graph-lite";
 // Argo-lite Graph Sharing backend Strapi Server:
 export const BACKEND_URL = "https://argo-share.herokuapp.com"; // for production
 // export const BACKEND_URL = "https://sleepy-brushlands-57948.herokuapp.com"; // for free heroku

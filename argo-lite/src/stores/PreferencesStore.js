@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import { requestLoadUserConfig, requestSaveUserConfig } from "../ipc/client";
+import { IS_IFRAME_WIDGET } from "../constants";
 
 export default class PreferencesStore {
   @observable dialogOpen = false;
@@ -8,7 +9,7 @@ export default class PreferencesStore {
   @observable openSnapshotDialogOpen = false;
   @observable shareDialogOpen = false;
   @observable statisticsDialogOpen = false;
-  @observable isRenderOptionsCardHidden = false;
+  @observable isRenderOptionsCardHidden = IS_IFRAME_WIDGET;
 
   // The following fields are asynchronously loaded.
   // Any writes to these fields through saveUserConfig
@@ -16,6 +17,10 @@ export default class PreferencesStore {
   // next time.
 
   @observable darkMode = true;
+  @observable minimapShowing = !IS_IFRAME_WIDGET;
+  @observable isStatusBarShowing = !IS_IFRAME_WIDGET;
+  @observable isNavbarInMinimalMode = IS_IFRAME_WIDGET;
+  @observable isLegendShowing = !IS_IFRAME_WIDGET;
 
   @observable workspacePath = '';
 
@@ -31,5 +36,23 @@ export default class PreferencesStore {
     }
 
     requestSaveUserConfig(userConfig);
+  }
+
+  turnOnMinimalMode() {
+    this.isRenderOptionsCardHidden = true;
+    this.minimapShowing = false;
+    this.isStatusBarShowing = false;
+    this.isNavbarInMinimalMode = true;
+    this.isLegendShowing = false;
+    appState.graph.frame.hideMiniMap();
+  }
+
+  turnOffMinimalMode() {
+    this.isRenderOptionsCardHidden = false;
+    this.minimapShowing = true;
+    this.isStatusBarShowing = true;
+    this.isNavbarInMinimalMode = false;
+    this.isLegendShowing = true;
+    appState.graph.frame.showMiniMap();
   }
 }

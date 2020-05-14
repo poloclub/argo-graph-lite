@@ -68,8 +68,16 @@ module.exports = function(self) {
     });
   };
 
-  self.toggleMap = () => {
+  self.toggleMiniMap = () => {
     self.mapShowing = !self.mapShowing;
+  };
+
+  self.showMiniMap = () => {
+    self.mapShowing = true;
+  };
+
+  self.hideMiniMap = () => {
+    self.mapShowing = false;
   };
 
   // The CSS Renderer for rendering labels is the most expensive
@@ -110,8 +118,8 @@ module.exports = function(self) {
     // This is because CSSRenderer is slow.
     if (nodes.length == 0) {
       self.turnOffLabelCSSRenderer();
-    } else {
-      // TODO: Only turn on when no node is moving?
+    } else if (!((self.selection.length > 0) && (self.dragging)) || (appState.graph.frame.paused)) { 
+      //Only turns on when no node is moving
       self.turnOnLabelCSSRenderer();
     }
 

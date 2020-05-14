@@ -1,6 +1,7 @@
 import React from "react";
 import PreferencesDialog from "./PreferencesDialog";
 import ImportDialog from "./ImportDialog";
+import GEXFImportDialog from "./GEXFImportDialog"
 import OpenDialog from "./OpenDialog";
 import NewProjectDialog from "./NewProjectDialog";
 import ProjectDetailDialog from "./ProjectDetailDialog";
@@ -16,6 +17,7 @@ export default class Dialogs extends React.Component {
       <div style={{ display: "none" }}>
         <PreferencesDialog />
         <ImportDialog />
+        <GEXFImportDialog />
         <OpenDialog />
         <OpenSnapshotDialog />
         <NewProjectDialog />

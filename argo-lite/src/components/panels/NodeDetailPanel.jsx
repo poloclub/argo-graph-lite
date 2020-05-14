@@ -21,6 +21,7 @@ class NodeDetail extends React.Component {
             className={classnames(Classes.TABLE, Classes.TABLE_STRIPED)}
             style={{ width: "100%" }}
           >
+            
             <thead>
               <tr>
                 <th>Property</th>
@@ -31,7 +32,7 @@ class NodeDetail extends React.Component {
               {appState.graph.allPropertiesKeyList.map((it, i) => (
                 <tr key={`${it}-${i}`}>
                   <td>{it}</td>
-                  <td>{this.props.node[it]}</td>
+                  <td style={{ whiteSpace: 'normal' }}>{this.props.node[it]}</td>
                 </tr>
               ))}
             </tbody>

@@ -123,6 +123,12 @@ html {
   position: absolute;
 }
 
+.minimal-navbar {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
 .bottom-status-bar {
   position: absolute;
   bottom: 0px;
@@ -226,8 +232,10 @@ div.pt-card.sub-option.legend {
 
 .node-details-table {
   overflow-x: auto;
+  overflow-y: auto;
+  width: 400px;
+  max-height: 60vh;
   font-size: 0.4em;
-  min-width: 400px;
   pointer-events: all;
 }
 

@@ -383,6 +383,20 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
   });
 }
 
+export function requestImportGraphFromGexf() {
+  importGraphFromGexf().then(graph => {
+    runInAction('load imported graph', () => {
+      appState.graph.rawGraph = graph.rawGraph;
+      appState.graph.metadata = graph.metadata;
+    });
+    // Reinitialize global configs
+    appState.graph.nodes = appState.graph.initialGlobalConfig.nodes;
+    appState.graph.overrides = new Map();
+    appState.import.loading = false;
+    appState.import.gexfDialogOpen = false;
+  });
+}
+
 async function readCSV(fileObject, hasHeader, delimiter) {
   const file = fileObject;
   const reader = new FileReader();
@@ -410,7 +424,81 @@ async function readCSV(fileObject, hasHeader, delimiter) {
       }));
     }
   });
+}
+
+async function parseXML(content) {
+  const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(content,"text/xml");
+      const xmlEdges = xmlDoc.getElementsByTagName('edge');
+      const xmlNodes = xmlDoc.getElementsByTagName('node');
+      const xmlAttri = xmlDoc.getElementsByTagName('attributes')
+      
+      let nodeAttri = [];
+      let edgeAttri = [];
+      const edgesArr = [];
+      const nodesArr = [];
+      const nodeAttriOrdered = []     
+      
+      for (let i = 0, l = xmlAttri.length; i < l; i++) {
+        const curr = xmlAttri[i];
+        if (curr.getAttribute('class') === 'node') {
+          nodeAttri = curr.getElementsByTagName('attribute');
+        }
+        else if (curr.getAttribute('class') === 'edge') {
+          edgeAttri = curr.getElementsByTagName('attribute');
+        }
+      }
+      
+      for (let i = 0, l = nodeAttri.length; i < l; i++) {
+        const curr = nodeAttri[i];
+        nodeAttriOrdered[curr.getAttribute("id")] = curr.getAttribute("title");
+      }
+
+      for (let i = 0, l = xmlEdges.length; i < l; i++) {
+        const currEdge = xmlEdges[i];
+        const s = currEdge.getAttribute('source').toString();
+        const t = currEdge.getAttribute('target').toString();
+        edgesArr.push({
+          source_id: s,
+          target_id: t,
+        });
+      }
+      for (let i = 0, l = xmlNodes.length; i < l; i++) {
+        const currNode = xmlNodes[i];
+        const id = currNode.getAttribute('id').toString();
+        const nodeAttributescurr = currNode.attributes;
+        const nodeAttriValSec = currNode.getElementsByTagName("attvalues");
+        const nodeAttriVal = [];
+        if (nodeAttriValSec.length != 0) {
+          nodeAttriVal = nodeAttriValSec[0].getElementsByTagName("attvalue");
+        }
+        let nodeAttri = { id: id, degree: 0, pagerank: 0, node_id: id};
+        for (let j = 0; j < nodeAttriVal.length; j++){
+          const currAttriVal = nodeAttriVal[j];
+            nodeAttri[nodeAttriOrdered[currAttriVal.id]] = currAttriVal.attributes["value"].value;
+        }
+        for (let j = 0; j < nodeAttributescurr.length; j++) {
+          const currAttri = currNode.attributes[j];
+            nodeAttri[currAttri.name] = currAttri.value;
+        }
+        nodeAttri["id"] = id;
+        nodeAttri["node_id"] = id;
+        nodesArr.push(nodeAttri);
+      }
+      return [nodesArr, edgesArr];
+}
+
+async function readGEXF(fileObject) {
+  const file = fileObject;
+  const reader = new FileReader();
+  reader.readAsText(file);
   
+  return new Promise((resolve, reject) => {
+      reader.onload = () => {
+      const content = reader.result;
+      resolve(parseXML(content));
+    }
+  });
 }
 
 async function importGraphFromCSV(config) {
@@ -473,6 +561,63 @@ async function importGraphFromCSV(config) {
   edges.forEach(it => {
     const from = it[fromId].toString();
     const to = it[toId].toString();
+    // Argo currently works with undirected graph
+    addEdge(from, to);
+    addEdge(to, from);
+  });
+
+  const rank = pageRank(graph);
+  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], degree: degreeDict[n.id] }));
+  return {
+    rawGraph: { nodes: nodesArr, edges: edgesArr },
+    metadata: {
+      snapshotName: 'Untitled Graph',
+      fullNodes: nodesArr.length,
+      fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
+      nodeProperties: Object.keys(nodesArr[0]),
+      nodeComputed: ['pagerank', 'degree'],
+      edgeProperties: ['source_id', 'target_id'],
+    },
+  }
+}
+
+export async function importGraphFromGexf() {
+  const gexfParsed = await readGEXF(appState.import.selectedGexfFileFromInput);
+  let nodesArr = gexfParsed[0];
+  const edges = gexfParsed[1];
+  const graph = createGraph();
+  const degreeDict = {};
+
+  nodesArr.forEach((it) => {
+    const currNode = it["id"].toString();
+    if (!graph.hasNode(currNode)) {
+      graph.addNode(currNode, it);
+      degreeDict[currNode] = 0;
+    }
+  });
+
+  const edgesSet = new Set();
+  
+  const edgesArr = [];
+
+  const addEdge = (from, to) => {
+    const edgeKey = `${from}👉${to}`;
+    if (edgesSet.has(edgeKey)) {
+      return;
+    }
+    edgesSet.add(edgeKey);
+    graph.addLink(from, to);
+    degreeDict[to] += 1;
+    edgesArr.push({
+      source_id: from,
+      target_id: to,
+    });
+  };
+  
+  edges.forEach(it => {
+    const from = it["source_id"].toString();
+    const to = it["target_id"].toString();
+
     // Argo currently works with undirected graph
     addEdge(from, to);
     addEdge(to, from);

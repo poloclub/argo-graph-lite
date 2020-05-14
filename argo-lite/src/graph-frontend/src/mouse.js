@@ -42,7 +42,7 @@ module.exports = function(self) {
       self.mouseStart = new THREE.Vector3(mouseX, mouseY, 0);
     } else {
       // if mouse is in minimap, do nothing else
-      if (self.isMouseCoordinatesOnMinimap) {
+      if (self.isMouseCoordinatesOnMinimap && self.mapShowing) {
         self.minimap.panToMousePosition(
           self.minimap.mouseX,
           self.minimap.mouseY
@@ -104,7 +104,7 @@ module.exports = function(self) {
    */
   self.onMouseDown = function(selection, mouseX, mouseY, button, ctrl) {
     // if mouse is in minimap, do nothing else
-    if (self.isMouseCoordinatesOnMinimap) {
+    if (self.isMouseCoordinatesOnMinimap && self.mapShowing) {
       self.mouseDown = true;
       self.minimap.panToMousePosition(self.minimap.mouseX, self.minimap.mouseY);
       return;

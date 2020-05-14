@@ -68,7 +68,10 @@ class ShareDialog extends React.Component {
             <div className={classnames(Classes.DIALOG_BODY)}>
             {
                 !this.state.isShared && (
-                    <p>You can share the current state of your graph to a public URL that you can share with your friends! (*this will make your graph public)</p>
+                    <div>
+                        <p>You can share the current state of your graph to <b>a public URL</b> or <b>embedded iframe</b> that you can share with your friends!</p>
+                        <p><b>IMPORTANT!</b> This will make your graph snapshot public.</p>
+                    </div>
                 )
             }
             {
@@ -80,7 +83,15 @@ class ShareDialog extends React.Component {
                 this.state.isShared && (
                     <div>
                         Your graph has been shared to
-                        <input id="snapshot-textarea" type="textarea" value={this.state.sharedURL} readOnly />
+                        <br/>
+                        <input
+                            id="snapshot-textarea"
+                            type="textarea"
+                            value={this.state.sharedURL}
+                            readOnly
+                            style={{ width: '400px' }}
+                        />
+                        <br />
                         <button
                             onClick={() => {
                                 document.getElementById('snapshot-textarea').select();
@@ -90,12 +101,15 @@ class ShareDialog extends React.Component {
                             Copy to Clipboard
                         </button>
                         <br/> 
-                        <br/>                        
-                        Embedded Link: {"  "}
-                        <input id="iframe-textarea" type="textarea" value=
-                        {"<iframe src = " + this.state.sharedURL + " width = 850 height = 500><p>Your browser does not support iframes.</p> </iframe>"}
-
-                        readOnly />
+                        <hr/>                        
+                        Embed as iframe:
+                        <br />
+                        <input
+                            id="iframe-textarea"
+                            type="textarea"
+                            value={`<iframe src="${this.state.sharedURL}" width="850" height="500"></iframe>`}
+                            readOnly
+                        />
                         {"   "}
                         <button
                             onClick={() => {
