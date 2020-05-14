@@ -83,7 +83,15 @@ class ShareDialog extends React.Component {
                 this.state.isShared && (
                     <div>
                         Your graph has been shared to
-                        <input id="snapshot-textarea" type="textarea" value={this.state.sharedURL} readOnly />
+                        <br/>
+                        <input
+                            id="snapshot-textarea"
+                            type="textarea"
+                            value={this.state.sharedURL}
+                            readOnly
+                            style={{ width: '400px' }}
+                        />
+                        <br />
                         <button
                             onClick={() => {
                                 document.getElementById('snapshot-textarea').select();
@@ -93,8 +101,9 @@ class ShareDialog extends React.Component {
                             Copy to Clipboard
                         </button>
                         <br/> 
-                        <br/>                        
-                        Embedded Link: {"  "}
+                        <hr/>                        
+                        Embed as iframe:
+                        <br />
                         <input
                             id="iframe-textarea"
                             type="textarea"
