@@ -18,15 +18,20 @@ import appState from "../stores/index";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import argologo from '../images/argologo.png';
 
+import {LOGO_URL, GITHUB_URL} from '../constants';
 
 @observer
-class Navbar extends React.Component {
+class RegularNavbar extends React.Component {
   render() {
     return (
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
-          <div className={classnames([Classes.NAVBAR_HEADING])}>Argo <small>Lite</small></div>
+          <a href={LOGO_URL} target="_blank">
+            <img title = "Argo Lite" id= "Argo logo" src= {argologo} width = "35" height = "35"></img>
+          </a>
+    <div className={classnames([Classes.NAVBAR_HEADING])}> &nbsp; Argo <small>Lite</small></div>
           {/* <a
             href="https://poloclub.github.io/argo-graph/"
             target='_blank'
@@ -229,7 +234,7 @@ class Navbar extends React.Component {
           />
           <span className={Classes.NAVBAR_DIVIDER} />
           <a
-            href="https://github.com/poloclub/argo-graph-lite"
+            href={GITHUB_URL}
             target='_blank'
             style={{
               color: appState.preferences.darkMode ? 'white' : 'black',
@@ -242,6 +247,32 @@ class Navbar extends React.Component {
         </div>
       </nav>
     );
+  }
+}
+
+@observer
+class MinimalNavbar extends React.Component {
+  render() {
+    return (
+      <div
+          className={classnames("minimal-navbar")}
+          style={{
+              backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
+          }}
+      >
+        <div className="pt-button-group">
+          <a className="pt-button pt-icon-maximize" role="button" onClick={() => appState.preferences.turnOffMinimalMode()}></a>
+          <a className="pt-button pt-icon-document-open" role="button" href={window.location} target="_blank"></a>
+        </div>
+      </div>
+    );
+  }
+}
+
+@observer
+class Navbar extends React.Component {
+  render() {
+    return appState.preferences.isNavbarInMinimalMode ? <MinimalNavbar /> : <RegularNavbar />;
   }
 }
 

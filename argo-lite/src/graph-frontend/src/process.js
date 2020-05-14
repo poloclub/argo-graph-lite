@@ -34,8 +34,8 @@ var Frame = function(graph, options) {
   this.mouseEnd = new THREE.Vector3(0, 0, 0);
   this.dragging = null;
   this.showBox = false;
-  this.renderWidth = 500;
-  this.renderHeight = 500;
+  this.renderWidth = 1000;
+  this.renderHeight = 1000;
   this.maxZoom = 1000;
   this.paused = false;
   this.mouseDown = false;
@@ -207,7 +207,7 @@ var Frame = function(graph, options) {
       }
     }
     self.renderer.setViewport(0, 0, 1 * self.width, 1 * self.height);
-    self.renderer.setScissor(self.minimap.width, 0, 1 * self.width, 1 * self.height);
+    self.renderer.setScissor(self.mapShowing ? self.minimap.width : 0, 0, 1 * self.width, 1 * self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     self.cssRenderer.render(self.scene, self.ccamera);

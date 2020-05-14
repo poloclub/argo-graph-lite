@@ -3,7 +3,7 @@ import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
 import appState from ".";
 import uniq from "lodash/uniq";
-import { averageClusteringCoefficient, connectedComponents} from "../services/AlgorithmUtils";
+import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter} from "../services/AlgorithmUtils";
 
 export default class GraphStore {
 
@@ -30,6 +30,12 @@ export default class GraphStore {
 
   @observable
   nodes = this.initialGlobalConfig.nodes;
+
+  @observable enableDegree = true;
+  @observable enableDensity = true;
+  @observable enableDiameter = false;
+  @observable enableCoefficient = true;
+  @observable enableComponent = true;
 
   // Updated by frame event
   @observable selectedNodes = [];
@@ -243,6 +249,30 @@ export default class GraphStore {
       rawGraph: this.rawGraph,
     };
     return connectedComponents(snapshot);
+  }
+
+  @computed
+  get density() {
+    const snapshot = {
+      rawGraph: this.rawGraph,
+    };
+    return graphDensity(snapshot);
+  }
+
+  @computed
+  get degree() {
+    const snapshot = {
+      rawGraph: this.rawGraph,
+    };
+    return averageDegree(snapshot);
+  }
+
+  @computed
+  get diameter() {
+    const snapshot = {
+      rawGraph: this.rawGraph,
+    };
+    return exactGraphDiameter(snapshot);
   }
 }
 

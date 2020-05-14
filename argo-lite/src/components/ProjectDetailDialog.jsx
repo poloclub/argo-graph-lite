@@ -78,11 +78,10 @@ class ProjectDetailDialog extends React.Component {
                           <Button
                             className={classnames([Classes.BUTTON])}
                             onClick={() => {
-                              // TODO: Open a confirmation dialog
-                              requestDelete(snapshotPath);
-                              appState.project.currentProject.snapshotPaths = appState.project.currentProject.snapshotPaths.filter(
-                                path => path !== snapshotPath
-                              );
+                                requestDelete(snapshotPath);
+                                appState.project.currentProject.snapshotPaths = appState.project.currentProject.snapshotPaths.filter(
+                                  path => path !== snapshotPath
+                                );
                             }}
                           >
                             Delete

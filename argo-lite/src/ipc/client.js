@@ -617,6 +617,7 @@ export async function importGraphFromGexf() {
   edges.forEach(it => {
     const from = it["source_id"].toString();
     const to = it["target_id"].toString();
+
     // Argo currently works with undirected graph
     addEdge(from, to);
     addEdge(to, from);
@@ -624,7 +625,7 @@ export async function importGraphFromGexf() {
 
   const rank = pageRank(graph);
   nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], degree: degreeDict[n.id] }));
-  return { 
+  return {
     rawGraph: { nodes: nodesArr, edges: edgesArr },
     metadata: {
       snapshotName: 'Untitled Graph',

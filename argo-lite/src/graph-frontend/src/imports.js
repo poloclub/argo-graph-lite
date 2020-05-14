@@ -11,6 +11,7 @@ THREE.MeshLine = require("../include/THREE.MeshLine").MeshLine;
 THREE.MeshLineMaterial = require("../include/THREE.MeshLine").MeshLineMaterial;
 var d3 = require("d3");
 var ee = require("event-emitter");
+var IS_IFRAME_WIDGET = require("../../constants").IS_IFRAME_WIDGET;
 
 exports.default = {
   THREE: THREE,
@@ -39,7 +40,7 @@ exports.default = {
   HIGHLIGHT_SIZE: 1.0,
   LAYOUT: "d3",
   LINES: "notfancy",
-  MAP: true,
+  MAP: !IS_IFRAME_WIDGET,
   MAP_RENDER_PER_NUMBER_OF_FRAME: 10,
   TEXT_SCALE: true,
   TEXT_SIZE: 0.07,

@@ -40,7 +40,11 @@ const loadSnapshotFromStrapi = (uuid) => {
     method: 'GET',
     mode: 'cors'
   }).then(response => response.json()).then(json => json[0].body).catch(error => {
-    // TODO: Show user an error dialog saying graph cannot be fetched.
+    toaster.show({
+      message: 'Error: Graph cannot be fetched',
+      intent: Intent.DANGER,
+      timeout: -1
+    });
   });
 };
 
@@ -186,7 +190,7 @@ autorun(() => {
         appState.import.importConfig.edgeFile.topN = it;
         appState.import.importConfig.edgeFile.columns = Object.keys(it[0]).map(key => `${key}`);
         appState.import.importConfig.edgeFile.mapping.fromId = appState.import.importConfig.edgeFile.columns[0];
-        appState.import.importConfig.edgeFile.mapping.toId = appState.import.importConfig.edgeFile.columns[0]
+        appState.import.importConfig.edgeFile.mapping.toId = appState.import.importConfig.edgeFile.columns[1];
         appState.import.importConfig.edgeFile.ready = true;
       });
     } catch {
@@ -246,11 +250,10 @@ autorun(() => {
         delimiter
       });
 
-      runInAction("preview top N lines of edge file", () => {
+      runInAction("preview top N lines of node file", () => {
         appState.import.importConfig.nodeFile.topN = it;
         appState.import.importConfig.nodeFile.columns = Object.keys(it[0]).map(key => `${key}`);
-        appState.import.importConfig.nodeFile.mapping.fromId = appState.import.importConfig.nodeFile.columns[0];
-        appState.import.importConfig.nodeFile.mapping.toId = appState.import.importConfig.nodeFile.columns[0]
+        appState.import.importConfig.nodeFile.mapping.id = appState.import.importConfig.nodeFile.columns[0];
         appState.import.importConfig.nodeFile.ready = true;
       });
     } catch {

@@ -6,7 +6,8 @@ import {
   Icon,
   Dialog,
   Intent,
-  Spinner
+  Spinner,
+  Switch
 } from "@blueprintjs/core";
 import { observer } from "mobx-react";
 import classnames from "classnames";
@@ -47,15 +48,21 @@ class StatisticsDialog extends React.Component {
                     </tr>
                     <tr>
                         <td>Average Degree</td>
-                        <td>Under Construction</td>
+                        <td>
+                          {appState.graph.hasGraph ? appState.graph.degree : 'loading graph'}
+                        </td>
                     </tr>
                     <tr>
                         <td>Graph Density</td>
-                        <td>Under Construction</td>
+                        <td>
+                          {appState.graph.hasGraph ? appState.graph.density : 'loading graph'}
+                        </td>
                     </tr>
                     <tr>
                         <td>Graph Diameter</td>
-                        <td>Under Construction</td>
+                        <td>
+                          {appState.graph.hasGraph ? appState.graph.diameter : 'loading graph'}
+                        </td>
                     </tr>
                     <tr>
                         <td>Clustering Coefficient</td>
@@ -64,6 +71,7 @@ class StatisticsDialog extends React.Component {
                     <tr>
                         <td>Connected Component</td>
                         <td>{(appState.graph.hasGraph & appState.preferences.statisticsDialogOpen) ? appState.graph.components : 'loading graph'}</td>
+
                     </tr>
                 </tbody>
             </table>
