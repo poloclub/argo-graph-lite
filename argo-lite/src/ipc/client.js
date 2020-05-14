@@ -433,8 +433,8 @@ async function parseXML(content) {
       const xmlNodes = xmlDoc.getElementsByTagName('node');
       const xmlAttri = xmlDoc.getElementsByTagName('attributes')
       
-      const nodeAttri = [];
-      const edgeAttri = [];
+      let nodeAttri = [];
+      let edgeAttri = [];
       const edgesArr = [];
       const nodesArr = [];
       const nodeAttriOrdered = []     
