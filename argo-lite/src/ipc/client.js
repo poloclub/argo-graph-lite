@@ -583,7 +583,7 @@ async function importGraphFromCSV(config) {
 
 export async function importGraphFromGexf() {
   const gexfParsed = await readGEXF(appState.import.selectedGexfFileFromInput);
-  const nodesArr = gexfParsed[0];
+  let nodesArr = gexfParsed[0];
   const edges = gexfParsed[1];
   const graph = createGraph();
   const degreeDict = {};
