@@ -257,7 +257,18 @@ module.exports = function(self) {
     self.nodeCount = 0;
     var mouseHandler = function(callback) {
       return function(event) {
-        var coords = self.relMouseCoords(event, this);
+        event.preventDefault();
+        let pageX, pageY;
+        if (event.touches && event.touches.length > 0) {
+          // for touch events
+          pageX = event.touches.item(0).pageX;
+          pageY = event.touches.item(0).pageY;
+        } else {
+          pageX = event.pageX;
+          pageY = event.pageY;
+        }
+        
+        var coords = self.relMouseCoords(pageX, pageY, this);
         var mouseX = (coords.x / self.width) * 2 - 1;
         var mouseY = 1 - (coords.y / self.height) * 2;
         var mousePosition = new THREE.Vector3(mouseX, mouseY, 1);
@@ -299,7 +310,7 @@ module.exports = function(self) {
           if (callback == self.onRightClick) {
             self.onRightClickCoords(event);
           }
-          self.callMouseHandler(raycaster, pos, callback);
+          self.callMouseHandler(event, raycaster, pos, callback);
         }
       };
     };
@@ -311,7 +322,7 @@ module.exports = function(self) {
   /**
    * Checks if a node has been clicked, and calls the appropriate mouse handler function
    */
-  self.callMouseHandler = function(raycaster, pos, callback) {
+  self.callMouseHandler = function(event, raycaster, pos, callback) {
     var intersects = raycaster.intersectObjects(self.nodes.children);
     if (intersects.length) {
       // If a node has been clicked
@@ -351,6 +362,26 @@ module.exports = function(self) {
     self.element.addEventListener(
       "mouseup",
       mouseHandler(self.onRightClick),
+      false
+    );
+    self.element.addEventListener(
+      "touchstart",
+      mouseHandler(self.onMouseDown),
+      false
+    );
+    self.element.addEventListener(
+      "touchmove",
+      mouseHandler(self.onMouseMove),
+      false
+    );
+    self.element.addEventListener(
+      "touchend",
+      mouseHandler(self.onMouseUp),
+      false
+    );
+    self.element.addEventListener(
+      "touchcancel",
+      mouseHandler(self.onMouseUp),
       false
     );
   };

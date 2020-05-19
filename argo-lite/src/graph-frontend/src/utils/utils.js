@@ -12,7 +12,7 @@ module.exports = function(self) {
    * @param {*} event
    * @param {*} currentElement
    */
-  self.relMouseCoords = function(event, currentElement) {
+  self.relMouseCoords = function(pageX, pageY, currentElement) {
     var totalOffsetX = 0;
     var totalOffsetY = 0;
     var canvasX = 0;
@@ -23,8 +23,8 @@ module.exports = function(self) {
       totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
     } while ((currentElement = currentElement.offsetParent));
 
-    canvasX = event.pageX - totalOffsetX;
-    canvasY = event.pageY - totalOffsetY;
+    canvasX = pageX - totalOffsetX;
+    canvasY = pageY - totalOffsetY;
 
     return { x: canvasX, y: canvasY };
   };

@@ -110,9 +110,8 @@ module.exports = function(self) {
       return;
     }
     startTime = Date.now();
-    self.leftMouseDown = button == 0;
-    // left or right mouse button
-    if (button == 0 || button == 2) {
+    self.leftMouseDown = true;
+    if (self.leftMouseDown) {
       self.mouseDown = true;
       self.mouseStart = new THREE.Vector3(mouseX, mouseY, 0);
       if (button == 0 && !self.dragging) {
@@ -173,7 +172,7 @@ module.exports = function(self) {
     endTime = Date.now();
     self.mouseDown = false;
     // Left or right mouse button
-    if (button == 0 || button == 2) {
+    if (true) {
       self.showBox = false;
       self.dragging = null;
       self.selectBox.visible = false;
