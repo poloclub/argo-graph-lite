@@ -232,6 +232,13 @@ class RegularNavbar extends React.Component {
               appState.preferences.dialogOpen = true;
             }}
           />
+          <Button
+            className={classnames([Classes.BUTTON, Classes.MINIMAL])}
+            iconName="minimize"
+            onClick={() => {
+              appState.preferences.turnOnMinimalMode()
+            }}
+          />
           <span className={Classes.NAVBAR_DIVIDER} />
           <a
             href={GITHUB_URL}
