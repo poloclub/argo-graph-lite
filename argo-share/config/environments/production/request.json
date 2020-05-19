@@ -18,6 +18,7 @@
   },
   "parser": {
     "enabled": true,
-    "multipart": true
+    "multipart": true,
+    "jsonLimit": "500mb"
   }
 }
