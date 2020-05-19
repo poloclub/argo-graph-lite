@@ -40,7 +40,13 @@ class PreferencesDialog extends React.Component {
             appState.preferences.minimapShowing = !appState.preferences.minimapShowing;
             appState.preferences.saveUserConfig();
             if (appState.graph.frame) {
-              appState.graph.frame.toggleMiniMap();
+              if (appState.preferences.minimapShowing) {
+                appState.graph.frame.showMiniMap();
+              } else {
+                appState.graph.frame.hideMiniMap();
+              }
+            } else {
+              console.log("Frame not ready when trying to toggle minimap.");
             }
            }}
           />

@@ -15,6 +15,12 @@ export const BACKEND_URL = "https://argo-share.herokuapp.com"; // for production
 // export const BACKEND_URL = "https://sleepy-brushlands-57948.herokuapp.com"; // for free heroku
 // export const BACKEND_URL = "http://localhost:1337"; // for local strapi development
 
+// When resizing window or running on mobile,
+// used to determine whether screen
+// is considered small.
+export const MOBILE_WIDTH_CUTOFF = 480;
+export const MOBILE_HEIGHT_CUTOFF = 480;
+
 export const SCALE_LINEAR = "Linear Scale";
 export const SCALE_LOG = "Log Scale";
 

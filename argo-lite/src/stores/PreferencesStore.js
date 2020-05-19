@@ -44,7 +44,12 @@ export default class PreferencesStore {
     this.isStatusBarShowing = false;
     this.isNavbarInMinimalMode = true;
     this.isLegendShowing = false;
-    appState.graph.frame.hideMiniMap();
+    if (appState.graph.frame) {
+      appState.graph.frame.hideMiniMap();
+    } else {
+      console.log("Frame not ready when trying to toggle minimap.");
+    }
+    
   }
 
   turnOffMinimalMode() {
@@ -53,6 +58,10 @@ export default class PreferencesStore {
     this.isStatusBarShowing = true;
     this.isNavbarInMinimalMode = false;
     this.isLegendShowing = true;
-    appState.graph.frame.showMiniMap();
+    if (appState.graph.frame) {
+      appState.graph.frame.showMiniMap();
+    } else {
+      console.log("Frame not ready when trying to toggle minimap.");
+    }
   }
 }
