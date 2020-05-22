@@ -183,6 +183,26 @@ class RegularNavbar extends React.Component {
                     />
                   </Tooltip>
                   <Tooltip
+                    content="Hide Selected Nodes"
+                    position={Position.BOTTOM}
+                  >
+                    <Button
+                      className={classnames([
+                        Classes.BUTTON,
+                        Classes.MINIMAL
+                      ])}
+                      iconName="delete"
+                      text="Hide"
+                      intent={Intent.DANGER}
+                      onClick={() => {
+                        appState.graph.hideNodes(
+                          appState.graph.frame.getSelectedIds()
+                        );
+                        this.forceUpdate();
+                      }}
+                    />
+                  </Tooltip>
+                  {/* <Tooltip
                     content="Delete Selected Nodes"
                     position={Position.BOTTOM}
                   >
@@ -199,6 +219,28 @@ class RegularNavbar extends React.Component {
                           appState.graph.frame.getSelectedIds()
                         );
                         this.forceUpdate();
+                      }}
+                    />
+                  </Tooltip> */}
+                </div>
+              )}
+              {// This menu only shows when there's exactly 1 node selected
+              appState.graph.selectedNodes.length === 1 && (
+                <div style={{ display: "inline" }}>
+                  <Tooltip
+                    content="Pin Selected Nodes"
+                    position={Position.BOTTOM}
+                  >
+                    <Button
+                      className={classnames([
+                        Classes.BUTTON,
+                        Classes.MINIMAL
+                      ])}
+                      iconName="graph"
+                      text="Neighbors"
+                      intent={Intent.PRIMARY}
+                      onClick={() => {
+                        
                       }}
                     />
                   </Tooltip>

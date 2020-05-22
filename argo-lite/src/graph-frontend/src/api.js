@@ -349,6 +349,16 @@ module.exports = function(self) {
     self.selection = [];
   };
 
+  self.removeNodesByIds = function(nodeids) {
+    for (var i = 0; i < nodeids.length; i++) {
+      const node = self.graph.getNode(nodeids[i]);
+      if (node) {
+        self.removeNode(node);
+      }
+    }
+    self.selection = [];
+  };
+
   self.getSelected = function() {
     return self.selection;
   };

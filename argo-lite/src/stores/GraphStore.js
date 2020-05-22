@@ -1,4 +1,4 @@
-import { observable, computed, action, autorun } from "mobx";
+import { observable, computed, action, runInAction } from "mobx";
 import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
 import appState from ".";
@@ -127,10 +127,15 @@ export default class GraphStore {
       .range([this.nodes.color.from, this.nodes.color.to]);
   }
 
+  // Triggers autorun in stores/index.js to sent computedGraph to graph-frontend.
   @computed
   get computedGraph() {
     const graph = createGraph();
     this.rawGraph.nodes.forEach(n => {
+      // If isHidden flag is defined and true, ignore the node in graph-frontend.
+      if (n.isHidden) {
+        return;
+      }
       const override = this.overrides.get(n.id.toString());
       graph.addNode(n.id.toString(), {
         label: (override && override.get("label")) || n[this.nodes.labelBy],
@@ -146,20 +151,43 @@ export default class GraphStore {
     });
 
     this.rawGraph.edges.forEach(e => {
-      graph.addLink(e.source_id.toString(), e.target_id.toString());
+      // If isHidden flag is defined and true on an associated node,
+      // leave out its related edges.
+      if (graph.hasNode(e.source_id.toString()) && graph.hasNode(e.target_id.toString())) {
+        graph.addLink(e.source_id.toString(), e.target_id.toString());
+      }
     });
 
     return graph;
   }
 
+  @computed
+  get numHiddenNodes() {
+    return this.rawGraph.nodes.filter(n => n.isHidden).length;
+  }
+
+  hideNodes(nodeids) {
+    runInAction('hide nodes by ids', () => {
+      appState.graph.frame.removeNodesByIds(nodeids);
+      this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
+        if (nodeids.includes(n.id)) {
+          return {...n, isHidden: true};
+        }
+        return n;
+      });
+    });
+  }
+
   removeNodes(nodeids) {
-    this.rawGraph.nodes = this.rawGraph.nodes.filter(
-      n => !nodeids.includes(n.id)
-    );
-    this.rawGraph.edges = this.rawGraph.edges.filter(
-      e => !nodeids.includes(e.source_id) && !nodeids.includes(e.target_id)
-    );
-    appState.graph.frame.removeSelected();
+    runInAction('remove nodes by ids', () => {
+      appState.graph.frame.removeNodesByIds(nodeids);
+      this.rawGraph.nodes = this.rawGraph.nodes.filter(
+        n => !nodeids.includes(n.id)
+      );
+      this.rawGraph.edges = this.rawGraph.edges.filter(
+        e => !nodeids.includes(e.source_id) && !nodeids.includes(e.target_id)
+      );
+    });
   }
 
   getSnapshot() {
