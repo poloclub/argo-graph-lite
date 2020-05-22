@@ -244,3 +244,21 @@ div.pt-card.sub-option.legend {
   color: lightslategray;
   margin-bottom: 10px;
 }
+
+.argo-table-container {
+  overflow: auto;
+  max-width: 80vw;
+  max-height: 80vh;
+}
+
+.argo-table-container__table {
+  border-collapse: collapse;
+}
+
+.argo-table-container__table th {
+  white-space: normal;
+}
+
+.argo-table-container__table td {
+  white-space: normal;
+}
