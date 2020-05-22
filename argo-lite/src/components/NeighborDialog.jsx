@@ -22,6 +22,12 @@ class NeighborDialog extends React.Component {
         }
         return 0;
     };
+    const compareByDegree = (n1, n2) => {
+        if (n1["degree"] && n2["degree"]) {
+            return n2["degree"] - n1["degree"];
+        }
+        return 0;
+    };
 
     let filteredNodes = [];
     // When only one node is selected, show the neighbors of this selected node.
@@ -37,6 +43,17 @@ class NeighborDialog extends React.Component {
     const showNMoreByPageRank = (numberToShow) => {
         const hiddenNodes = filteredNodes.filter(n => n.isHidden);
         hiddenNodes.sort(compareByPageRank);
+        const ids = [];
+        for (let i = 0; i < numberToShow && i < hiddenNodes.length; i++) {
+            ids.push(hiddenNodes[i].id);
+        }
+        appState.graph.showNodes(ids);
+    };
+
+    // Show numberToShow more hidden nodes with top degree.
+    const showNMoreByDegree = (numberToShow) => {
+        const hiddenNodes = filteredNodes.filter(n => n.isHidden);
+        hiddenNodes.sort(compareByDegree);
         const ids = [];
         for (let i = 0; i < numberToShow && i < hiddenNodes.length; i++) {
             ids.push(hiddenNodes[i].id);
@@ -59,6 +76,8 @@ class NeighborDialog extends React.Component {
                 <Button onClick={() => {appState.graph.showNodes(filteredNodes.map(n => n.id))}}>Show All</Button>
                 <Button onClick={() => {showNMoreByPageRank(5)}}>Show 5 More By PageRank</Button>
                 <Button onClick={() => {showNMoreByPageRank(10)}}>Show 10 More By PageRank</Button>
+                <Button onClick={() => {showNMoreByDegree(5)}}>Show 5 More By Degree</Button>
+                <Button onClick={() => {showNMoreByDegree(10)}}>Show 10 More By Degree</Button>
                 <Button onClick={() => {appState.graph.hideNodes(filteredNodes.map(n => n.id))}}>Hide All</Button>
             </ButtonGroup>
 
