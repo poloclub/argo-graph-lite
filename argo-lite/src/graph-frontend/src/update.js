@@ -124,13 +124,6 @@ module.exports = function(self) {
         }
       }
 
-      for (var i = 0; i < self.fakeNodes.length; i++) {
-        self.fakeNodes[i].fx =
-          self.neighborHost.x + self.neighborHost.data.size * 3;
-        self.fakeNodes[i].fy =
-          self.neighborHost.y - self.neighborHost.data.size * 3 * i;
-      }
-
       if (!self.paused) {
         self.force.tick();
       }

@@ -47,11 +47,9 @@ var Frame = function(graph, options) {
   this.mapRenderPerNumberOfFrame = def.MAP_RENDER_PER_NUMBER_OF_FRAME;
   this.darkMode = true;
   this.lastNode = null;
-  this.fakeNodes = [];
   this.rightClickedNode = null;
   this.doHighlightNeighbors = def.NODE_NEIGHBOR_HIGHLIGHT;
   this.prevHighlights = [];
-  this.neighborHost = null;
   this.hull = null;
 
   require("./utils/utils")(this);

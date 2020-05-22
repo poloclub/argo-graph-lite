@@ -316,14 +316,6 @@ module.exports = function(self) {
     self.onWindowResize();
   };
 
-  self.getNeighbors = function(node) {
-    if (node) {
-      self.addNeighbors(node);
-    } else {
-      self.addNeighbors(self.rightClickedNode);
-    }
-  };
-
   self.toggleNeighborHighlight = function() {
     self.doHighlightNeighbors = !self.doHighlightNeighbors;
   };

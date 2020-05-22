@@ -188,12 +188,6 @@ module.exports = function(self) {
     if (selection) {
       self.rightClickedNode = selection;
     }
-    if (self.neighborHost) {
-      var n = self.fakeNodes.indexOf(selection);
-      if (n != -1) {
-        self.removeFakes(n);
-      }
-    }
   };
 
   /**

@@ -24,34 +24,16 @@ export default class ThreeJSVis extends React.Component {
             onClick: () => {
               appState.graph.frame.toggleSelectedLabels();
             },
-            text: `Toggle Labels`
+            text: 'Toggle Labels',
+            key: 'Toggle Labels'
           }),
           MenuItemFactory({
             onClick: () => {
               appState.graph.frame.unpinSelectedNodes();
             },
-            text: `Unpin Selected`
+            text: 'Unpin Selected',
+            key: 'Unpin Selected'
           }),
-          // MenuItemFactory({
-          //   onClick: () => {
-          //     requestNeighbors(
-          //       appState.graph.frame.rightClickedNode.id,
-          //       "degree",
-          //       "10"
-          //     );
-          //   },
-          //   text: `Add 10 Neighbors by Degree`
-          // }),
-          // MenuItemFactory({
-          //   onClick: () => {
-          //     requestNeighbors(
-          //       appState.graph.frame.rightClickedNode.id,
-          //       "pagerank",
-          //       "10"
-          //     );
-          //   },
-          //   text: `Add 10 Neighbors by Pagerank`
-          // })
         ]
       });
       ContextMenu.show(menu, { left: data.pageX, top: data.pageY }, () => {
