@@ -353,6 +353,7 @@ class MinimalNavbar extends React.Component {
       >
         <div className="pt-button-group">
           <a className="pt-button pt-icon-maximize" role="button" onClick={() => appState.preferences.turnOffMinimalMode()}></a>
+          <a className="pt-button pt-icon-help" role="button" onClick={() => appState.preferences.helpDialogOpen = true}></a>
           <a className="pt-button pt-icon-document-open" role="button" href={window.location} target="_blank"></a>
         </div>
       </div>

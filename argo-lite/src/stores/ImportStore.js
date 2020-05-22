@@ -42,4 +42,46 @@ export default class ImportStore {
       delimiter: ","
     }
   };
+
+  /*
+    Post Import Filtering related options.
+  */
+
+  postImportFilteringOptions = {
+    "All Nodes": (rawGraph) => {
+      rawGraph.nodes = rawGraph.nodes.map(n => ({...n, isHidden: false}));
+    },
+    "Nodes with Top 10 PageRank": (rawGraph) => {
+      const sortedList = [...rawGraph.nodes];
+      sortedList.sort((n1, n2) => {
+          if (n1["pagerank"] && n2["pagerank"]) {
+              return n2["pagerank"] - n1["pagerank"];
+          }
+          return 0;
+      });
+      const setIds = new Set();
+      for (let i = 0; i < 10 && i < sortedList.length; i++) {
+        setIds.add(sortedList[i].id);
+      }
+      rawGraph.nodes = rawGraph.nodes.map(n => {
+        if (setIds.has(n.id)) {
+          return {...n, isHidden: false};
+        }
+        return n;
+      });
+    },
+  };
+
+  defaultPostImportFilteringOption = "Nodes with Top 10 PageRank";
+  
+  @observable selectedPostImportFilteringOption = this.defaultPostImportFilteringOption;
+
+  postImportFilter(rawGraph) {
+    // Hide all nodes by default, use filtering option to show them.
+    rawGraph.nodes = rawGraph.nodes.map(n => ({...n, isHidden: true}));
+    // Run the selected post import filtering option.
+    this.postImportFilteringOptions[this.selectedPostImportFilteringOption](rawGraph);
+  }
+
+
 }
