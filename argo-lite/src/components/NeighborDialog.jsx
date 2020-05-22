@@ -4,7 +4,8 @@ import {
   Classes,
   Dialog,
   Intent,
-  Switch
+  Switch,
+  ButtonGroup
 } from "@blueprintjs/core";
 import { observer } from "mobx-react";
 import classnames from "classnames";
@@ -14,12 +15,34 @@ import appState from "../stores/index";
 class NeighborDialog extends React.Component {
 
   render() {
+    // Compare function for nodes used for sorting descendingly.
+    const compareByPageRank = (n1, n2) => {
+        if (n1["pagerank"] && n2["pagerank"]) {
+            return n2["pagerank"] - n1["pagerank"];
+        }
+        return 0;
+    };
+
     let filteredNodes = [];
     // When only one node is selected, show the neighbors of this selected node.
     if (appState.graph.selectedNodes.length === 1) {
         const selectedNodeId = appState.graph.selectedNodes[0].data.ref.id.toString();
         filteredNodes = appState.graph.getNeighborNodesFromRawGraph(selectedNodeId);
+
+        // Sort by pagerank if available.
+        filteredNodes.sort(compareByPageRank);
     }
+
+    // Show numberToShow more hidden nodes with top pagerank.
+    const showNMoreByPageRank = (numberToShow) => {
+        const hiddenNodes = filteredNodes.filter(n => n.isHidden);
+        hiddenNodes.sort(compareByPageRank);
+        const ids = [];
+        for (let i = 0; i < numberToShow && i < hiddenNodes.length; i++) {
+            ids.push(hiddenNodes[i].id);
+        }
+        appState.graph.showNodes(ids);
+    };
     
     return (
         <Dialog
@@ -31,6 +54,14 @@ class NeighborDialog extends React.Component {
           title='Neighbors'
         >
           <div className={classnames(Classes.DIALOG_BODY)}>
+
+            <ButtonGroup vertical={true}>
+                <Button onClick={() => {appState.graph.showNodes(filteredNodes.map(n => n.id))}}>Show All</Button>
+                <Button onClick={() => {showNMoreByPageRank(5)}}>Show 5 More By PageRank</Button>
+                <Button onClick={() => {showNMoreByPageRank(10)}}>Show 10 More By PageRank</Button>
+                <Button onClick={() => {appState.graph.hideNodes(filteredNodes.map(n => n.id))}}>Hide All</Button>
+            </ButtonGroup>
+
             <div className="argo-table-container">
                 <table className="argo-table-container__table pt-table pt-bordered pt-striped">
                     <thead>

@@ -127,17 +127,17 @@ export default class GraphStore {
       .range([this.nodes.color.from, this.nodes.color.to]);
   }
 
-  // Return raw graph nodes that is neighbor with the selected node.
-  // O(n^2)
+  // Return raw graph nodes that is neighbor with the selected node,
+  // excluding the node itself.
   getNeighborNodesFromRawGraph(selectedNodeId) {
     const setOfNeighborIds = new Set();
     this.rawGraph.edges.forEach(e => {
         const source = e.source_id.toString();
         const target = e.target_id.toString();
-        if (source === selectedNodeId) {
+        if (source === selectedNodeId && target !== selectedNodeId) {
             setOfNeighborIds.add(target);
         }
-        if (target === selectedNodeId) {
+        if (target === selectedNodeId && source !== selectedNodeId) {
             setOfNeighborIds.add(source);
         }
     });

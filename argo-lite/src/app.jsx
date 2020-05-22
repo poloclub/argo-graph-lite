@@ -50,7 +50,7 @@ class App extends React.Component {
     if (keydown.event) {
       if (keydown.event.which === DELETE || keydown.event.which === BACKSPACE) {
         if (appState && appState.graph && appState.graph.frame) {
-          appState.graph.removeNodes(appState.graph.frame.getSelectedIds());
+          appState.graph.hideNodes(appState.graph.frame.getSelectedIds());
           this.forceUpdate();
         }
       } else if (keydown.event.which === P) {
