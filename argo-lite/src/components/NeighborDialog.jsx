@@ -10,6 +10,7 @@ import {
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import appState from "../stores/index";
+import NodeTable from './NodeTable';
 
 @observer
 class NeighborDialog extends React.Component {
@@ -81,52 +82,9 @@ class NeighborDialog extends React.Component {
                 <Button onClick={() => {appState.graph.hideNodes(filteredNodes.map(n => n.id))}}>Hide All</Button>
             </ButtonGroup>
 
-            <div className="argo-table-container">
-                <table className="argo-table-container__table pt-table pt-bordered pt-striped">
-                    <thead>
-                        <tr>
-                            <th><b>Show/Hide</b></th>
-                            <th><b>Node ID</b></th>
-                            {
-                                appState.graph.allPropertiesKeyList.map((it, i) => {
-                                    if (it !== 'id') {
-                                        return <th key={`${it}-${i}`}>{it}</th>;
-                                    }
-                                    return null;
-                                })
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            filteredNodes.map((node) => (
-                                <tr key={node.id}>
-                                    <td>
-                                        <Switch
-                                            checked={!node.isHidden}
-                                            onChange={() => {
-                                                if (node.isHidden) {
-                                                    appState.graph.showNodes([node.id]);
-                                                } else {
-                                                    appState.graph.hideNodes([node.id]);
-                                                }
-                                            }}
-                                        />
-                                    </td>
-                                    <td>{node.id}</td>
-                                    {
-                                        appState.graph.allPropertiesKeyList.map((it, i) => {
-                                            if (it !== 'id') {
-                                                return <td key={`${it}-${i}`}>{node[it]}</td>
-                                            }
-                                        })
-                                    }
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <hr />
+
+            <NodeTable nodes={filteredNodes} />
           </div>
 
           <div className={Classes.DIALOG_FOOTER}>
