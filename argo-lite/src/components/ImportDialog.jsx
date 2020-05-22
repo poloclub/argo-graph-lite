@@ -21,6 +21,7 @@ import {
 import Collapsable from "./utils/Collapsable";
 import SimpleSelect from "./utils/SimpleSelect";
 import { NODE_AND_EDGE_FILE, ONLY_EDGE_FILE } from "../constants/index";
+import PostImportOptions from './PostImportOptions';
 
 @observer
 class PreviewTable extends React.Component {
@@ -228,6 +229,8 @@ class ImportDialog extends React.Component {
               {this.renderNodesSelection()}
               {this.renderEdgesSelection()}
               {this.renderDelimiterSelection()}
+              <hr />
+              <PostImportOptions />
             </div>
             <div className={Classes.DIALOG_FOOTER}>
               <div className={Classes.DIALOG_FOOTER_ACTIONS}>

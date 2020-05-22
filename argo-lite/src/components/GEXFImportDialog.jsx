@@ -6,99 +6,17 @@ import {
   Dialog,
   Intent,
   Spinner,
-  Switch,
-  FileInput
 } from "@blueprintjs/core";
-import { Cell, Column, Table } from "@blueprintjs/table";
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import appState from "../stores/index";
 import {
-  requestChooseEdgeFile,
-  requestChooseNodeFile,
-  requestImportGraphFromCSV,
-  requestCreateNewProject,
   requestImportGraphFromGexf
 } from "../ipc/client";
-import Collapsable from "./utils/Collapsable";
-import SimpleSelect from "./utils/SimpleSelect";
-import { NODE_AND_EDGE_FILE, ONLY_EDGE_FILE } from "../constants/index";
-
-@observer
-class PreviewTable extends React.Component {
-  render() {
-    const file = this.props.file;
-    return (
-      <Table
-        className="import-preview-table"
-        numRows={file.topN.length}
-        selectedRegions={Object.values(file.mapping)
-          .map(it => file.columns.indexOf(it))
-          .map(it => ({ rows: null, cols: [it, it] }))}
-      >
-        {file.columns.map(it => (
-          <Column
-            key={it}
-            name={it}
-            renderCell={i => <Cell>{file.topN[i][it]}</Cell>}
-          />
-        ))}
-      </Table>
-    );
-  }
-}
+import PostImportOptions from './PostImportOptions';
 
 @observer
 class GEXFImportDialog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      available: ONLY_EDGE_FILE,
-      nodesOpen: true,
-      edgesOpen: true,
-      delimiter: ','
-    };
-  }
-
-  changeAvailable = targetValue => {
-    if (targetValue === ONLY_EDGE_FILE) {
-      appState.import.importConfig.edgeFile.createMissing = true;
-    }
-    this.setState({ available: targetValue });
-  };
-
-  canImport = () => {
-    if (this.state.available === NODE_AND_EDGE_FILE) {
-      return (
-        appState.import.importConfig.edgeFile.ready &&
-        appState.import.importConfig.nodeFile.ready
-      );
-    } else if (this.state.available === ONLY_EDGE_FILE) {
-      return appState.import.importConfig.edgeFile.ready;
-    }
-    return false;
-  };
-
-  renderFileSelection() {
-    return (
-      <div className={classnames(Classes.DIALOG_BODY, "import-dialog")}>
-        <div className={classnames(Classes.CONTROL_GROUP)}>
-          <div className={classnames(Classes.INPUT_GROUP, Classes.FILL)}>
-           <input
-             type="file"
-             className={classnames(Classes.DISABLED)}
-             onChange={(event) => {
-               if (event.target.files.length < 1) {
-                 return;
-               }
-               appState.import.selectedGexfFileFromInput = event.target.files[0];
-             }}
-           />
-         </div>
-       </div>
-      </div>
-    )
-  }
 
   renderImportButton() {
     return (
@@ -138,8 +56,25 @@ class GEXFImportDialog extends React.Component {
         {appState.import.loading ? (
           <Spinner />
         ) : (
-          <div>
-            {this.renderFileSelection()}
+          <div className={classnames(Classes.DIALOG_BODY, "import-dialog")}>
+            <div>
+              <div className={classnames(Classes.CONTROL_GROUP)}>
+                <div className={classnames(Classes.INPUT_GROUP, Classes.FILL)}>
+                <input
+                  type="file"
+                  className={classnames(Classes.DISABLED)}
+                  onChange={(event) => {
+                    if (event.target.files.length < 1) {
+                      return;
+                    }
+                    appState.import.selectedGexfFileFromInput = event.target.files[0];
+                  }}
+                />
+              </div>
+            </div>
+            <hr />
+            <PostImportOptions />
+          </div>
             {this.renderImportButton()}
           </div>
         )}
