@@ -10,6 +10,7 @@ import RenameSnapshotDialog from "./RenameSnapshotDialog";
 import OpenSnapshotDialog from "./OpenSnapshotDialog";
 import ShareDialog from './ShareDialog';
 import StatisticsDialog from './StatisticsDialog';
+import HelpDialog from './HelpDialog';
 
 export default class Dialogs extends React.Component {
   render() {
@@ -26,6 +27,7 @@ export default class Dialogs extends React.Component {
         <RenameSnapshotDialog />
         <ShareDialog />
         <StatisticsDialog />
+        <HelpDialog />
       </div>
     );
   }

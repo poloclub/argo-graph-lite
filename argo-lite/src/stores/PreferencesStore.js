@@ -9,6 +9,7 @@ export default class PreferencesStore {
   @observable openSnapshotDialogOpen = false;
   @observable shareDialogOpen = false;
   @observable statisticsDialogOpen = false;
+  @observable helpDialogOpen = false;
   @observable isRenderOptionsCardHidden = IS_IFRAME_WIDGET;
 
   // The following fields are asynchronously loaded.

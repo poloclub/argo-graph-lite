@@ -234,6 +234,13 @@ class RegularNavbar extends React.Component {
           />
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
+            iconName="help"
+            onClick={() => {
+              appState.preferences.helpDialogOpen = true;
+            }}
+          />
+          <Button
+            className={classnames([Classes.BUTTON, Classes.MINIMAL])}
             iconName="minimize"
             onClick={() => {
               appState.preferences.turnOnMinimalMode()
