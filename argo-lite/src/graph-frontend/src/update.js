@@ -225,15 +225,13 @@ module.exports = function(self) {
     self.graph.forEachNode(function(node) {
       var pos = positions[node.id];
       if (pos) {
-        self.graph.getNode(node.id).x = pos[0];
-        self.graph.getNode(node.id).y = pos[1];
-        self.graph.getNode(node.id).pinnedx = node.pinnedx;
-        self.graph.getNode(node.id).pinnedy = node.pinnedy;
+        node.x = pos[0];
+        node.y = pos[1];
         if (node.pinnedx) {
-          self.graph.getNode(node.id).fx = pos[0];
+          node.fx = pos[0];
         }
         if (node.pinnedy) {
-          self.graph.getNode(node.id).fy = pos[1];
+          node.fy = pos[1];
         }
       }
     });
