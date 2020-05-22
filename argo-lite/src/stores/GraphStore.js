@@ -166,6 +166,17 @@ export default class GraphStore {
     return this.rawGraph.nodes.filter(n => n.isHidden).length;
   }
 
+  showNodes(nodeids) {
+    runInAction('show hidden nodes by ids', () => {
+      this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
+        if (nodeids.includes(n.id)) {
+          return {...n, isHidden: false};
+        }
+        return n;
+      });
+    });
+  }
+
   hideNodes(nodeids) {
     runInAction('hide nodes by ids', () => {
       appState.graph.frame.removeNodesByIds(nodeids);

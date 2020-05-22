@@ -11,6 +11,7 @@ import OpenSnapshotDialog from "./OpenSnapshotDialog";
 import ShareDialog from './ShareDialog';
 import StatisticsDialog from './StatisticsDialog';
 import HelpDialog from './HelpDialog';
+import NeighborDialog from './NeighborDialog';
 
 export default class Dialogs extends React.Component {
   render() {
@@ -28,6 +29,7 @@ export default class Dialogs extends React.Component {
         <ShareDialog />
         <StatisticsDialog />
         <HelpDialog />
+        <NeighborDialog />
       </div>
     );
   }

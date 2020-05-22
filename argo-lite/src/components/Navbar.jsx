@@ -202,33 +202,13 @@ class RegularNavbar extends React.Component {
                       }}
                     />
                   </Tooltip>
-                  {/* <Tooltip
-                    content="Delete Selected Nodes"
-                    position={Position.BOTTOM}
-                  >
-                    <Button
-                      className={classnames([
-                        Classes.BUTTON,
-                        Classes.MINIMAL
-                      ])}
-                      iconName="delete"
-                      text="Delete"
-                      intent={Intent.DANGER}
-                      onClick={() => {
-                        appState.graph.removeNodes(
-                          appState.graph.frame.getSelectedIds()
-                        );
-                        this.forceUpdate();
-                      }}
-                    />
-                  </Tooltip> */}
                 </div>
               )}
               {// This menu only shows when there's exactly 1 node selected
               appState.graph.selectedNodes.length === 1 && (
                 <div style={{ display: "inline" }}>
                   <Tooltip
-                    content="Pin Selected Nodes"
+                    content="Open Neighbor Dialog"
                     position={Position.BOTTOM}
                   >
                     <Button
@@ -240,7 +220,7 @@ class RegularNavbar extends React.Component {
                       text="Neighbors"
                       intent={Intent.PRIMARY}
                       onClick={() => {
-                        
+                        appState.preferences.neighborDialogOpen = true;
                       }}
                     />
                   </Tooltip>
