@@ -11,6 +11,7 @@ export default class PreferencesStore {
   @observable statisticsDialogOpen = false;
   @observable helpDialogOpen = false;
   @observable neighborDialogOpen = false;
+  @observable dataSheetDialogOpen = false;
   @observable isRenderOptionsCardHidden = IS_IFRAME_WIDGET;
 
   // The following fields are asynchronously loaded.

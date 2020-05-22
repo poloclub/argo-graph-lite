@@ -104,7 +104,7 @@ class RegularNavbar extends React.Component {
                 <MenuItem
                   text="Data Sheet"
                   iconName="pt-icon-database"
-                  onClick={() => {appState.preferences.statisticsDialogOpen = true}}
+                  onClick={() => {appState.preferences.dataSheetDialogOpen = true}}
                 />
                 <MenuItem
                   text="Statistics"
