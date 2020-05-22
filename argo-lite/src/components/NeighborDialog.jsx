@@ -18,18 +18,7 @@ class NeighborDialog extends React.Component {
     // When only one node is selected, show the neighbors of this selected node.
     if (appState.graph.selectedNodes.length === 1) {
         const selectedNodeId = appState.graph.selectedNodes[0].data.ref.id.toString();
-        const setOfNeighborIds = new Set();
-        appState.graph.rawGraph.edges.forEach(e => {
-            const source = e.source_id.toString();
-            const target = e.target_id.toString();
-            if (source === selectedNodeId) {
-                setOfNeighborIds.add(target);
-            }
-            if (target === selectedNodeId) {
-                setOfNeighborIds.add(source);
-            }
-        });
-        filteredNodes = appState.graph.rawGraph.nodes.filter(node => setOfNeighborIds.has(node.id.toString()))
+        filteredNodes = appState.graph.getNeighborNodesFromRawGraph(selectedNodeId);
     }
     
     return (

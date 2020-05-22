@@ -127,6 +127,23 @@ export default class GraphStore {
       .range([this.nodes.color.from, this.nodes.color.to]);
   }
 
+  // Return raw graph nodes that is neighbor with the selected node.
+  // O(n^2)
+  getNeighborNodesFromRawGraph(selectedNodeId) {
+    const setOfNeighborIds = new Set();
+    this.rawGraph.edges.forEach(e => {
+        const source = e.source_id.toString();
+        const target = e.target_id.toString();
+        if (source === selectedNodeId) {
+            setOfNeighborIds.add(target);
+        }
+        if (target === selectedNodeId) {
+            setOfNeighborIds.add(source);
+        }
+    });
+    return this.rawGraph.nodes.filter(node => setOfNeighborIds.has(node.id.toString()));
+  }
+
   // Triggers autorun in stores/index.js to sent computedGraph to graph-frontend.
   @computed
   get computedGraph() {
