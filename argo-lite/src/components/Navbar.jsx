@@ -102,10 +102,65 @@ class RegularNavbar extends React.Component {
             content={
               <Menu>
                 <MenuItem
+                  text="Data Sheet"
+                  iconName="pt-icon-database"
+                  onClick={() => {appState.preferences.statisticsDialogOpen = true}}
+                />
+                <MenuItem
                   text="Statistics"
                   iconName="pt-icon-timeline-bar-chart"
                   onClick={() => {appState.preferences.statisticsDialogOpen = true}}
                 />
+                <MenuItem text="Filters" iconName="graph">
+                  <MenuItem
+                    text="Show All Nodes"
+                    onClick={() => {
+                      appState.graph.showNodes(appState.graph.rawGraph.nodes.map(n => n.id));
+                    }}
+                  />
+                  <MenuItem
+                    text="Show only nodes with top 5 PageRank"
+                    onClick={() => {
+                      appState.graph.hideNodes(appState.graph.rawGraph.nodes.map(n => n.id));
+                      const sortedNodeList = [...appState.graph.rawGraph.nodes];
+                      sortedNodeList.sort((n1, n2) => {
+                          if (n1["pagerank"] && n2["pagerank"]) {
+                              return n2["pagerank"] - n1["pagerank"];
+                          }
+                          return 0;
+                      });
+                      const ids = [];
+                      for (let i = 0; i < 5 && i < sortedNodeList.length; i++) {
+                        ids.push(sortedNodeList[i].id);
+                      }
+                      appState.graph.showNodes(ids);
+                    }}
+                  />
+                  <MenuItem
+                    text="Show only nodes with top 5 Degree"
+                    onClick={() => {
+                      appState.graph.hideNodes(appState.graph.rawGraph.nodes.map(n => n.id));
+                      const sortedNodeList = [...appState.graph.rawGraph.nodes];
+                      sortedNodeList.sort((n1, n2) => {
+                          if (n1["degree"] && n2["degree"]) {
+                              return n2["degree"] - n1["degree"];
+                          }
+                          return 0;
+                      });
+                      const ids = [];
+                      for (let i = 0; i < 5 && i < sortedNodeList.length; i++) {
+                        ids.push(sortedNodeList[i].id);
+                      }
+                      appState.graph.showNodes(ids);
+                    }}
+                  />
+                  <MenuItem
+                    text="Hide All Nodes"
+                    onClick={() => {
+                      appState.graph.hideNodes(appState.graph.rawGraph.nodes.map(n => n.id));
+                    }}
+                  />
+                </MenuItem>
               </Menu>
             }
             position={Position.BOTTOM}
