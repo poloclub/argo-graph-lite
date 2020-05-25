@@ -48,10 +48,7 @@ export default class ImportStore {
   */
 
   postImportFilteringOptions = {
-    "All Nodes": (rawGraph) => {
-      rawGraph.nodes = rawGraph.nodes.map(n => ({...n, isHidden: false}));
-    },
-    "Nodes with Top 10 PageRank": (rawGraph) => {
+    "top 10 nodes with highest PageRank scores": (rawGraph) => {
       const sortedList = [...rawGraph.nodes];
       sortedList.sort((n1, n2) => {
           if (n1["pagerank"] && n2["pagerank"]) {
@@ -70,9 +67,12 @@ export default class ImportStore {
         return n;
       });
     },
+    "All Nodes": (rawGraph) => {
+      rawGraph.nodes = rawGraph.nodes.map(n => ({...n, isHidden: false}));
+    },
   };
 
-  defaultPostImportFilteringOption = "Nodes with Top 10 PageRank";
+  defaultPostImportFilteringOption = "top 10 nodes with highest PageRank scores";
   
   @observable selectedPostImportFilteringOption = this.defaultPostImportFilteringOption;
 

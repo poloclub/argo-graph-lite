@@ -262,3 +262,8 @@ div.pt-card.sub-option.legend {
 .argo-table-container__table td {
   white-space: normal;
 }
+
+/* Override blueprint numeric input, since it's useless unless inline */
+.pt-numeric-input.pt-control-group {
+  display: inline-flex;
+}

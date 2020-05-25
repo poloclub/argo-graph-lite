@@ -40,7 +40,7 @@ class NodeTable extends React.Component {
                 <table className="argo-table-container__table pt-table pt-bordered pt-striped">
                     <thead>
                         <tr>
-                            <th><b>Show/Hide</b></th>
+                            <th><b>Show</b></th>
                             <th><b>Node ID</b></th>
                             {
                                 appState.graph.allPropertiesKeyList.map((it, i) => {

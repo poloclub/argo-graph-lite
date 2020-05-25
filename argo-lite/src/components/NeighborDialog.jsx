@@ -4,28 +4,30 @@ import {
   Classes,
   Dialog,
   Intent,
-  Switch,
-  ButtonGroup
+  ButtonGroup,
+  NumericInput,
 } from "@blueprintjs/core";
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import appState from "../stores/index";
 import NodeTable from './NodeTable';
+import SimpleSelect from "./utils/SimpleSelect";
 
 @observer
 class NeighborDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMoreBy: 'pagerank',
+      showMoreNum: 5,
+    };
+  }
 
   render() {
     // Compare function for nodes used for sorting descendingly.
     const compareByPageRank = (n1, n2) => {
         if (n1["pagerank"] && n2["pagerank"]) {
             return n2["pagerank"] - n1["pagerank"];
-        }
-        return 0;
-    };
-    const compareByDegree = (n1, n2) => {
-        if (n1["degree"] && n2["degree"]) {
-            return n2["degree"] - n1["degree"];
         }
         return 0;
     };
@@ -40,26 +42,19 @@ class NeighborDialog extends React.Component {
         filteredNodes.sort(compareByPageRank);
     }
 
-    // Show numberToShow more hidden nodes with top pagerank.
-    const showNMoreByPageRank = (numberToShow) => {
-        const hiddenNodes = filteredNodes.filter(n => n.isHidden);
-        hiddenNodes.sort(compareByPageRank);
-        const ids = [];
-        for (let i = 0; i < numberToShow && i < hiddenNodes.length; i++) {
-            ids.push(hiddenNodes[i].id);
+    const showNMoreByAttribute = (numberToShow, attributeName) => {
+      const hiddenNodes = filteredNodes.filter(n => n.isHidden);
+      hiddenNodes.sort((n1, n2) => {
+        if (n1[attributeName] && n2[attributeName]) {
+            return n2[attributeName] - n1[attributeName];
         }
-        appState.graph.showNodes(ids);
-    };
-
-    // Show numberToShow more hidden nodes with top degree.
-    const showNMoreByDegree = (numberToShow) => {
-        const hiddenNodes = filteredNodes.filter(n => n.isHidden);
-        hiddenNodes.sort(compareByDegree);
-        const ids = [];
-        for (let i = 0; i < numberToShow && i < hiddenNodes.length; i++) {
-            ids.push(hiddenNodes[i].id);
-        }
-        appState.graph.showNodes(ids);
+        return 0;
+      });
+      const ids = [];
+      for (let i = 0; i < numberToShow && i < hiddenNodes.length; i++) {
+          ids.push(hiddenNodes[i].id);
+      }
+      appState.graph.showNodes(ids);
     };
     
     return (
@@ -70,17 +65,27 @@ class NeighborDialog extends React.Component {
             appState.preferences.neighborDialogOpen = false;
           }}
           title='Neighbors'
+          style={{minWidth: '80vw'}}
         >
           <div className={classnames(Classes.DIALOG_BODY)}>
 
-            <ButtonGroup vertical={true}>
+            <ButtonGroup>
                 <Button onClick={() => {appState.graph.showNodes(filteredNodes.map(n => n.id))}}>Show All</Button>
-                <Button onClick={() => {showNMoreByPageRank(5)}}>Show 5 More By PageRank</Button>
-                <Button onClick={() => {showNMoreByPageRank(10)}}>Show 10 More By PageRank</Button>
-                <Button onClick={() => {showNMoreByDegree(5)}}>Show 5 More By Degree</Button>
-                <Button onClick={() => {showNMoreByDegree(10)}}>Show 10 More By Degree</Button>
                 <Button onClick={() => {appState.graph.hideNodes(filteredNodes.map(n => n.id))}}>Hide All</Button>
             </ButtonGroup>
+
+            <hr />
+
+            <div>
+              <Button
+              style={{display: 'inline'}}
+              intent={Intent.PRIMARY}
+              text='Show'
+              onClick={() => {
+                showNMoreByAttribute(this.state.showMoreNum, this.state.showMoreBy);
+              }} /> <NumericInput onValueChange={(valAsNumber, valAsString) => {this.setState({showMoreNum: Number(valAsString)})}} value={this.state.showMoreNum} style={{display: 'inline-flex', width: '30px'}} /> {' '}
+              more nodes with highest <SimpleSelect items={['pagerank', 'degree']} value={this.state.showMoreBy} onSelect={(selected) => {this.setState({showMoreBy: selected})}} />
+            </div>
 
             <hr />
 
