@@ -104,7 +104,11 @@ class RegularNavbar extends React.Component {
                 <MenuItem
                   text="Data Sheet"
                   iconName="pt-icon-database"
-                  onClick={() => {appState.preferences.dataSheetDialogOpen = true}}
+                  onClick={() => {
+                    appState.graph.frame.pauseLayout();
+                    appState.preferences.dataSheetDialogOpen = true;
+                    this.forceUpdate();
+                  }}
                 />
                 <MenuItem
                   text="Statistics"
@@ -275,7 +279,9 @@ class RegularNavbar extends React.Component {
                       text="Neighbors"
                       intent={Intent.PRIMARY}
                       onClick={() => {
+                        appState.graph.frame.pauseLayout();
                         appState.preferences.neighborDialogOpen = true;
+                        this.forceUpdate();
                       }}
                     />
                   </Tooltip>

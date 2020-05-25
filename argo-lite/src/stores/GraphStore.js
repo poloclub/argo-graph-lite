@@ -41,6 +41,17 @@ export default class GraphStore {
 
   // Updated by frame event
   @observable selectedNodes = [];
+  // Cache the single node that's been selected last time
+  // and will not update unless exactly one node is selected again
+  // useful for NeighborDialog
+  _lastSelectedSingleNode = null;
+  @computed 
+  get lastSelectedSingleNode() {
+    if (this.selectedNodes.length === 1) {
+      this._lastSelectedSingleNode = this.selectedNodes[0];
+    }
+    return this._lastSelectedSingleNode;
+  }
   // Updated by frame event. Not being listened, only used to save label visibility.
   nodesShowingLabels = [];
   // Used by autorun during snapshot loading.

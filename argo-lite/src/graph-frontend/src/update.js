@@ -206,8 +206,18 @@ module.exports = function(self) {
     } else {
       self.tickToStatic = false;
     }
+
     if (self.newNodeIds) {
+      // Highlight every new node.
       self.highlightNodeIds(self.newNodeIds, true);
+
+      // Select every new node if there aren't too many of them.
+      if (self.newNodeIds.length < 10) {
+        for (let i = 0; i < self.newNodeIds.length; i++) {
+          self.selection.push(self.graph.getNode(self.newNodeIds[i]));
+        }
+        self.ee.emit("select-nodes", self.selection);
+      }
     }
   };
 
