@@ -125,10 +125,10 @@ var Frame = function(graph, options) {
     self.setupGeometry();
     self.setupSelect();
 
+    // Make sure to clear children before setting up new frame.
+    self.element.innerHTML = "";
     self.element.appendChild(self.renderer.domElement);
     self.element.appendChild(self.cssRenderer.domElement);
-
-    self.canvas = document.querySelector("graph-container");
 
     self.setupLayout();
 

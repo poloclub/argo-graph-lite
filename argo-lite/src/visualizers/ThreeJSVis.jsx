@@ -1,46 +1,9 @@
 import React from "react";
-import { Frame } from "../graph-frontend";
-import { ContextMenu, MenuFactory, MenuItemFactory } from "@blueprintjs/core";
 import appState from "../stores";
-import { requestNeighbors } from "../ipc/client";
 
 export default class ThreeJSVis extends React.Component {
   componentDidMount() {
-    console.log("!!!!!");
-    const graphFrame = new Frame(appState.graph.computedGraph);
-    graphFrame.init();
-    graphFrame.display();
-    appState.graph.frame = graphFrame;
-    graphFrame.ee.on("select-nodes", nodes => {
-      appState.graph.selectedNodes = nodes;
-    });
-    graphFrame.ee.on("show-node-label", nodes => {
-      appState.graph.nodesShowingLabels = nodes;
-    });
-    graphFrame.ee.on("right-click", data => {
-      const menu = MenuFactory({
-        children: [
-          MenuItemFactory({
-            onClick: () => {
-              appState.graph.frame.toggleSelectedLabels();
-            },
-            text: 'Toggle Labels',
-            key: 'Toggle Labels'
-          }),
-          MenuItemFactory({
-            onClick: () => {
-              appState.graph.frame.unpinSelectedNodes();
-            },
-            text: 'Unpin Selected',
-            key: 'Unpin Selected'
-          }),
-        ]
-      });
-      ContextMenu.show(menu, { left: data.pageX, top: data.pageY }, () => {
-        // onMenuClose
-        console.log("ContextMenu closed");
-      });
-    });
+    appState.graph.setUpFrame();
   }
 
   render() {

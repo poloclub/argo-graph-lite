@@ -70,7 +70,7 @@ class ShareDialog extends React.Component {
                 !this.state.isShared && (
                     <div>
                         <p>You can share the current state of your graph as <b>a public URL</b> or <b>embedded iframe</b></p>
-                        <p><b>IMPORTANT!</b> This will make your graph snapshot public. If you are working with sensitive data (with custom access control), or large data (>500MB), please follow our guide on Github to easily deploy your own sharing server.</p>
+                        <p><b>IMPORTANT!</b> This will make your graph snapshot public. If you are working with sensitive data (with custom access control), or large data (>400MB), please follow our guide on Github to easily deploy your own sharing server.</p>
                     </div>
                 )
             }

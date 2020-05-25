@@ -371,10 +371,13 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
 
   // TODO: Potentially separate this out to web worker.
   importGraphFromCSV(importConfig).then(graph => {
+    // Run post import filters
     appState.import.postImportFilter(graph.rawGraph);
+
     runInAction('load imported graph', () => {
       appState.graph.rawGraph = graph.rawGraph;
       appState.graph.metadata = graph.metadata;
+      appState.graph.setUpFrame();
     });
     // Reinitialize global configs
     appState.graph.nodes = appState.graph.initialGlobalConfig.nodes;
@@ -386,10 +389,13 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
 
 export function requestImportGraphFromGexf() {
   importGraphFromGexf().then(graph => {
+    // Run post import filters
     appState.import.postImportFilter(graph.rawGraph);
+
     runInAction('load imported graph', () => {
       appState.graph.rawGraph = graph.rawGraph;
       appState.graph.metadata = graph.metadata;
+      appState.graph.setUpFrame();
     });
     // Reinitialize global configs
     appState.graph.nodes = appState.graph.initialGlobalConfig.nodes;

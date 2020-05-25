@@ -4,6 +4,8 @@ import { scales } from "../constants/index";
 import appState from ".";
 import uniq from "lodash/uniq";
 import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter} from "../services/AlgorithmUtils";
+import { ContextMenu, MenuFactory, MenuItemFactory } from "@blueprintjs/core";
+import { Frame } from "../graph-frontend";
 
 export default class GraphStore {
 
@@ -291,6 +293,46 @@ export default class GraphStore {
     }
   }
 
+  setUpFrame() {
+    const graphFrame = new Frame(this.computedGraph);
+    graphFrame.init();
+    graphFrame.display();
+    this.frame = graphFrame;
+    graphFrame.ee.on("select-nodes", nodes => {
+      this.selectedNodes = nodes;
+    });
+    graphFrame.ee.on("show-node-label", nodes => {
+      this.nodesShowingLabels = nodes;
+    });
+    graphFrame.ee.on("right-click", data => {
+      const menu = MenuFactory({
+        children: [
+          MenuItemFactory({
+            onClick: () => {
+              this.frame.toggleSelectedLabels();
+            },
+            text: 'Toggle Labels',
+            key: 'Toggle Labels'
+          }),
+          MenuItemFactory({
+            onClick: () => {
+              this.frame.unpinSelectedNodes();
+            },
+            text: 'Unpin Selected',
+            key: 'Unpin Selected'
+          }),
+        ]
+      });
+      ContextMenu.show(menu, { left: data.pageX, top: data.pageY }, () => {
+        // onMenuClose
+        console.log("ContextMenu closed");
+      });
+    });
+  }
+
+ /*
+  * Graph algorithms used in StatisticsDialog.
+  */
  
   get averageClustering() {
     const snapshot = {
