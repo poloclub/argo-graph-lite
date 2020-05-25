@@ -55,7 +55,7 @@ module.exports = function(self) {
         // If the node is selected or the node is the node to be highlighted
         self.colorNodeOpacity(n, 1);
         self.colorNodeEdge(n, 0.5, 0.5);
-        for (var i = 0; i < n.linkObjs.length; i++) {
+        for (var i = 0; n.linkObjs && i < n.linkObjs.length; i++) {
           n.linkObjs[i].linecolor = n.renderData.linecolor;
         }
       } else if (
