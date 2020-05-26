@@ -10,6 +10,7 @@ import {
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import appState from "../stores/index";
+import SimpleSelect from "./utils/SimpleSelect";
 
 @observer
 class NodeTable extends React.Component {
@@ -29,14 +30,19 @@ class NodeTable extends React.Component {
         }
         return 0;
     });
+
+    const nodeAttributesOrig = appState.graph.allPropertiesKeyList.filter((k) => k !== 'pagerank' && k !== 'degree');
     
     return (
             <div className="argo-table-container">
-                Sort By:
-                <ButtonGroup>
-                    <Button onClick={() => {this.setState({sortBy: 'pagerank'})}}>PageRank</Button>
-                    <Button onClick={() => {this.setState({sortBy: 'degree'})}}>Degree</Button>
-                </ButtonGroup>
+                Sort By {' '}
+                <SimpleSelect
+                    items={['pagerank', 'degree', ...nodeAttributesOrig]}
+                    value={this.state.sortBy}
+                    onSelect={(selected) => {
+                        this.setState({sortBy: selected});
+                    }}
+                />
                 <table className="argo-table-container__table pt-table pt-bordered pt-striped">
                     <thead>
                         <tr>
