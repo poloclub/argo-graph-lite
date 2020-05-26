@@ -332,6 +332,27 @@ export default class GraphStore {
             text: 'Unpin Selected',
             key: 'Unpin Selected'
           }),
+          this.frame.rightClickedNode && MenuItemFactory({
+            onClick: () => {
+              if (this.frame.rightClickedNode) {
+                const rightClickedNodeId = this.frame.rightClickedNode.data.ref.id.toString();
+                const neighbors = this.getNeighborNodesFromRawGraph(rightClickedNodeId);
+                neighbors.sort((n1, n2) => {
+                  if (n1["pagerank"] && n2["pagerank"]) {
+                      return n2["pagerank"] - n1["pagerank"];
+                  }
+                  return 0;
+                });
+                const ids = [];
+                for (let i = 0; i < 5 && i < neighbors.length; i++) {
+                  ids.push(neighbors[i].id);
+                }
+                this.showNodes(ids);
+              }
+            },
+            text: 'Show 5 Neighbors with Highest PageRank',
+            key: 'Show 5 Neighbors with Highest PageRank'
+          }),
         ]
       });
       ContextMenu.show(menu, { left: data.pageX, top: data.pageY }, () => {

@@ -185,6 +185,8 @@ module.exports = function(self) {
   self.onRightClick = function(selection) {
     if (selection) {
       self.rightClickedNode = selection;
+    } else {
+      self.rightClickedNode = null;
     }
   };
 
