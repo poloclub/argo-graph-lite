@@ -31,7 +31,14 @@ const loadSnapshotFromURL = (url) => {
   return fetch(url, {
     method: 'GET',
     mode: 'cors'
-  }).then(response => response.text());
+  }).then(response => response.text()).catch(error => {
+    toaster.show({
+      message: 'Failed to fetch graph snapshot',
+      intent: Intent.DANGER,
+      timeout: -1
+    });
+    console.error(error);
+  });
 };
 
 const loadSnapshotFromStrapi = (uuid) => {
@@ -41,10 +48,11 @@ const loadSnapshotFromStrapi = (uuid) => {
     mode: 'cors'
   }).then(response => response.json()).then(json => json[0].body).catch(error => {
     toaster.show({
-      message: 'Error: Graph cannot be fetched',
+      message: 'Failed to fetch graph snapshot',
       intent: Intent.DANGER,
       timeout: -1
     });
+    console.error(error);
   });
 };
 
