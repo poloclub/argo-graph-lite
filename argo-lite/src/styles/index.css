@@ -233,10 +233,11 @@ div.pt-card.sub-option.legend {
 .node-details-table {
   overflow-x: auto;
   overflow-y: auto;
-  width: 400px;
+  max-width: 400px;
   max-height: 60vh;
   font-size: 0.4em;
   pointer-events: all;
+  padding: 0;
 }
 
 .argo-menu-list-header {

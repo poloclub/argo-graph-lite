@@ -8,6 +8,19 @@ import { observer } from "mobx-react/index";
 @observer
 class NodeDetail extends React.Component {
   render() {
+    // If input is number,
+    // currently format number between 0-1 (eg. pagerank)
+    // to show no more than 3 significant digits.
+    const formatLongFloat = (nodeAttributeValue) => {
+      const num = Number(nodeAttributeValue);
+      if (Number.isNaN(num) || num > 1 || num < 0) {
+        // Do not format just return original
+        return nodeAttributeValue;
+      }
+      // Format to no more than 3 significant digit.
+      return Number.parseFloat(num).toPrecision(3);
+    };
+
     return (
       <div
         className={classnames(
@@ -19,7 +32,10 @@ class NodeDetail extends React.Component {
         <div className={classnames(Classes.CARD, "node-details-table")}>
           <table
             className={classnames(Classes.TABLE, Classes.TABLE_STRIPED)}
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              padding: '0',
+            }}
           >
             
             <thead>
@@ -31,8 +47,8 @@ class NodeDetail extends React.Component {
             <tbody>
               {appState.graph.allPropertiesKeyList.map((it, i) => (
                 <tr key={`${it}-${i}`}>
-                  <td>{it}</td>
-                  <td style={{ whiteSpace: 'normal' }}>{this.props.node[it]}</td>
+                  <td style={{ padding: '5px 10px' }}>{it}</td>
+                  <td style={{ padding: '5px 10px', whiteSpace: 'normal' }}>{formatLongFloat(this.props.node[it])}</td>
                 </tr>
               ))}
             </tbody>
