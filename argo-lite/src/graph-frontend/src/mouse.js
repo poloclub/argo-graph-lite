@@ -140,7 +140,7 @@ module.exports = function(self) {
         if (self.selection.indexOf(selection) == -1) {
           self.selection.push(selection);
           selection.renderData.isSelected = true;
-          self.updateSelection(mouseX, mouseY);
+          self.updateSelection(self.dragging.x, self.dragging.y);
         } else if (ctrl) {
           self.selection.splice(self.selection.indexOf(selection), 1);
           selection.renderData.isSelected = false;
