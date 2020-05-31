@@ -54,7 +54,29 @@ class SaveSnapshotDialog extends React.Component {
                 })}
                 intent={Intent.PRIMARY}
                 onClick={() => {
-                  appState.graph.metadata.snapshotName = this.state.name;
+                  //gets pixel width of text
+                  function getTextWidth(text) {
+                    var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+                    var context = canvas.getContext("2d");
+                    context.font = "14px arial"; //TODO: put correct font
+                    var metrics = context.measureText(text);
+                    return metrics.width;
+                }
+                  //maximum width of snapshot name                
+                  const MAX_SNAPSHOT__NAME_WIDTH = 110;
+                  let maxChars = 0;
+                  if (getTextWidth(this.state.name) > MAX_SNAPSHOT__NAME_WIDTH) {
+                    for(let i = this.state.name.length; i >= 0; i--) {
+                      let str = this.state.name;
+                      if (getTextWidth(str.substr(0, i)) < MAX_SNAPSHOT__NAME_WIDTH) {
+                        maxChars = i;
+                        break;
+                      }
+                    }
+                    appState.graph.metadata.snapshotName = this.state.name.substr(0, maxChars) + "...";
+                  } else {
+                    appState.graph.metadata.snapshotName = this.state.name;
+                  }
                   appState.project.isRenameSnapshotDialogOpen = false;
                 }}
                 text="Done"

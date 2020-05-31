@@ -18,7 +18,7 @@ export const BACKEND_URL = "https://argo-share.herokuapp.com"; // for production
 // When resizing window or running on mobile,
 // used to determine whether screen
 // is considered small.
-export const MOBILE_WIDTH_CUTOFF = 800;
+export const MOBILE_WIDTH_CUTOFF = 928;
 export const MOBILE_HEIGHT_CUTOFF = 480;
 
 export const SCALE_LINEAR = "Linear Scale";
