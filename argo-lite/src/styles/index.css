@@ -163,6 +163,14 @@ div.pt-card.sub-option {
   line-height: 30px;
 }
 
+.snapshot-name {
+  text-align: right;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 td {
   max-width: 150px;
   overflow: hidden;

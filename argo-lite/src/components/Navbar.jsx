@@ -294,19 +294,19 @@ class RegularNavbar extends React.Component {
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
         >
           <Button
-            className={classnames([Classes.BUTTON, Classes.MINIMAL])}
+            className={classnames([Classes.BUTTON, Classes.MINIMAL, "snapshot-name"])}
             iconName="graph"
             onClick={() => {
               appState.project.isRenameSnapshotDialogOpen = true;
             }}
           >
             {appState.graph.metadata.snapshotName || "Untitled Graph"}
-            {
+          </Button>
+          {
               (appState.graph.metadata.fullNodes && appState.graph.metadata.fullEdges) ? (
                 ` (Nodes: ${appState.graph.metadata.fullNodes} Edges: ${appState.graph.metadata.fullEdges} )`
               ) : null
             }
-          </Button>
           <span className={Classes.NAVBAR_DIVIDER} />
           <Button
             className={classnames([Classes.BUTTON, Classes.MINIMAL])}
