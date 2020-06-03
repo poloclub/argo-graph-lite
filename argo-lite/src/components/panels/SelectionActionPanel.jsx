@@ -7,6 +7,16 @@ import appState from "../../stores";
 @observer
 class SelectionActionPanel extends React.Component {
   render() {
+      // Only relevant when there's exact 1 node selected.
+      // To display number of hidden nodes if exists
+      let numHiddenNeighbor = 0;
+      if (appState.graph.selectedNodes.length === 1) {
+        if (appState.graph.lastSelectedSingleNode) {
+            const selectedNodeId = appState.graph.lastSelectedSingleNode.data.ref.id.toString();
+            numHiddenNeighbor = appState.graph.getNeighborNodesFromRawGraph(selectedNodeId).filter(n => n.isHidden).length;
+        }
+      }
+
       return (
         <div
             className="argo-selection-action-panel"
@@ -83,7 +93,7 @@ class SelectionActionPanel extends React.Component {
                         Classes.MINIMAL
                       ])}
                       iconName="graph"
-                      text="Neighbors"
+                      text={`Neighbors (${numHiddenNeighbor} hidden)`}
                       intent={Intent.PRIMARY}
                       onClick={() => {
                         appState.graph.frame.pauseLayout();
