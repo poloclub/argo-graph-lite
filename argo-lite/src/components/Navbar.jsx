@@ -214,11 +214,6 @@ class RegularNavbar extends React.Component {
             }}
           >
             {appState.graph.metadata.snapshotName || "Untitled Graph"}
-            {
-              (appState.graph.metadata.fullNodes && appState.graph.metadata.fullEdges) ? (
-                ` (Nodes: ${appState.graph.metadata.fullNodes} Edges: ${appState.graph.metadata.fullEdges} )`
-              ) : null
-            }
           </Button>
           <span className={Classes.NAVBAR_DIVIDER} />
           <Button
@@ -264,16 +259,40 @@ class RegularNavbar extends React.Component {
 class MinimalNavbar extends React.Component {
   render() {
     return (
-      <div
-          className={classnames("minimal-navbar")}
+      <div>
+        <div
+          className={classnames("minimal-navbar-left")}
           style={{
               backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
           }}
-      >
-        <div className="pt-button-group">
-          <a className="pt-button pt-icon-maximize" role="button" onClick={() => appState.preferences.turnOffMinimalMode()}></a>
-          <a className="pt-button pt-icon-help" role="button" onClick={() => appState.preferences.helpDialogOpen = true}></a>
-          <a className="pt-button pt-icon-document-open" role="button" href={window.location} target="_blank"></a>
+        >
+          <div className="pt-button-group">
+            <a
+              className={classnames("pt-button pt-icon-maximize", appState.graph.frame.paused ? "pt-icon-play" : "pt-icon-pause")}
+              role="button"
+              onClick={() => {
+                if (appState.graph.frame.paused) {
+                  appState.graph.frame.resumeLayout();
+                  this.forceUpdate();
+                } else {
+                  appState.graph.frame.pauseLayout();
+                  this.forceUpdate();
+                }
+              }}
+            />
+          </div>
+        </div>
+        <div
+          className={classnames("minimal-navbar-right")}
+          style={{
+              backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
+          }}
+        >
+          <div className="pt-button-group">
+            <a className="pt-button pt-icon-maximize" role="button" onClick={() => appState.preferences.turnOffMinimalMode()}></a>
+            <a className="pt-button pt-icon-help" role="button" onClick={() => appState.preferences.helpDialogOpen = true}></a>
+            <a className="pt-button pt-icon-document-open" role="button" href={window.location} target="_blank"></a>
+          </div>
         </div>
       </div>
     );

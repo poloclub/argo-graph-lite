@@ -14,7 +14,7 @@ class StatusBar extends React.Component {
                     visibility: appState.preferences.isStatusBarShowing? "visible" : "hidden"
                 }}
             >
-                <div className={classnames("bottom-status-bar__left")}>{appState.graph.selectedNodes.length} nodes selected; {appState.graph.numHiddenNodes} nodes hidden</div>
+                <div className={classnames("bottom-status-bar__left")}>Nodes ({appState.graph.metadata.fullNodes && `${appState.graph.metadata.fullNodes} total,`} {appState.graph.numHiddenNodes} hidden); {appState.graph.metadata.fullEdges && `Edges ${appState.graph.metadata.fullEdges}`}</div>
                 <div className={classnames("bottom-status-bar__right")}>Color by: {appState.graph.nodes.colorBy} ({appState.graph.nodes.color.scale}), Size by: {appState.graph.nodes.sizeBy} ({appState.graph.nodes.size.scale})</div>
             </div>
         );

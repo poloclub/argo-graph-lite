@@ -272,7 +272,7 @@ class FloatingCards extends React.Component {
         <Legends />
         <StatusBar />
         {// This menu only shows when there are nodes selected
-              appState.graph.selectedNodes.length > 0 && <SelectionActionPanel />
+              appState.graph.selectedNodes.length > 0 && !appState.preferences.isNavbarInMinimalMode && <SelectionActionPanel />
         }
       </div>
     );
