@@ -10,6 +10,7 @@ import LabelsPanel from "./panels/LabelsPanel";
 import NodeDetail from "./panels/NodeDetailPanel";
 import Legends from "./Legends";
 import StatusBar from './StatusBar';
+import SelectionActionPanel from "./panels/SelectionActionPanel";
 
 // TODO: migrate to simple select
 
@@ -270,6 +271,9 @@ class FloatingCards extends React.Component {
         )}
         <Legends />
         <StatusBar />
+        {// This menu only shows when there are nodes selected
+              appState.graph.selectedNodes.length > 0 && <SelectionActionPanel />
+        }
       </div>
     );
   }

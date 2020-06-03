@@ -264,6 +264,13 @@ div.pt-card.sub-option.legend {
   white-space: normal;
 }
 
+.argo-selection-action-panel {
+  right: 200px;
+  top: 50px;
+  position: absolute;
+  pointer-events: all;
+}
+
 /* Override blueprint numeric input, since it's useless unless inline */
 .pt-numeric-input.pt-control-group {
   display: inline-flex;
