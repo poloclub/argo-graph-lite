@@ -1,0 +1,1 @@
+web: sh -c 'cd ./argo-share/ && npm start'
