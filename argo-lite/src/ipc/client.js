@@ -434,7 +434,7 @@ async function readCSV(fileObject, hasHeader, delimiter) {
   });
 }
 
-async function parseXML(content) {
+async function parseGEXF(content) {
   const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(content,"text/xml");
       const xmlEdges = xmlDoc.getElementsByTagName('edge');
@@ -445,7 +445,7 @@ async function parseXML(content) {
       let edgeAttri = [];
       const edgesArr = [];
       const nodesArr = [];
-      const nodeAttriOrdered = []     
+      const nodeAttriOrdered = {};
       
       for (let i = 0, l = xmlAttri.length; i < l; i++) {
         const curr = xmlAttri[i];
@@ -474,24 +474,25 @@ async function parseXML(content) {
       for (let i = 0, l = xmlNodes.length; i < l; i++) {
         const currNode = xmlNodes[i];
         const id = currNode.getAttribute('id').toString();
-        const nodeAttributescurr = currNode.attributes;
-        const nodeAttriValSec = currNode.getElementsByTagName("attvalues");
-        const nodeAttriVal = [];
-        if (nodeAttriValSec.length != 0) {
-          nodeAttriVal = nodeAttriValSec[0].getElementsByTagName("attvalue");
+        const nodeAttvalues = currNode.getElementsByTagName("attvalues");
+        const nodeAttvalue = [];
+        if (nodeAttvalues.length != 0) {
+          nodeAttvalue = nodeAttvalues[0].getElementsByTagName("attvalue");
         }
-        let nodeAttri = { id: id, degree: 0, pagerank: 0, node_id: id};
-        for (let j = 0; j < nodeAttriVal.length; j++){
-          const currAttriVal = nodeAttriVal[j];
-            nodeAttri[nodeAttriOrdered[currAttriVal.id]] = currAttriVal.attributes["value"].value;
+        let node = { id: id, degree: 0, pagerank: 0, node_id: id};
+        for (let j = 0; j < nodeAttvalue.length; j++){
+          const value = nodeAttvalue[j].attributes["value"].value;
+          const attributeIdElementAttribute = nodeAttvalue[j].attributes["for"] || nodeAttvalue[j].attributes["id"];
+          const attributeId = attributeIdElementAttribute.value;
+          node[nodeAttriOrdered[attributeId]] = value;
         }
-        for (let j = 0; j < nodeAttributescurr.length; j++) {
+        for (let j = 0; j < currNode.attributes.length; j++) {
           const currAttri = currNode.attributes[j];
-            nodeAttri[currAttri.name] = currAttri.value;
+            node[currAttri.name] = currAttri.value;
         }
-        nodeAttri["id"] = id;
-        nodeAttri["node_id"] = id;
-        nodesArr.push(nodeAttri);
+        node["id"] = id;
+        node["node_id"] = id;
+        nodesArr.push(node);
       }
       return [nodesArr, edgesArr];
 }
@@ -504,7 +505,7 @@ async function readGEXF(fileObject) {
   return new Promise((resolve, reject) => {
       reader.onload = () => {
       const content = reader.result;
-      resolve(parseXML(content));
+      resolve(parseGEXF(content));
     }
   });
 }
