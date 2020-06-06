@@ -258,7 +258,7 @@ class RegularNavbar extends React.Component {
 @observer
 class MinimalNavbar extends React.Component {
   render() {
-    return (
+    return appState.graph.frame && (
       <div>
         <div
           className={classnames("minimal-navbar-left")}
