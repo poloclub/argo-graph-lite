@@ -6,6 +6,8 @@ var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
 var $ = require("jquery");
+var oldMouseX = null;
+var oldMouseY = null;
 
 module.exports = function(self) {
   self.selectNode = function(node) {
@@ -31,6 +33,8 @@ module.exports = function(self) {
       self.selection[i].renderData.textHolder.children[0].element.hideme = true;
     }
     self.selection = [];
+    oldMouseX = null;
+    oldMouseY = null;
   };
 
   /**
@@ -38,10 +42,14 @@ module.exports = function(self) {
    *  based on diff between mouse position and self.dragging position
    */
   self.updateSelection = function(mouseX, mouseY) {
-    if (self.dragging) {
-      var diffx = mouseX - self.dragging.x;
-      var diffy = mouseY - self.dragging.y;
+    if(self.dragging && oldMouseX == null && oldMouseY == null) {
+      oldMouseX = mouseX;
+      oldMouseY = mouseY;
     }
+     if (self.dragging) {
+        var diffx = mouseX - oldMouseX;
+        var diffy = mouseY - oldMouseY;
+      }
     for (var i = 0; i < self.selection.length; i++) {
       if (self.dragging) {
         self.selection[i].x += diffx;
@@ -62,6 +70,8 @@ module.exports = function(self) {
         i
       ].renderData.textHolder.children[0].element.hideme = false;
     }
+    oldMouseX = mouseX;
+    oldMouseY = mouseY;
   };
 
   /**

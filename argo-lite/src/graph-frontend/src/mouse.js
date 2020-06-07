@@ -5,7 +5,7 @@ var Node = def.Node;
 var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
-var $ = require("jquery");
+var $ = require("jquery"); 
 
 module.exports = function(self) {
   /**
@@ -22,6 +22,8 @@ module.exports = function(self) {
         self.clearSelection();
       }
 
+      
+
       if (!self.dragging) {
         // add nodes enclosed by selection box into node selection
         self.checkSelection(mouseX, mouseY);
@@ -33,6 +35,7 @@ module.exports = function(self) {
       if (self.dragging) {
         self.force.alpha(1);
       }
+      
       // update position of nodes in selection
       self.updateSelection(mouseX, mouseY);
     }
@@ -109,6 +112,7 @@ module.exports = function(self) {
       self.minimap.panToMousePosition(self.minimap.mouseX, self.minimap.mouseY);
       return;
     }
+
     startTime = Date.now();
     self.leftMouseDown = true;
     if (self.leftMouseDown) {
@@ -117,6 +121,18 @@ module.exports = function(self) {
       if (button == 0 && !self.dragging) {
         self.showBox = true;
       }
+
+      if (!self.dragging && self.selection.indexOf(selection) != -1) {
+        for (var i = 0; i < self.selection.length; i++) {
+          self.selection[i].pinnedx = true;
+          self.selection[i].pinnedy = true;
+        }
+      }
+
+      if (!self.dragging && self.selection.indexOf(selection) == -1) {
+        self.clearSelection();
+      }
+
       if (self.selection.indexOf(selection) == -1 && !ctrl) {
         for (var i = 0; i < self.selection.length; i++) {
           self.selection[i].renderData.isSelected = false;
@@ -140,7 +156,7 @@ module.exports = function(self) {
         if (self.selection.indexOf(selection) == -1) {
           self.selection.push(selection);
           selection.renderData.isSelected = true;
-          self.updateSelection(self.dragging.x, self.dragging.y);
+          self.updateSelection(mouseX, mouseY);
         } else if (ctrl) {
           self.selection.splice(self.selection.indexOf(selection), 1);
           selection.renderData.isSelected = false;
