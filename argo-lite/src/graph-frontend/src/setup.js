@@ -72,6 +72,11 @@ module.exports = function(self) {
     self.cssRenderer.setSize(self.width, self.height);
     self.cssRenderer.domElement.style.position = "absolute";
     self.cssRenderer.domElement.style.top = 0;
+    self.minimapRenderer.domElement.style.position = "absolute";
+    self.minimapRenderer.domElement.style.bottom = 0;
+    self.minimapRenderer.domElement.style.left = 0;
+    self.minimapRenderer.setSize(0.2 * self.height, 0.2 * self.height);
+    self.minimapRenderer.zIndex = 1000;
     self.renderer.setPixelRatio(window.devicePixelRatio);
   };
 

@@ -115,6 +115,11 @@ var Frame = function(graph, options) {
       antialias: aa,
       preserveDrawingBuffer: true,
     });
+    self.minimapRenderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: aa,
+      preserveDrawingBuffer: true,
+    });
     //self.renderer.setPixelRatio(window.devicePixelRatio);
     //self.renderer.setPixelRatio(0.1);
     self.setDisplayParams();
@@ -129,6 +134,7 @@ var Frame = function(graph, options) {
     self.element.innerHTML = "";
     self.element.appendChild(self.renderer.domElement);
     self.element.appendChild(self.cssRenderer.domElement);
+    self.element.appendChild(self.minimapRenderer.domElement);
 
     self.setupLayout();
 
@@ -204,8 +210,8 @@ var Frame = function(graph, options) {
         self.layoutInit = false;
       }
     }
-    self.renderer.setViewport(0, 0, 1 * self.width, 1 * self.height);
-    self.renderer.setScissor(self.mapShowing ? self.minimap.width : 0, 0, 1 * self.width, 1 * self.height);
+    self.renderer.setViewport(0, 0, self.width, self.height);
+    self.renderer.setScissor(0, 0, self.width, self.height);
     self.renderer.setScissorTest(true);
     self.renderer.render(self.scene, self.ccamera);
     self.cssRenderer.render(self.scene, self.ccamera);
@@ -217,10 +223,10 @@ var Frame = function(graph, options) {
       if (self.mapShowing) {
         self.minimap.width = 0.2 * self.height;
         self.minimap.height = 0.2 * self.height;
-        self.renderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
-        self.renderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
-        self.renderer.setScissorTest(true);
-        self.renderer.render(self.scene, self.minimap.camera);
+        self.minimapRenderer.setViewport(0, 0, self.minimap.width, self.minimap.height);
+        self.minimapRenderer.setScissor(0, 0, self.minimap.width, self.minimap.height);
+        self.minimapRenderer.setScissorTest(true);
+        self.minimapRenderer.render(self.scene, self.minimap.camera);
       }
     }
   };
