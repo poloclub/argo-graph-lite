@@ -6,8 +6,6 @@ An interactive graph visualization system that runs in your web browsers. No ins
 
 <img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/readme-logo.png" width=60%>
 
-[![Argo Lite logo](img/readme-logo.png)](https://poloclub.github.io/argo-graph-lite/)
-
 ## Import Data
 
 Argo Lite allows users to play around sample data or upload your own data. Currently we support CSV/TSV graph files for undirected graphs. We are working on supporting more formats in the future.
