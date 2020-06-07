@@ -384,6 +384,17 @@ export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName
     appState.graph.overrides = new Map();
     appState.import.loading = false;
     appState.import.dialogOpen = false;
+    // Sync preference store with graph-frontend frame
+    if (!appState.preferences.darkMode) { // assume frame defaults to dark
+      appState.graph.frame.toggleDark();
+    }
+    if (appState.preferences.minimapShowing) {
+      appState.graph.frame.showMiniMap();
+    } else {
+      appState.graph.frame.hideMiniMap();
+    }
+    // Newly imported graph shouldn't have label showing
+    appState.graph.frame.turnOffLabelCSSRenderer();
   });
 }
 
@@ -402,6 +413,17 @@ export function requestImportGraphFromGexf() {
     appState.graph.overrides = new Map();
     appState.import.loading = false;
     appState.import.gexfDialogOpen = false;
+    // Sync preference store with graph-frontend frame
+    if (!appState.preferences.darkMode) { // assume frame defaults to dark
+      appState.graph.frame.toggleDark();
+    }
+    if (appState.preferences.minimapShowing) {
+      appState.graph.frame.showMiniMap();
+    } else {
+      appState.graph.frame.hideMiniMap();
+    }
+    // Newly imported graph shouldn't have label showing
+    appState.graph.frame.turnOffLabelCSSRenderer();
   });
 }
 

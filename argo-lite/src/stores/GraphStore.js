@@ -1,7 +1,6 @@
 import { observable, computed, action, runInAction } from "mobx";
 import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
-import appState from ".";
 import uniq from "lodash/uniq";
 import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter} from "../services/AlgorithmUtils";
 import { ContextMenu, MenuFactory, MenuItemFactory } from "@blueprintjs/core";
@@ -209,7 +208,7 @@ export default class GraphStore {
 
   hideNodes(nodeids) {
     runInAction('hide nodes by ids', () => {
-      appState.graph.frame.removeNodesByIds(nodeids);
+      this.frame.removeNodesByIds(nodeids);
       this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
         if (nodeids.includes(n.id)) {
           return {...n, isHidden: true};
@@ -221,7 +220,7 @@ export default class GraphStore {
 
   removeNodes(nodeids) {
     runInAction('remove nodes by ids', () => {
-      appState.graph.frame.removeNodesByIds(nodeids);
+      this.frame.removeNodesByIds(nodeids);
       this.rawGraph.nodes = this.rawGraph.nodes.filter(
         n => !nodeids.includes(n.id)
       );
