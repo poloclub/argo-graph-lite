@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+  - node_modules
+before_script:
+  - cd argo-lite
+script:
+  - npm run build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $github_token
+  local_dir: argo-lite/build
+  on:
+    branch: master
