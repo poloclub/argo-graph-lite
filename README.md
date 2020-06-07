@@ -1,8 +1,8 @@
 # Argo Lite
 
-A lightweight in-browser interactive graph exploration tool.
+An interactive graph visualization system that runs in your web browsers. No installation needed.
 
-[Launch Argo Lite](https://poloclub.github.io/argo-graph-lite/)
+**Live Demo:** https://poloclub.github.io/argo-graph-lite/
 
 [![Argo Lite logo](img/readme-logo.png)](https://poloclub.github.io/argo-graph-lite/)
 
