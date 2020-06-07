@@ -4,6 +4,8 @@ An interactive graph visualization system that runs in your web browsers. No ins
 
 **Live Demo:** https://poloclub.github.io/argo-graph-lite/
 
+<img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/readme-logo.png" width=60%>
+
 [![Argo Lite logo](img/readme-logo.png)](https://poloclub.github.io/argo-graph-lite/)
 
 ## Import Data
