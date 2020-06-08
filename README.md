@@ -47,7 +47,6 @@ Argo Lite allows you to embed your interactive graph visualization snapshots int
 
 <img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/img-embedded.png" width=60% alt="Argo Lite embedded widget mode">
 
-![Argo Lite embedded widget mode](img/img-embedded.png)
 
 ---
 
