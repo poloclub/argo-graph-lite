@@ -206,6 +206,16 @@ module.exports = function(self) {
     }
   };
 
+  self.setAllNodesShapeWithOverride = function(shape, overrides) {
+    self.graph.forEachNode(function(node) {
+      if (overrides.has(node.id) && overrides.get(node.id).has('shape')) {
+        self.setNodeShape(self.graph.getNode(node.id), overrides.get(node.id).get('shape'));
+      } else {
+        self.setNodeShape(self.graph.getNode(node.id), shape);
+      }
+    });
+  }
+
   self.setNodeShape = function(node, shape) {
     if (shape == "square") {
       node.renderData.shape = shape;
