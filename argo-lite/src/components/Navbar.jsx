@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import argologo from '../images/argologo.png';
 
-import {LOGO_URL, GITHUB_URL} from '../constants';
+import {LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS} from '../constants';
 
 @observer
 class RegularNavbar extends React.Component {
@@ -49,13 +49,23 @@ class RegularNavbar extends React.Component {
             content={
               <Menu>
                 <MenuItem text="Load Sample" iconName="graph">
-                  <MenuItem
-                    iconName="graph"
-                    text="Les Miserables"
-                    onClick={() => {
-                      window.loadAndDisplaySnapshotFromURL("https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json");
-                    }}
-                  />
+                  {
+                    SAMPLE_GRAPH_SNAPSHOTS.map((sample) => {
+                      const sampleSnapshotTitle = sample[0];
+                      const sampleSnapshotStrapiUuid = sample[1];
+
+                      return (
+                        <MenuItem
+                          iconName="graph"
+                          text={sampleSnapshotTitle}
+                          onClick={() => {
+                            window.loadAndDisplaySnapshotFromStrapi(sampleSnapshotStrapiUuid);
+                          }}
+                        />
+                      );
+                    })
+                  }
+                  
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem

@@ -73,6 +73,7 @@ const loadAndDisplaySnapshotFromStrapi = (uuid) => {
 };
 
 window.loadAndDisplaySnapshotFromURL = loadAndDisplaySnapshotFromURL;
+window.loadAndDisplaySnapshotFromStrapi = loadAndDisplaySnapshotFromStrapi;
 
 window.loadInitialSampleGraph = async () => {
   // default fallback url

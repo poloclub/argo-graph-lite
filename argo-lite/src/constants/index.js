@@ -14,6 +14,10 @@ export const GITHUB_URL = "https://github.com/poloclub/argo-graph-lite";
 export const BACKEND_URL = "https://argo-share.herokuapp.com"; // for production
 // export const BACKEND_URL = "https://sleepy-brushlands-57948.herokuapp.com"; // for free heroku
 // export const BACKEND_URL = "http://localhost:1337"; // for local strapi development
+export const SAMPLE_GRAPH_SNAPSHOTS = [
+  ["Les Miserables", "3b5f746f-19a5-44d1-99ea-407ff9e47a0e"],
+  ["CORD-19 Citation Graph 06-02", "4bf882d3-8966-4f41-a590-acafeb998d2a"]
+];
 
 // When resizing window or running on mobile,
 // used to determine whether screen
