@@ -1,31 +1,52 @@
 # Argo Lite
 
-A lightweight in-browser interactive graph exploration tool.
+[![Build Status](https://travis-ci.org/poloclub/argo-graph-lite.svg?branch=master)](https://travis-ci.org/poloclub/argo-graph-lite)
 
-[Launch Argo Lite](https://poloclub.github.io/argo-graph-lite/)
+An interactive graph visualization system that runs in your web browsers. No installation needed.
+
+[Live Demo - Launch Argo Lite in your browser](https://poloclub.github.io/argo-graph-lite/)
 
 [![Argo Lite logo](img/readme-logo.png)](https://poloclub.github.io/argo-graph-lite/)
 
-## Import Data
+## Documentations
 
-Argo Lite allows users to play around sample data or upload your own data. Currently we support CSV/TSV graph files for undirected graphs. We are working on supporting more formats in the future.
+- [Quick Start (Visualization, Saving and Sharing Snapshots)](quickstart.md)
+- [Tutorial - Visualizing a citation graph of COVID-19 publications (Import Data, Incremental Exploration)](tutorial.md)
+- [Develop Argo Lite](development.md)
+- [Deploy Argo Lite (and custom sharing service with access)](deploy.md)
 
-![Argo Lite import video](img/video-import.gif)
+## Feature Highlights
 
-## Interactive Graph Layout
+### Interactive Graph Visualization
 
-You can apply force layout algorithms on graphs interactively. We are working on supporting more layout algorithms in the future.
+Visualize your graph with interactive force-directed layout, automatic sizing and coloring by pagerank, and full control over every node for customization!
 
-![Argo Lite layout video](img/video-layout.gif)
+![Argo Lite visualization with force directed layout](img/video-layout.gif)
 
-## Publish your Graph As a Link
+![Argo Lite visualization graph options](img/video-graph-options.gif)
 
-You can publish your "graph snapshot" as a link to share with friends and colleagues. You can also save it locally as a file.
+### Incremental Exploration
 
-![Argo Lite sharing video](img/video-share.gif)
+Argo Lite empowers you to incrementally explore large graphs. Start by several import nodes (with high PageRank or degree) or by a node that you are interested in, and add their neighbor nodes to expand your visualization!
+
+![Argo Lite incremental exploration](img/video-incremental.gif)
+
+### Save and Publish via URLs
+
+You can publish your "graph snapshot" as a URL link. Anyone with the link will be able to access and continue their exploration from this snapshot. You can still save the snapshot locally as a file if you prefer.
+
+If you are working on sensitive or proprietary data, and prefer to set up a private sharing server with access control, please refer to [Deploying Argo Lite and Sharing backend service](deploy.md)
+
+![Argo Lite sharing graph as link](img/video-share.gif)
 
 You will be able to load the snapshot from your saved file or from the shared link to work on them again. Note that each snapshot associated with a link is immutable, so if you modify a shared graph, you need to share again to get a new link. The original link will still point to the graph before your modification.
 
-## Developers
+### Embed into Web Pages
 
-Argo Lite is actively being developed by Siwei Li, Omar Shaikh, Frank Zhou, Anish Upadhayay from [Polo Club of Data Science](https://poloclub.github.io) at [Georgia Tech](http://www.gatech.edu).
+Argo Lite allows you to embed your interactive graph visualization snapshots into iframe-based web widgets! You can embed them into web articles, blog posts and even interactive notebooks such as Jupyter Notebooks. Tell a story with your graph!
+
+![Argo Lite embedded widget mode](img/img-embedded.png)
+
+---
+
+♥ Developed and maintained by [Polo Club of Data Science](https://poloclub.github.io/). [MIT License](LICENSE).

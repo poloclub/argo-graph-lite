@@ -4,6 +4,8 @@ node_js:
 cache:
   directories:
   - node_modules
+env:
+  - CI=false
 before_script:
   - cd argo-lite
 script:
