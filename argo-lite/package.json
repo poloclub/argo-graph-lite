@@ -1,6 +1,6 @@
 {
   "name": "argo-lite",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "private": true,
   "homepage": "https://poloclub.github.io/argo-graph-lite",
   "dependencies": {
