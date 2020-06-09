@@ -6,7 +6,7 @@ An interactive graph visualization system that runs in your web browsers. No ins
 
 [**Live Demo** - Launch Argo Lite in your browser](https://poloclub.github.io/argo-graph-lite/)
 
-<img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/readme-logo.png" width=60%>
+<img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/readme-logo.png" width=60% alt="Argo Lite logo">
 
 ## Documentations
 
@@ -45,7 +45,8 @@ You will be able to load the snapshot from your saved file or from the shared li
 
 Argo Lite allows you to embed your interactive graph visualization snapshots into iframe-based web widgets! You can embed them into web articles, blog posts and even interactive notebooks such as Jupyter Notebooks. Tell a story with your graph!
 
-![Argo Lite embedded widget mode](img/img-embedded.png)
+<img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/img-embedded.png" width=60% alt="Argo Lite embedded widget mode">
+
 
 ---
 
