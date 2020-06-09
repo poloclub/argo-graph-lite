@@ -165,6 +165,7 @@ var Frame = function(graph, options) {
 
     self.renderer.setSize(self.width, self.height);
     self.cssRenderer.setSize(self.width, self.height);
+    self.minimapRenderer.setSize(0.2 * self.height, 0.2 * self.height);
   };
 
   /**
