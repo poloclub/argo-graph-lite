@@ -269,6 +269,11 @@ class FloatingCards extends React.Component {
         {appState.graph.selectedNodes.length === 1 && (
           <NodeDetail node={appState.graph.selectedNodes[0].data.ref} />
         )}
+
+        {appState.graph.selectedNodes.length !== 1 && appState.graph.currentlyHovered && (
+          <NodeDetail node={appState.graph.currentlyHovered.data.ref} />
+        )}
+        
         <Legends />
         <StatusBar />
         {// This menu only shows when there are nodes selected

@@ -81,6 +81,9 @@ module.exports = function(self) {
       self.highlightNode(node, true);
       node.renderData.textHolder.children[0].element.hideme = false;
       self.highlightEdges(node, true);
+      //set currently hovered node
+      appState.graph.currentlyHovered = node;
+      
     } else if (self.selection.length == 0) {
       self.graph.forEachNode(n => {
         self.colorNodeOpacity(n, 1);
