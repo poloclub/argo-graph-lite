@@ -40,6 +40,10 @@ export default class GraphStore {
 
   // Updated by frame event
   @observable selectedNodes = [];
+
+  // Currently hovered node
+  @observable currentlyHovered = undefined;
+
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog
