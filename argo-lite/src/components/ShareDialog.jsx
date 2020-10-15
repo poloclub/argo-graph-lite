@@ -10,7 +10,7 @@ import {
 } from "@blueprintjs/core";
 import { observer } from "mobx-react";
 import { toaster } from '../notifications/client';
-
+import * as Blueprint from "@blueprintjs/core";
 import classnames from "classnames";
 import appState from "../stores/index";
 import { BACKEND_URL } from "../constants";
@@ -122,8 +122,9 @@ class ShareDialog extends React.Component {
                         )
                     }
                         <hr/>
-                        <p>This shared snapshot is “static”, like taking a photo of your visualization. This means if you your graph in any ways after creating a URL to share this snapshot (e.g., move nodes around) and want to re-share those updates, you will need to create a new URL by selecting <b>Share Again to a new URL</b>.</p>
-                        <p className=".pt-intent-danger"><b>IMPORTANT!</b> This will make your graph snapshot public. If you are working with sensitive data (with custom access control), or large data (>400MB), please follow our guide on Github to easily deploy your own sharing server.</p>
+                        {/**pt-callout pt-intent-primary .modifier */}
+                        <p className="" style={{marginBottom: 20}}>This snapshot is “static”, like taking a photo of your visualization. This means that if your graph is changed in any ways (e.g., move nodes around) after creating a URL and you want to re-share those updates, you will need to create a new URL by selecting <b>Share Again to a new URL</b> in the next window.</p>
+                        <p className="pt-callout pt-intent-danger .modifier"><b>IMPORTANT!</b> This will make your graph snapshot public. If you are working with sensitive data (with custom access control), or large data (>400MB), please follow our guide on Github to easily deploy your own sharing server.</p>
                     </div>
                 )
             }
