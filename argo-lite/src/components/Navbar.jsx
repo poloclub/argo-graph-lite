@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import argologo from '../images/argologo.png';
 
-import {LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS} from '../constants';
+import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS } from '../constants';
 
 @observer
 class RegularNavbar extends React.Component {
@@ -29,9 +29,9 @@ class RegularNavbar extends React.Component {
       <nav className={classnames([Classes.NAVBAR])}>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
           <a href={LOGO_URL} target="_blank">
-            <img title = "Argo Lite" id= "Argo logo" src= {argologo} width = "35" height = "35"></img>
+            <img title="Argo Lite" id="Argo logo" src={argologo} width="35" height="35"></img>
           </a>
-    <div className={classnames([Classes.NAVBAR_HEADING])}> &nbsp; Argo <small>Lite</small></div>
+          <div className={classnames([Classes.NAVBAR_HEADING])}> &nbsp; Argo <small>Lite</small></div>
           {/* <a
             href="https://poloclub.github.io/argo-graph/"
             target='_blank'
@@ -65,7 +65,7 @@ class RegularNavbar extends React.Component {
                       );
                     })
                   }
-                  
+
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem
@@ -81,7 +81,7 @@ class RegularNavbar extends React.Component {
                 <MenuItem
                   iconName="pt-icon-document-open"
                   text="Open Snapshot"
-                  onClick={() => {appState.preferences.openSnapshotDialogOpen = true}}
+                  onClick={() => { appState.preferences.openSnapshotDialogOpen = true }}
                 />
                 <MenuDivider />
                 <MenuItem
@@ -95,7 +95,7 @@ class RegularNavbar extends React.Component {
                 <MenuItem
                   iconName="pt-icon-document-share"
                   text="Publish and Share Snapshot"
-                  onClick={() => {appState.preferences.shareDialogOpen = true}}
+                  onClick={() => { appState.preferences.shareDialogOpen = true }}
                 />
               </Menu>
             }
@@ -123,7 +123,7 @@ class RegularNavbar extends React.Component {
                 <MenuItem
                   text="Statistics"
                   iconName="pt-icon-timeline-bar-chart"
-                  onClick={() => {appState.preferences.statisticsDialogOpen = true}}
+                  onClick={() => { appState.preferences.statisticsDialogOpen = true }}
                 />
                 <MenuItem text="Filters" iconName="graph">
                   <MenuItem
@@ -138,10 +138,10 @@ class RegularNavbar extends React.Component {
                       appState.graph.hideNodes(appState.graph.rawGraph.nodes.map(n => n.id));
                       const sortedNodeList = [...appState.graph.rawGraph.nodes];
                       sortedNodeList.sort((n1, n2) => {
-                          if (n1["pagerank"] && n2["pagerank"]) {
-                              return n2["pagerank"] - n1["pagerank"];
-                          }
-                          return 0;
+                        if (n1["pagerank"] && n2["pagerank"]) {
+                          return n2["pagerank"] - n1["pagerank"];
+                        }
+                        return 0;
                       });
                       const ids = [];
                       for (let i = 0; i < 5 && i < sortedNodeList.length; i++) {
@@ -156,10 +156,10 @@ class RegularNavbar extends React.Component {
                       appState.graph.hideNodes(appState.graph.rawGraph.nodes.map(n => n.id));
                       const sortedNodeList = [...appState.graph.rawGraph.nodes];
                       sortedNodeList.sort((n1, n2) => {
-                          if (n1["degree"] && n2["degree"]) {
-                              return n2["degree"] - n1["degree"];
-                          }
-                          return 0;
+                        if (n1["degree"] && n2["degree"]) {
+                          return n2["degree"] - n1["degree"];
+                        }
+                        return 0;
                       });
                       const ids = [];
                       for (let i = 0; i < 5 && i < sortedNodeList.length; i++) {
@@ -188,9 +188,24 @@ class RegularNavbar extends React.Component {
           </Popover>
         </div>
         <div className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_LEFT])}>
-        <span className={Classes.NAVBAR_DIVIDER} />
-        {appState.graph.hasGraph && appState.graph.frame && (
+          <span className={Classes.NAVBAR_DIVIDER} />
+          {appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
+              
+              {/** Pauses graph after ~2 minutes of inactivity */}
+              {(() => {let self = this;
+              setInterval(function () {
+                  let timeNow = Date.now();
+                  if(!appState.graph.frame.paused && 
+                    appState.graph.lastUnpaused && 
+                    timeNow - appState.graph.lastUnpaused > 100000){
+                      appState.graph.frame.pauseLayout();
+                      appState.graph.frame.paused = true;
+                      self.forceUpdate();
+                  }
+                }, 5000)})()}
+
+
               <Tooltip
                 content={appState.graph.frame.paused ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
                 position={Position.BOTTOM}
@@ -200,13 +215,11 @@ class RegularNavbar extends React.Component {
                   iconName={appState.graph.frame.paused ? "play" : "pause"}
                   text={appState.graph.frame.paused ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
-                    var date = new Date();
-                    console.log(date);
                     if (appState.graph.frame.paused) {
+                      appState.graph.lastUnpaused = Date.now();
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();
                     } else {
-                      
                       appState.graph.frame.pauseLayout();
                       this.forceUpdate();
                     }
@@ -276,7 +289,7 @@ class MinimalNavbar extends React.Component {
         <div
           className={classnames("minimal-navbar-left")}
           style={{
-              backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
+            backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
           }}
         >
           <div className="pt-button-group">
@@ -298,7 +311,7 @@ class MinimalNavbar extends React.Component {
         <div
           className={classnames("minimal-navbar-right")}
           style={{
-              backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
+            backgroundColor: appState.preferences.darkMode ? '#30404D' : '#FFFFFF',
           }}
         >
           <div className="pt-button-group">
