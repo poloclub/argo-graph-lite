@@ -335,6 +335,13 @@ export default class GraphStore {
             text: 'Unpin Selected',
             key: 'Unpin Selected'
           }),
+          MenuItemFactory({
+            onClick: () => {
+              this.frame.pinSelectedNodes();
+            },
+            text: 'Pin Selected',
+            key: 'Pin Selected'
+          }),
           this.frame.rightClickedNode && MenuItemFactory({
             onClick: () => {
               if (this.frame.rightClickedNode) {

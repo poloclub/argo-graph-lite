@@ -37,19 +37,35 @@ module.exports = function(self) {
    *  Update positions of all objects in self.selection
    *  based on diff between mouse position and self.dragging position
    */
-  self.updateSelection = function(mouseX, mouseY) {
+  self.updateSelection = function(mouseX, mouseY, selection) {
     if (self.dragging) {
       var diffx = mouseX - self.dragging.x;
       var diffy = mouseY - self.dragging.y;
     }
+
+    //'selection' only passed if a single node is double clicked
+    let clickedNode = selection;
+    //if not already pinned, then pin the node upon double-click
+    if(clickedNode && !clickedNode.pinnedx) {
+      clickedNode.pinnedx = true;
+      clickedNode.pinnedy = true;
+    } else if (clickedNode && clickedNode.pinnedx) {
+      //if already pinned, then unpin upon double-click
+      clickedNode.pinnedx = false;
+      clickedNode.pinnedy = false;
+    }
+    
     for (var i = 0; i < self.selection.length; i++) {
       if (self.dragging) {
         self.selection[i].x += diffx;
         self.selection[i].y += diffy;
         self.selection[i].fx = self.selection[i].x;
         self.selection[i].fy = self.selection[i].y;
-        self.selection[i].pinnedx = true;
-        self.selection[i].pinnedy = true;
+        //pins multiple nodes when dragging
+        if(!clickedNode) {
+          self.selection[i].pinnedx = true;
+          self.selection[i].pinnedy = true;
+        }
       }
       if (!def.NODE_NO_HIGHLIGHT) {
         self.selection[i].renderData.draw_object.children[0].visible = true;
@@ -87,6 +103,9 @@ module.exports = function(self) {
         }
         if (self.insideBox(left, right, npos.x, npos.y)) {
           self.selection.push(node);
+          //indicates nodes were in selection box 
+          //when mouse is lifted
+          //self.multNodesHighlighted = true;
         }
       });
     }

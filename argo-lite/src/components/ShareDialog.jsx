@@ -17,18 +17,23 @@ import { BACKEND_URL } from "../constants";
 
 const uuidv4 = require('uuid/v4');
 
-@observer
+@observer 
 class ShareDialog extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       isShared: false,
       isFetching: false,
-      sharedURL: 'Error: Sharing failed'
+      sharedURL: 'Error: Sharing failed',
+      selectedContinue: false,
     };
 
     this.handleRequest = this.handleRequest.bind(this);
   }
+
+
+  
 
   async handleRequest(uuid) {
     // return await new Promise(resolve => setTimeout(resolve, 2000));
@@ -56,78 +61,31 @@ class ShareDialog extends React.Component {
   }
 
   render() {
+
+    
+
     return (
         <Dialog
             iconName="projects"
             isOpen={appState.preferences.shareDialogOpen}
             onClose={() => {
             appState.preferences.shareDialogOpen = false;
+            this.setState({
+                ...this.state,
+                selectedContinue: false,
+            });
             }}
-            title={`Share Graph`}
+            title={`Share Graph Snapshot`}
+            style={{width: !this.state.selectedContinue ? 735 : 580}}
         >
             <div className={classnames(Classes.DIALOG_BODY)}>
             {
-                !this.state.isShared && (
+                !this.state.selectedContinue && (
                     <div>
-                        <p>You can share the current state of your graph as <b>a public URL</b> or <b>embedded iframe</b></p>
-                        <p><b>IMPORTANT!</b> This will make your graph snapshot public. If you are working with sensitive data (with custom access control), or large data (>400MB), please follow our guide on Github to easily deploy your own sharing server.</p>
-                    </div>
-                )
-            }
-            {
-                this.state.isFetching && (
-                    <p><b>Sharing in progress. Please wait...</b></p>
-                )
-            }
-            {
-                this.state.isShared && (
-                    <div>
-                        Your graph has been shared to
-                        <br/>
-                        <input
-                            id="snapshot-textarea"
-                            type="textarea"
-                            value={this.state.sharedURL}
-                            readOnly
-                            style={{ width: '400px' }}
-                        />
-                        <br />
-                        <button
-                            onClick={() => {
-                                document.getElementById('snapshot-textarea').select();
-                                document.execCommand("copy");
-                            }}
-                        >
-                            Copy to Clipboard
-                        </button>
-                        <br/> 
-                        <hr/>                        
-                        Embed as iframe:
-                        <br />
-                        <input
-                            id="iframe-textarea"
-                            type="textarea"
-                            value={`<iframe src="${this.state.sharedURL}" width="850" height="500"></iframe>`}
-                            readOnly
-                        />
-                        {"   "}
-                        <button
-                            onClick={() => {
-                                document.getElementById('iframe-textarea').select();
-                                document.execCommand("copy");
-                            }}
-                        >
-                        Copy to Clipboard
-                        </button>
-                    </div>
-                )
-            }
-            </div>
-
-            <div className={Classes.DIALOG_FOOTER}>
-                <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-                    {
-                        !this.state.isShared && (
+                        <p style={{display: "inline", marginRight: "20px"}}>You can share your snapshot as 
+                        <b> a public URL</b>, an <b> HTML iframe</b>, or a <b>Jupyter Notebook IFrame</b></p>
+                        {
+                         !this.state.selectedContinue && (
                             <Button
                             className={classnames({
                                 [Classes.DISABLED]: this.state.isFetching
@@ -154,14 +112,116 @@ class ShareDialog extends React.Component {
                                         timeout: -1
                                     });
                                 }
-                                
+                                this.setState({
+                                    ...this.state,
+                                    selectedContinue: true,
+                                });
                             }}
-                            text="Share"
+                            text="Continue"
                             />
                         )
                     }
+                        <hr/>
+                        <p>This shared snapshot is “static”, like taking a photo of your visualization. This means if you your graph in any ways after creating a URL to share this snapshot (e.g., move nodes around) and want to re-share those updates, you will need to create a new URL by selecting <b>Share Again to a new URL</b>.</p>
+                        <p className=".pt-intent-danger"><b>IMPORTANT!</b> This will make your graph snapshot public. If you are working with sensitive data (with custom access control), or large data (>400MB), please follow our guide on Github to easily deploy your own sharing server.</p>
+                    </div>
+                )
+            }
+            {
+                this.state.isFetching && (
+                    <p><b>Sharing in progress. Please wait...</b></p>
+                )
+            }
+            {
+                this.state.selectedContinue && (
+                    <div>
+                        {/** graph URL */}  
+                        Your current snapshot has been shared to
+                        <br/>
+                        <input
+                            id="snapshot-textarea"
+                            type="textarea"
+                            value={this.state.sharedURL}
+                            readOnly
+                            style={{
+                                 width: '400px',
+                                 marginTop: "5px" 
+                                }}
+                        />
+                        <button
+                            onClick={() => {
+                                document.getElementById('snapshot-textarea').select();
+                                document.execCommand("copy");
+                            }}
+                            className="copy-to-clipboard"
+                        >
+                            Copy to Clipboard
+                        </button>
+                        <br/> 
+                        <hr/>
+
+                        {/** Embedding as HTML iframe */}                        
+                        Embed as an <b>HTML iframe</b>:
+                        <br />
+                        <input
+                            id="iframe-html-textarea"
+                            type="textarea"
+                            value={`<iframe src="${this.state.sharedURL}" width="850" height="500"></iframe>`}
+                            style={{
+                                 width: '400px',
+                                 marginTop: "5px" 
+                                }}
+                            readOnly
+                        />
+                        <button
+                            onClick={() => {
+                                document.getElementById('iframe-html-textarea').select();
+                                document.execCommand("copy");
+                            }}
+                            className="copy-to-clipboard"
+                        >
+                        Copy to Clipboard
+                        </button>
+                        <br/> 
+                        <hr/>
+
+                        {/** Embedding as Jupyter Notebook IFrame */}
+                        Embed as a <b>Jupyter Notebook IFrame</b>:
+                        <br/>
+                        <textarea 
+                        id="iframe-jupyter-textarea" 
+                        rows="2" 
+                        cols="60" 
+                        style={{
+                            overflow: "hidden",
+                            marginTop: "5px",
+                            width: "400px",
+                            resize: "none"
+                        }} 
+                        readonly="true"
+                        value={`from IPython.display import IFrame` + "\n" +`IFrame("${this.state.sharedURL}", width=700, height=350)`}/>
+                        <button
+                            onClick={() => {
+                                document.getElementById('iframe-jupyter-textarea').select();
+                                document.execCommand("copy");
+                            }}
+                            className="copy-to-clipboard"
+                            style={{position: "absolute",
+                                    marginTop: "20px",}}
+                        >
+                        Copy to Clipboard
+                        </button>
+                    </div>
+                )
+            }
+            </div>
+
+            <div className={Classes.DIALOG_FOOTER}>
+                <div className={Classes.DIALOG_FOOTER_ACTIONS}>
                     {
-                        this.state.isShared && (
+                        this.state.selectedContinue && (
+                            
+                           
                             <Button
                             className={classnames({
                                 [Classes.DISABLED]: this.state.isFetching
@@ -190,13 +250,25 @@ class ShareDialog extends React.Component {
                                 }
                                 
                             }}
-                            text="Share Again to a new URL"
+                            text="Share Snapshot as New URL"
                             />
                         )
                     }
                     
                 </div>
             </div>
+
+
+            <style dangerouslySetInnerHTML={{
+                __html:
+                    `
+                    .copy-to-clipboard{
+                        margin-top: 5px;
+                        margin-left: 5px;
+                        border-style: solid;
+                    }
+                    
+            `}}/>
         </Dialog>
     );
   }
