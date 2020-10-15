@@ -200,10 +200,13 @@ class RegularNavbar extends React.Component {
                   iconName={appState.graph.frame.paused ? "play" : "pause"}
                   text={appState.graph.frame.paused ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
+                    var date = new Date();
+                    console.log(date);
                     if (appState.graph.frame.paused) {
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();
                     } else {
+                      
                       appState.graph.frame.pauseLayout();
                       this.forceUpdate();
                     }

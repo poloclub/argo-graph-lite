@@ -7,15 +7,15 @@ var d3 = def.d3;
 var ee = def.ee;
 var $ = require("jquery");
 
-module.exports = function(self) {
+module.exports = function (self) {
   /**
    * Mouse move event that selections nodes in selection box
    */
-  self.onMouseMove = function(selection, mouseX, mouseY, button, ctrl) {
+  self.onMouseMove = function (selection, mouseX, mouseY, button, ctrl) {
+
     // check if left button is not down
     self.mouseX = mouseX;
     self.mouseY = mouseY;
-
     if (self.leftMouseDown && self.mouseDown) {
       // left-clicked empty space (i.e., not clicking a node)
       if (!self.dragging && self.selection.indexOf(selection) == -1 && !ctrl) {
@@ -27,6 +27,7 @@ module.exports = function(self) {
         self.checkSelection(mouseX, mouseY);
       }
     }
+
 
     if (self.selection.length > 0) {
       // reactivate (in D3's terminology: reheat) the force layout
@@ -50,6 +51,8 @@ module.exports = function(self) {
         return;
       }
 
+
+
       // update selection box size/position
       if (self.leftMouseDown && !self.dragging) {
         if (self.showBox) {
@@ -70,7 +73,7 @@ module.exports = function(self) {
   /**
    * Mouse hover over node event that highlights the node and neighbors at mouse position
    */
-  self.onHover = function(node) {
+  self.onHover = function (node) {
     if (self.lastHover && self.selection.indexOf(self.lastHover) == -1) {
       self.highlightNode(self.lastHover, false);
       self.lastHover.renderData.textHolder.children[0].element.hideme = true;
@@ -83,7 +86,6 @@ module.exports = function(self) {
       self.highlightEdges(node, true);
       //set currently hovered node
       appState.graph.currentlyHovered = node;
-      
     } else if (self.selection.length == 0) {
       self.graph.forEachNode(n => {
         self.colorNodeOpacity(n, 1);
@@ -99,20 +101,26 @@ module.exports = function(self) {
     }
   };
 
+
+
+
+
   // vars to get time at mouse press and time at mouse release
   var startTime = 0;
   var endTime = 0;
   /**
    * Mouse down event to start a selection box or start dragging a node
    */
-  self.onMouseDown = function(selection, mouseX, mouseY, button, ctrl) {
+  self.onMouseDown = function (selection, mouseX, mouseY, button, ctrl) {
     // if mouse is in minimap, do nothing else
     if (self.isMouseCoordinatesOnMinimap && self.mapShowing) {
       self.mouseDown = true;
       self.minimap.panToMousePosition(self.minimap.mouseX, self.minimap.mouseY);
       return;
     }
-    startTime = Date.now();
+
+    
+
     self.leftMouseDown = true;
     if (self.leftMouseDown) {
       self.mouseDown = true;
@@ -138,12 +146,43 @@ module.exports = function(self) {
         }
         self.selection = [];
       }
+
+
+
+
+
+      //captures click times to measure time distance between clicks
+      oldStartTime = startTime;
+      startTime = Date.now();
+
+      //keeps track of time difference
+      clickDifference = startTime - oldStartTime;
+
+      //sets whether or not last click was 
+      //double click or not
+      if (clickDifference < 225) {
+        self.doubleClicked = true;
+      } else {
+        self.doubleClicked = false;
+      }
+
+      
+
+      //selects single node when dragged
       if (selection) {
         self.dragging = selection;
         if (self.selection.indexOf(selection) == -1) {
           self.selection.push(selection);
-          selection.renderData.isSelected = true;
-          self.updateSelection(self.dragging.x, self.dragging.y);
+          selection.renderData.isSelected = false;
+        }
+      }
+
+      if (selection) {
+        self.dragging = selection;
+        //only pins node if double-clicked
+        if (self.doubleClicked) {
+          //passing in 'selection' node to pass information for node to pin
+          self.updateSelection(self.dragging.x, self.dragging.y, selection);
         } else if (ctrl) {
           self.selection.splice(self.selection.indexOf(selection), 1);
           selection.renderData.isSelected = false;
@@ -169,9 +208,12 @@ module.exports = function(self) {
   /**
    * Mouse up event that closes selection flags and emits selection to Argo
    */
-  self.onMouseUp = function(selection, mouseX, mouseY, button) {
+  self.onMouseUp = function (selection, mouseX, mouseY, button) {
     endTime = Date.now();
     self.mouseDown = false;
+
+
+
     // Left or right mouse button
     if (true) {
       self.showBox = false;
@@ -180,12 +222,15 @@ module.exports = function(self) {
 
       self.ee.emit("select-nodes", self.selection);
     }
+
   };
+
+
 
   /**
    * Right click event to save right clicked node
    */
-  self.onRightClick = function(selection) {
+  self.onRightClick = function (selection) {
     if (selection) {
       self.rightClickedNode = selection;
     } else {
@@ -196,7 +241,7 @@ module.exports = function(self) {
   /**
    * Right click event that emits context menu event to Argo
    */
-  self.onRightClickCoords = function(event) {
+  self.onRightClickCoords = function (event) {
     // Don't show menu if dragging camera
     if (endTime - startTime < 200) {
       self.ee.emit("right-click", {
