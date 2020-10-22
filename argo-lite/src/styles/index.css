@@ -68,6 +68,29 @@ html {
 .left-overlay-card {
   margin-top: -1em;
   padding-top: 1.1em;
+  overflow-y: auto;
+  max-height: 530px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #212c34; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #435a6a; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #495964; 
 }
 
 
