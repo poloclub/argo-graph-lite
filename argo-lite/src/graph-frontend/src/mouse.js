@@ -13,8 +13,6 @@ module.exports = function (self) {
    */
   self.onMouseMove = function (selection, mouseX, mouseY, button, ctrl) {
 
-    //resets last time user has activity
-    appState.graph.lastUnpaused = Date.now();
 
     // check if left button is not down
     self.mouseX = mouseX;

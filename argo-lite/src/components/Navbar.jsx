@@ -191,19 +191,6 @@ class RegularNavbar extends React.Component {
           <span className={Classes.NAVBAR_DIVIDER} />
           {appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
-              
-              {/** Pauses graph after ~2 minutes of inactivity */}
-              {(() => {let self = this;
-              setInterval(function () {
-                  let timeNow = Date.now();
-                  if(!appState.graph.frame.paused && 
-                    appState.graph.lastUnpaused && 
-                    timeNow - appState.graph.lastUnpaused > 100000){
-                      appState.graph.frame.pauseLayout();
-                      appState.graph.frame.paused = true;
-                      self.forceUpdate();
-                  }
-                }, 5000)})()}
 
 
               <Tooltip
@@ -216,7 +203,6 @@ class RegularNavbar extends React.Component {
                   text={appState.graph.frame.paused ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
                     if (appState.graph.frame.paused) {
-                      appState.graph.lastUnpaused = Date.now();
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();
                     } else {
