@@ -203,11 +203,6 @@ class RegularNavbar extends React.Component {
                       appState.graph.frame.pauseLayout();
                       appState.graph.frame.paused = true;
                       appState.graph.smartPaused = true;
-                      toaster.show({
-                        message: 'Your graph has been SmartPaused due to inactivity.',
-                        intent: Intent.SUCCESS,
-                        timeout: -1
-                    });
                       self.forceUpdate();
                   }
                 }, 5000)})()}
