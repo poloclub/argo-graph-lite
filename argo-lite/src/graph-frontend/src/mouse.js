@@ -6,14 +6,13 @@ var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
 var $ = require("jquery");
+const { default: appState } = require("../../stores");
 
 module.exports = function (self) {
   /**
    * Mouse move event that selections nodes in selection box
    */
   self.onMouseMove = function (selection, mouseX, mouseY, button, ctrl) {
-
-
     // check if left button is not down
     self.mouseX = mouseX;
     self.mouseY = mouseY;

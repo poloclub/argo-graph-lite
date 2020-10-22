@@ -44,7 +44,9 @@ export default class GraphStore {
   // Currently hovered node
   @observable currentlyHovered = undefined;
 
-
+  //Date graph was last unpaused
+  @observable lastUnpaused = undefined;
+  @observable smartPaused = false;
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog
@@ -416,4 +418,3 @@ export default class GraphStore {
     return exactGraphDiameter(snapshot);
   }
 }
-

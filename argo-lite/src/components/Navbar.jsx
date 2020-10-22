@@ -19,7 +19,7 @@ import appState from "../stores/index";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import argologo from '../images/argologo.png';
-
+import { toaster } from '../notifications/client';
 import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS } from '../constants';
 
 @observer
@@ -191,18 +191,39 @@ class RegularNavbar extends React.Component {
           <span className={Classes.NAVBAR_DIVIDER} />
           {appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
+              
+              {/** Pauses graph after ~2 minutes of inactivity */}
+              {(() => {
+              let self = this;
+              setInterval(function () {
+                  let timeNow = Date.now();
+                  if(!appState.graph.frame.paused && 
+                    appState.graph.lastUnpaused && 
+                    timeNow - appState.graph.lastUnpaused > 100000){
+                      appState.graph.frame.pauseLayout();
+                      appState.graph.frame.paused = true;
+                      appState.graph.smartPaused = true;
+                      toaster.show({
+                        message: 'Your graph has been SmartPaused due to inactivity.',
+                        intent: Intent.SUCCESS,
+                        timeout: -1
+                    });
+                      self.forceUpdate();
+                  }
+                }, 5000)})()}
 
 
               <Tooltip
-                content={appState.graph.frame.paused ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
+                content={(appState.graph.frame.paused) ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
                 position={Position.BOTTOM}
               >
                 <Button
                   className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-                  iconName={appState.graph.frame.paused ? "play" : "pause"}
-                  text={appState.graph.frame.paused ? "Resume Layout" : "Pause Layout"}
+                  iconName={(!appState.graph.smartPaused && appState.graph.frame.paused) ? "play" : "pause"}
+                  text={(!appState.graph.smartPaused && appState.graph.frame.paused) ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
                     if (appState.graph.frame.paused) {
+                      appState.graph.lastUnpaused = Date.now();
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();
                     } else {
