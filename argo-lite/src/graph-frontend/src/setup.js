@@ -211,6 +211,28 @@ module.exports = function(self) {
 
     self.edges.addAttribute("position", positions);
     self.edges.addAttribute("color", colors);
+
+
+    /**Adding triangles for directed edges update*/
+    self.directedArrows = new THREE.BufferGeometry();
+    var arrowMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+    });
+    self.arrow = new THREE.Mesh(self.directedArrows, arrowMaterial);
+    self.arrow.frustumCulled = false;
+    self.scene.add(self.arrow)
+    var arrowPositions = new THREE.BufferAttribute(
+      new Float32Array(self.MAX_LINES * 3),
+      3
+    );
+    var arrowColors = new THREE.BufferAttribute(
+      new Float32Array(self.MAX_LINES * 3),
+      3
+    );
+
+    self.directedArrows.addAttribute("position", arrowPositions);
+    self.directedArrows.addAttribute("color", arrowColors);
+    
     self.drawCount = 0;
   };
 
