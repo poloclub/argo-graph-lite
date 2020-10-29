@@ -5,7 +5,7 @@ import classnames from "classnames";
 export default ({ name, isOpen, onToggle, children }) => (
   <div>
     <Button
-      className={classnames(Classes.FILL, Classes.MINIMAL, "text-align-left")}
+      className={classnames(Classes.LARGE, Classes.FILL, Classes.MINIMAL, "text-align-left")}
       rightIconName={isOpen ? "chevron-up" : "chevron-down"}
       onClick={onToggle}
     >
