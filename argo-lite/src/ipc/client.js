@@ -56,6 +56,7 @@ import { toaster } from '../notifications/client';
 
 import createGraph from 'ngraph.graph';
 import pageRank from 'ngraph.pagerank';
+import centrality from 'ngraph.centrality';
 import parse from "csv-parse/lib/sync";
 // import worker from './worker';
 
@@ -591,7 +592,9 @@ async function importGraphFromCSV(config) {
   });
 
   const rank = pageRank(graph);
-  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], degree: degreeDict[n.id] }));
+  const directedBetweenness = centrality.betweenness(graph, true);
+  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], 
+                                  degree: degreeDict[n.id], "bet. Centrality": directedBetweenness[n.id].toFixed(2)}));
   return {
     rawGraph: { nodes: nodesArr, edges: edgesArr },
     metadata: {
@@ -599,7 +602,7 @@ async function importGraphFromCSV(config) {
       fullNodes: nodesArr.length,
       fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
       nodeProperties: Object.keys(nodesArr[0]),
-      nodeComputed: ['pagerank', 'degree'],
+      nodeComputed: ['pagerank', 'degree', 'bet. Centrality'],
       edgeProperties: ['source_id', 'target_id'],
     },
   }
@@ -648,7 +651,9 @@ export async function importGraphFromGexf() {
   });
 
   const rank = pageRank(graph);
-  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], degree: degreeDict[n.id] }));
+  const directedBetweenness = centrality.betweenness(graph, true);
+  nodesArr = nodesArr.map(n => ({ ...n, node_id: n.id, pagerank: rank[n.id], 
+                                  degree: degreeDict[n.id], "bet. Centrality": directedBetweenness[n.id].toFixed(2)}));
   return {
     rawGraph: { nodes: nodesArr, edges: edgesArr },
     metadata: {
@@ -656,7 +661,7 @@ export async function importGraphFromGexf() {
       fullNodes: nodesArr.length,
       fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
       nodeProperties: Object.keys(nodesArr[0]),
-      nodeComputed: ['pagerank', 'degree'],
+      nodeComputed: ['pagerank', 'degree', 'bet. Centrality'],
       edgeProperties: ['source_id', 'target_id'],
     },
   }

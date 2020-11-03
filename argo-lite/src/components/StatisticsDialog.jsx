@@ -71,7 +71,6 @@ class StatisticsDialog extends React.Component {
                     <tr>
                         <td>Connected Component</td>
                         <td>{(appState.graph.hasGraph & appState.preferences.statisticsDialogOpen) ? appState.graph.components : 'loading graph'}</td>
-
                     </tr>
                 </tbody>
             </table>

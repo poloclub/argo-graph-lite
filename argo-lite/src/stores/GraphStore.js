@@ -76,7 +76,7 @@ export default class GraphStore {
     fullNodes: 0,
     fullEdges: 0,
     nodeProperties: [],
-    nodeComputed: ["pagerank", "degree"],
+    nodeComputed: ["pagerank", "degree", "bet. Centrality"],
     edgeProperties: [],
     snapshotName: "loading..." // Optional: for display in Argo-lite only
   };
