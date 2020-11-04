@@ -70,17 +70,7 @@ class App extends React.Component {
         className={classnames({
           "app-wrapper": true,
           [Classes.DARK]: appState.preferences.darkMode
-        })}
-        onMouseMove={() => {
-          //resets last time user has activity
-          if (appState.graph.smartPaused) {
-            appState.graph.frame.resumeLayout();
-            appState.graph.frame.paused = false;
-            appState.graph.smartPaused = false;
-          }
-          appState.graph.lastUnpaused = Date.now();
-        }}
-      >
+        })}>
         <Navbar />
         <main className="main">
           {appState.graph.hasGraph ? (

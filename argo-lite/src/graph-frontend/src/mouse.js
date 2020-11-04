@@ -25,6 +25,9 @@ module.exports = function (self) {
       if (!self.dragging) {
         // add nodes enclosed by selection box into node selection
         self.checkSelection(mouseX, mouseY);
+      } else {
+        //when dragging, un-smartpause if smartpaused
+        appState.graph.lastUnpaused = Date.now();
       }
     }
 
