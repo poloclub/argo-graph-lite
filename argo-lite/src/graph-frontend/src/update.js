@@ -11,8 +11,9 @@ module.exports = function(self) {
    *  Update the position and color of the edges
    */
   self.updateEdges = function() {
-    self.edges.setDrawRange(0, self.drawCount + 6);
-    var total = self.drawCount + 6;
+    // self.edges.setDrawRange(0, self.drawCount + 6);
+    // var total = self.drawCount + 6;
+    var total = self.drawCount
     var positions = self.edges.attributes.position.array;
     var colors = self.edges.attributes.color.array;
 
@@ -20,8 +21,9 @@ module.exports = function(self) {
     var arrowPosition = self.directedArrows.attributes.position.array;
     var arrowColor = self.directedArrows.attributes.color.array;
      /**Edited to add arrows to image */
+     console.log(total);
 
-    for (var i = 0; i < total; i += 2) {
+    for (var i = 0; i < total; i += 4) {
       if (self.lineIndices[i / 2]) {
         var v1pos = self.lineObjects[i].renderData.draw_object.position;
         var v2pos = self.lineObjects[i + 1].renderData.draw_object.position;
@@ -47,6 +49,10 @@ module.exports = function(self) {
 
         arrowPosition[i / 2 * 9] = midPointX;
         arrowPosition[i / 2 * 9 + 1] = midPointY;
+        // console.log(midPointX);
+        // console.log(midPointY)
+        // console.log(dX);
+        // console.log(dY);
 
         if (dX >= 0) {
           var tempXCorner = midPointX - Math.cos(radianDegree) * 0.866;
@@ -57,15 +63,14 @@ module.exports = function(self) {
           arrowPosition[i / 2 * 9 + 4] = tempYCorner + 0.5 * Math.sin(degreeDifference);
           arrowPosition[i / 2 * 9 + 6] = tempXCorner + 0.5 * Math.cos(degreeDifference);
           arrowPosition[i / 2 * 9 + 7] = tempYCorner - 0.5 * Math.sin(degreeDifference);
-        
         } else {
           var tempXCorner = midPointX + Math.cos(radianDegree) * 0.866;
           var tempYCorner = midPointY + Math.sin(radianDegree) * 0.866;
           var degreeDifference = Math.PI/2 - radianDegree;
           arrowPosition[i / 2 * 9 + 3] = tempXCorner + 0.5 * Math.cos(degreeDifference);
-          arrowPosition[i / 2 * 9 + 4] = tempYCorner + 0.5 * Math.sin(degreeDifference);
+          arrowPosition[i / 2 * 9 + 4] = tempYCorner - 0.5 * Math.sin(degreeDifference);
           arrowPosition[i / 2 * 9 + 6] = tempXCorner - 0.5 * Math.cos(degreeDifference);
-          arrowPosition[i / 2 * 9 + 7] = tempYCorner - 0.5 * Math.sin(degreeDifference);
+          arrowPosition[i / 2 * 9 + 7] = tempYCorner + 0.5 * Math.sin(degreeDifference);
         }
 
         if (self.lineIndices[i / 2].hide) {
