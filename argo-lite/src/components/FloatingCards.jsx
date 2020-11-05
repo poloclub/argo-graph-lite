@@ -6,6 +6,7 @@ import appState from "../stores";
 import SimpleSelect from "./utils/SimpleSelect";
 import { addNode } from "../ipc/client";
 import NodesPanel from "./panels/NodesPanel";
+import EdgesPanel from "./panels/EdgesPanel";
 import LabelsPanel from "./panels/LabelsPanel";
 import NodeDetail from "./panels/NodeDetailPanel";
 import Legends from "./Legends";
@@ -22,6 +23,7 @@ class RenderOptionsCard extends React.Component {
         <h4>Graph Options</h4>
         <Tabs2 animate id="graph-options">
           <Tab2 id="nodes" title="Nodes" panel={<NodesPanel />} />
+          <Tab2 id="edges" title="Edges" panel={<EdgesPanel />} />
           <Tab2 id="labels" title="Labels" panel={<LabelsPanel />} />
           {/* <Tab2 id="layout" title="Layout" panel={<LayoutPanel />} /> */}
           <Tabs2.Expander />

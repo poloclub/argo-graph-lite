@@ -6,6 +6,7 @@ var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
 
+
 module.exports = function(self) {
   /**
    *  Create highlight mesh
@@ -257,12 +258,14 @@ module.exports = function(self) {
     if (!target.linkObjs) {
       target.linkObjs = [];
     }
+
     self.lineIndices.push({
       source: source,
       target: target,
       hide: !visible,
-      linecolor: source.renderData.linecolor
+      linecolor: source.renderData.linecolor, 
     });
+
     source.linkObjs.push(self.lineIndices[index / 6]);
     target.linkObjs.push(self.lineIndices[index / 6]);
     self.updateColorsAndPositions(source, target, index);

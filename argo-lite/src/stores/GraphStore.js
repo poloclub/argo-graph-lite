@@ -27,10 +27,13 @@ export default class GraphStore {
       labelSize: 1,
       labelLength: 10
     },
+    edges: {
+      color: "#7f7f7f"
+    }
   }
 
-  @observable
-  nodes = this.initialGlobalConfig.nodes;
+  @observable nodes = this.initialGlobalConfig.nodes;
+  @observable edges = this.initialGlobalConfig.edges
 
   @observable enableDegree = true;
   @observable enableDensity = true;
