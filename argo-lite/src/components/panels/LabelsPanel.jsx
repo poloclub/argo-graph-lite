@@ -68,7 +68,7 @@ class LabelsPanel extends React.Component {
           }}
           value={appState.graph.nodes.labelLength}
         />
-        <br/>
+        <div style={{height: '30px'}} />
         <h6>Label By</h6> 
         <Select
           items={appState.graph.allPropertiesKeyList}
@@ -76,7 +76,7 @@ class LabelsPanel extends React.Component {
           filterable={false}
           onItemSelect={it => (appState.graph.nodes.labelBy = it)}
         >
-          <Button iconName="filter-list" text={appState.graph.nodes.labelBy} />
+          <Button text={appState.graph.nodes.labelBy} />
         </Select>
       </div>
     );

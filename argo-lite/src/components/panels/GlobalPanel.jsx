@@ -120,7 +120,7 @@ class GlobalPanel extends React.Component {
               <rect
                 x="0"
                 y="0"
-                width="220"
+                width="203"
                 height="50"
                 fill="url(#theGradient)"
               />
@@ -150,7 +150,7 @@ class GlobalPanel extends React.Component {
                     filterable={false}
                     onItemSelect={it => (appState.graph.nodes.sizeBy = it)}
                   >
-                    <Button iconName="filter-list" text={appState.graph.nodes.sizeBy} />
+                    <Button text={appState.graph.nodes.sizeBy} />
                   </Select>
                 </span>
               </p>
@@ -164,7 +164,7 @@ class GlobalPanel extends React.Component {
                   filterable={false}
                   onItemSelect={it => (appState.graph.nodes.size.scale = it)}
                   >
-                    <Button iconName="filter-list" text={appState.graph.nodes.size.scale} />
+                    <Button text={appState.graph.nodes.size.scale} />
                   </Select>
                 </span>
               </p>
@@ -217,7 +217,7 @@ class GlobalPanel extends React.Component {
                 filterable={false}
                 onItemSelect={it => (appState.graph.nodes.shape = it)}
               >
-                <Button iconName="polygon-filter" text={appState.graph.nodes.shape} />
+                <Button  text={appState.graph.nodes.shape} />
               </Select>
               </span>
             </p></section>          
