@@ -156,7 +156,7 @@ class GlobalPanel extends React.Component {
               </p>
             </section>
             <section> 
-              <p style={{textAlign:"left"}}>Scale By:
+              <p style={{textAlign:"left"}}>Scale Type:
                 <span style={{float:"right"}}>
                   <Select
                   items={Object.keys(scales)}
@@ -228,7 +228,7 @@ class GlobalPanel extends React.Component {
           
           {pluralize("node", appState.graph.overrides.size, true)}<span> </span>
           have override styles.  &nbsp;  
-          <Button iconName="cross" className={"pt-small"} text="Clear" onClick={() => (appState.graph.overrides = new Map())} />
+          <Button className={"pt-small"} text="Clear" onClick={() => (appState.graph.overrides = new Map())} />
         </small>
       </div>
     );
