@@ -200,19 +200,19 @@ class RegularNavbar extends React.Component {
 
                   //smart pausing
                   if(!appState.graph.frame.paused && 
-                    appState.graph.lastUnpaused && 
-                    timeNow - appState.graph.lastUnpaused > 2000){
+                    appState.graph.smartPause.lastUnpaused && 
+                    !appState.graph.smartPause.interactingWithGraph && timeNow - appState.graph.smartPause.lastUnpaused > 300){
                       appState.graph.frame.pauseLayout();
                       appState.graph.frame.paused = true;
-                      appState.graph.smartPaused = true;
+                      appState.graph.smartPause.smartPaused = true;
                       self.forceUpdate();
                   }
 
                   //un-smart pausing
-                  if(appState.graph.smartPaused && timeNow - appState.graph.lastUnpaused <= 2000) {
+                  if(appState.graph.smartPause.smartPaused && appState.graph.smartPause.interactingWithGraph) {
                       appState.graph.frame.resumeLayout();
                       appState.graph.frame.paused = false;
-                      appState.graph.smartPaused = false;
+                      appState.graph.smartPause.smartPaused = false;
                       self.forceUpdate();
                   }
 
@@ -225,18 +225,18 @@ class RegularNavbar extends React.Component {
               >
                 <Button
                   className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-                  iconName={(!appState.graph.smartPaused && appState.graph.frame.paused) ? "play" : "pause"}
-                  text={(!appState.graph.smartPaused && appState.graph.frame.paused) ? "Resume Layout" : "Pause Layout"}
+                  iconName={(!appState.graph.smartPause.smartPaused && appState.graph.frame.paused) ? "play" : "pause"}
+                  text={(!appState.graph.smartPause.smartPaused && appState.graph.frame.paused) ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
-                    if (appState.graph.frame.paused && !appState.graph.smartPaused) {
+                    if (appState.graph.frame.paused && !appState.graph.smartPause.smartPaused) {
                       //graph is in "pause layout" mode
-                      appState.graph.lastUnpaused = Date.now();
+                      appState.graph.smartPause.lastUnpaused = Date.now();
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();
-                    } else if(appState.graph.smartPaused) {
+                    } else if(appState.graph.smartPause.smartPaused) {
                       //graph is in "resume layout" mode but is smart paused
                       appState.graph.frame.paused = true;
-                      appState.graph.smartPaused = false;
+                      appState.graph.smartPause.smartPaused = false;
                     } else {
                       //graph is in "resume layout" mode
                       appState.graph.frame.pauseLayout();

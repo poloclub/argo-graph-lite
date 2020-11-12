@@ -44,9 +44,17 @@ export default class GraphStore {
   // Currently hovered node
   @observable currentlyHovered = undefined;
 
-  //Date graph was last unpaused
-  @observable lastUnpaused = undefined;
-  @observable smartPaused = false;
+
+  //Data on when graph was unpaused,
+  //if graph is smart paused,
+  //and if nodes are being interacted with
+  @observable smartPause = {
+    lastUnpaused: undefined,
+    smartPaused: false,
+    interactingWithGraph: false,
+  }
+
+
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog

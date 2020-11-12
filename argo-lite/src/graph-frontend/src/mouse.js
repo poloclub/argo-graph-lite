@@ -17,19 +17,20 @@ module.exports = function (self) {
     self.mouseX = mouseX;
     self.mouseY = mouseY;
     if (self.leftMouseDown && self.mouseDown) {
+      
       // left-clicked empty space (i.e., not clicking a node)
       if (!self.dragging && self.selection.indexOf(selection) == -1 && !ctrl) {
         self.clearSelection();
       }
 
+
       if (!self.dragging) {
         // add nodes enclosed by selection box into node selection
         self.checkSelection(mouseX, mouseY);
-      } else {
-        //when dragging, un-smartpause if smartpaused
-        appState.graph.lastUnpaused = Date.now();
       }
     }
+
+    
 
 
     if (self.selection.length > 0) {
@@ -151,7 +152,11 @@ module.exports = function (self) {
       }
 
 
-
+      if(selection) {
+        //when any node is clicked, un-smartpause if smartpaused
+        appState.graph.smartPause.lastUnpaused = Date.now();
+        appState.graph.smartPause.interactingWithGraph = true;
+      }
 
 
       //captures click times to measure time distance between clicks
@@ -215,7 +220,8 @@ module.exports = function (self) {
     endTime = Date.now();
     self.mouseDown = false;
 
-
+    //when not clicking, nodes aren't being interacted with
+    appState.graph.smartPause.interactingWithGraph = false;
 
     // Left or right mouse button
     if (true) {
