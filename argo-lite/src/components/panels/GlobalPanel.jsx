@@ -96,7 +96,7 @@ class GlobalPanel extends React.Component {
               </p>
             </section>
             <section style={{marginTop:"-1em"}}>
-              <svg width="220" height="10" className="gradient-preview">
+              <svg width="100%" height="10" className="gradient-preview">
               <defs>
                 <linearGradient
                   x1="0%"
@@ -120,7 +120,7 @@ class GlobalPanel extends React.Component {
               <rect
                 x="0"
                 y="0"
-                width="203"
+                width="100%"
                 height="50"
                 fill="url(#theGradient)"
               />
