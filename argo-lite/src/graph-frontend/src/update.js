@@ -23,7 +23,7 @@ module.exports = function(self) {
      /**Edited to add arrows to image */
      console.log(total);
 
-    for (var i = 0; i < total; i += 4) {
+    for (var i = 0; i < total; i += 2) {
       if (self.lineIndices[i / 2]) {
         var v1pos = self.lineObjects[i].renderData.draw_object.position;
         var v2pos = self.lineObjects[i + 1].renderData.draw_object.position;
