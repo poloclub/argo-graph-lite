@@ -45,6 +45,7 @@ class SelectionPanel extends React.Component {
   render() {
     return (
       <div>
+        <br/>
         <SwitchCollapsable
           name="Override Size"
           isOpen={this.state.sizeOptionOpen}
@@ -94,6 +95,7 @@ class SelectionPanel extends React.Component {
             />
           </div>
         </SwitchCollapsable>
+        <br/>
         <SwitchCollapsable
           name="Override Color"
           isOpen={this.state.colorOptionOpen}
@@ -126,7 +128,9 @@ class SelectionPanel extends React.Component {
           }}
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
+          <section> <p style={{textAlign:"left"}}>
             Choose Color:
+            <span style={{float:"right"}}>
             <Popover2>
               <Button
                 text="  "
@@ -147,8 +151,12 @@ class SelectionPanel extends React.Component {
                 }}
               />
             </Popover2>
+            </span>
+            </p>
+            </section>
           </div>
         </SwitchCollapsable>
+        <br/>
         <SwitchCollapsable
           name="Override Label"
           isOpen={this.state.labelOptionOpen}
@@ -195,6 +203,7 @@ class SelectionPanel extends React.Component {
             />
           </div>
         </SwitchCollapsable>
+        <br/>
         <SwitchCollapsable
           name="Override Shape"
           isOpen={this.state.shapeOptionOpen}
@@ -227,7 +236,9 @@ class SelectionPanel extends React.Component {
           }}
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
+          <section> <p style={{textAlign:"left"}}>
             Node Shape:
+            <span style={{float:"right"}}>
             <Select
               items={[
                 "circle",
@@ -250,6 +261,9 @@ class SelectionPanel extends React.Component {
             >
               <Button text={appState.graph.overrideConfig.shape} />
             </Select>
+            </span>
+            </p>
+            </section>
           </div>
         </SwitchCollapsable>
       </div>
