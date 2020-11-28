@@ -582,6 +582,7 @@ async function importGraphFromCSV(config) {
     }
     edgesSet.add(edgeKey);
     graph.addLink(from, to);
+    degreeDict[from] += 1;
     degreeDict[to] += 1;
     edgesArr.push({
       source_id: from,
@@ -594,7 +595,7 @@ async function importGraphFromCSV(config) {
     const to = it[toId].toString();
     // Argo currently works with undirected graph
     addEdge(from, to);
-    addEdge(to, from);
+    // addEdge(to, from);
   });
 
   const rank = pageRank(graph);
@@ -604,7 +605,7 @@ async function importGraphFromCSV(config) {
     metadata: {
       snapshotName: 'Untitled Graph',
       fullNodes: nodesArr.length,
-      fullEdges: Math.floor(edgesArr.length / 2), // Counting undirected edges
+      fullEdges: edgesArr.length, //Math.floor(edgesArr.length / 2), // Counting undirected edges
       nodeProperties: Object.keys(nodesArr[0]),
       nodeComputed: ['pagerank', 'degree'],
       edgeProperties: ['source_id', 'target_id'],

@@ -47,6 +47,8 @@ export default class GraphStore {
   // Currently hovered node
   @observable currentlyHovered = undefined;
 
+  // Directed or not
+  @observable directedOrNot = false;
 
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again

@@ -15,6 +15,11 @@ module.exports = function(self) {
     var total = self.drawCount + 6;
     var positions = self.edges.attributes.position.array;
     var colors = self.edges.attributes.color.array;
+
+    //directed arrows
+    var arrowPosition = self.directedArrows.attributes.position.array;
+    var arrowColor = self.directedArrows.attributes.color.array;
+
     for (var i = 0; i < total; i += 2) {
       if (self.lineIndices[i / 2]) {
         if (self.lineIndices[i / 2].hide) {
@@ -45,11 +50,54 @@ module.exports = function(self) {
           colors[i * 3 + 3] = v2color.r;
           colors[i * 3 + 4] = v2color.g;
           colors[i * 3 + 5] = v2color.b;
+
+          if (appState.graph.directedOrNot) {
+            self.arrow.visible = true;
+            var midPointX = (v1pos.x + v2pos.x)/2;
+            var midPointY = (v1pos.y + v2pos.y)/2;
+
+            var dX = v2pos.x - v1pos.x;
+            var dY = v2pos.y - v1pos.y;
+
+            if (dX === 0) {
+              dX = 0.001;
+            }
+            var radianDegree = Math.atan(dY / dX);
+            // var tempXCorner = midPointX - Math.cos(radianDegree) * 0.866;
+            // var tempYCorner = midPointY - Math.sin(radianDegree) * 0.866;
+
+            // var degreeDifference = Math.PI/2 - radianDegree
+            arrowPosition[i / 2 * 9] = midPointX;
+            arrowPosition[i / 2 * 9 + 1] = midPointY;
+
+            if (dX >= 0) {
+              var tempXCorner = midPointX - Math.cos(radianDegree) * 0.866;
+              var tempYCorner = midPointY - Math.sin(radianDegree) * 0.866;
+              var degreeDifference = Math.PI/2 - radianDegree;
+              arrowPosition[i / 2 * 9 + 3] = tempXCorner - 0.5 * Math.cos(degreeDifference);
+              arrowPosition[i / 2 * 9 + 4] = tempYCorner + 0.5 * Math.sin(degreeDifference);
+              arrowPosition[i / 2 * 9 + 6] = tempXCorner + 0.5 * Math.cos(degreeDifference);
+              arrowPosition[i / 2 * 9 + 7] = tempYCorner - 0.5 * Math.sin(degreeDifference);
+            
+            } else {
+              var tempXCorner = midPointX + Math.cos(radianDegree) * 0.866;
+              var tempYCorner = midPointY + Math.sin(radianDegree) * 0.866;
+              var degreeDifference = Math.PI/2 - radianDegree;
+              arrowPosition[i / 2 * 9 + 3] = tempXCorner + 0.5 * Math.cos(degreeDifference);
+              arrowPosition[i / 2 * 9 + 4] = tempYCorner - 0.5 * Math.sin(degreeDifference);
+              arrowPosition[i / 2 * 9 + 6] = tempXCorner - 0.5 * Math.cos(degreeDifference);
+              arrowPosition[i / 2 * 9 + 7] = tempYCorner + 0.5 * Math.sin(degreeDifference);
+            }
+          } else {
+            self.arrow.visible = false;
+          } 
         }
       }
     }
     self.edges.attributes.position.needsUpdate = true;
     self.edges.attributes.color.needsUpdate = true;
+
+    self.directedArrows.attributes.position.needsUpdate = true;
   };
 
   /**
