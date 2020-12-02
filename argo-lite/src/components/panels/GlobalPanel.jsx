@@ -38,56 +38,65 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-            <section> <p>Color by: &nbsp;  
-              <SimpleSelect
-                items={appState.graph.allPropertiesKeyList}
-                onSelect={it => (appState.graph.nodes.colorBy = it)}
-                value={appState.graph.nodes.colorBy}
-              /></p>
+            <section>
+              <p style={{textAlign:"left"}}>Color By:
+                <span style={{float:"right"}}>
+                  <SimpleSelect  
+                    items={appState.graph.allPropertiesKeyList}
+                    onSelect={it => (appState.graph.nodes.colorBy = it)}
+                    value={appState.graph.nodes.colorBy}
+                  />
+                </span>
+              </p>
             </section>
            
-            <section> <p>With scale: &nbsp;  
-              <SimpleSelect
-                items={Object.keys(scales)}
-                onSelect={it => (appState.graph.nodes.color.scale = it)}
-                value={appState.graph.nodes.color.scale}
-              /></p>
+            <section> 
+              <p style={{textAlign:"left"}}>Scale Type:
+                <span style={{float:"right"}}>
+                  <SimpleSelect
+                    items={Object.keys(scales)}
+                    onSelect={it => (appState.graph.nodes.color.scale = it)}
+                    value={appState.graph.nodes.color.scale}
+                  />
+                </span>
+              </p>
             </section>
            
-           <section>
-            <p>Using Gradient from: &nbsp;  </p>
-            <div style={{textAlign: "center"}}>
-            <p><Popover2>
-                <Button
-                  text="  "
-                  style={{
-
-                    backgroundImage: "inherit",
-                    backgroundColor: appState.graph.nodes.color.from
-                  }}
-                />
-                <SketchPicker
-                  color={appState.graph.nodes.color.from}
-                  onChange={it => (appState.graph.nodes.color.from = it.hex)}
-                />
-              </Popover2>
-              &nbsp;to&nbsp;
-              <Popover2>
-                <Button
-                  text="  "
-                  style={{
-                    backgroundImage: "inherit",
-                    backgroundColor: appState.graph.nodes.color.to
-                  }}
-                />
-                <SketchPicker
-                  color={appState.graph.nodes.color.to}
-                  onChange={it => (appState.graph.nodes.color.to = it.hex)}
-                />
-              </Popover2></p>
-              
-            </div>
-            <svg width="220" height="30" className="gradient-preview">
+            <section >
+              <p style={{textAlign:"left"}}>Gradient: &nbsp;  
+                <span style={{float:"right"}}>
+                    <Popover2>
+                      <Button                  
+                        text="  "
+                        style={{
+                          backgroundImage: "inherit",
+                          backgroundColor: appState.graph.nodes.color.from
+                        }}
+                      />
+                      <SketchPicker
+                        color={appState.graph.nodes.color.from}
+                        onChange={it => (appState.graph.nodes.color.from = it.hex)}
+                      />
+                    </Popover2>
+                    &nbsp; &#8594; &nbsp;
+                    <Popover2>
+                    <Button
+                      text="  "
+                      style={{
+                        backgroundImage: "inherit",
+                        backgroundColor: appState.graph.nodes.color.to
+                      }}
+                    />
+                    <SketchPicker
+                      color={appState.graph.nodes.color.to}
+                      onChange={it => (appState.graph.nodes.color.to = it.hex)}
+                    />
+                  </Popover2>
+                </span>
+              </p>
+            </section>
+            <section style={{marginTop:"-1em"}}>
+              <svg width="100%" height="10" className="gradient-preview">
               <defs>
                 <linearGradient
                   x1="0%"
@@ -111,7 +120,7 @@ class GlobalPanel extends React.Component {
               <rect
                 x="0"
                 y="0"
-                width="220"
+                width="100%"
                 height="50"
                 fill="url(#theGradient)"
               />
@@ -132,26 +141,34 @@ class GlobalPanel extends React.Component {
         >
          
           <div className={classnames(Classes.CARD, "sub-option")}>
-            <section> <p>Scale by: &nbsp;  
-              <Select
-                items={appState.graph.allPropertiesKeyList}
-                itemRenderer={CommonItemRenderer}
-                filterable={false}
-                onItemSelect={it => (appState.graph.nodes.sizeBy = it)}
-              >
-                <Button text={appState.graph.nodes.sizeBy} />
-              </Select>
-            </p></section>
-            <section> <p>With scale: &nbsp;  
-            <Select
-                items={Object.keys(scales)}
-                itemRenderer={CommonItemRenderer}
-                filterable={false}
-                onItemSelect={it => (appState.graph.nodes.size.scale = it)}
-              >
-                <Button text={appState.graph.nodes.size.scale} />
-              </Select>
-            </p></section>
+            <section> 
+              <p style={{textAlign:"left"}}>Scale By:
+                <span style={{float:"right"}}>
+                  <Select
+                    items={appState.graph.allPropertiesKeyList}
+                    itemRenderer={CommonItemRenderer}
+                    filterable={false}
+                    onItemSelect={it => (appState.graph.nodes.sizeBy = it)}
+                  >
+                    <Button text={appState.graph.nodes.sizeBy} />
+                  </Select>
+                </span>
+              </p>
+            </section>
+            <section> 
+              <p style={{textAlign:"left"}}>Scale Type:
+                <span style={{float:"right"}}>
+                  <Select
+                  items={Object.keys(scales)}
+                  itemRenderer={CommonItemRenderer}
+                  filterable={false}
+                  onItemSelect={it => (appState.graph.nodes.size.scale = it)}
+                  >
+                    <Button text={appState.graph.nodes.size.scale} />
+                  </Select>
+                </span>
+              </p>
+            </section>
          
             Size Range:
             <br />
@@ -185,7 +202,8 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-          <section> <p> Node Shape: &nbsp;  
+          <section> <p style={{textAlign:"left"}}> Node Shape:
+          <span style={{float:"right"}}>
             <Select
                 items={[
                   "circle",
@@ -199,8 +217,9 @@ class GlobalPanel extends React.Component {
                 filterable={false}
                 onItemSelect={it => (appState.graph.nodes.shape = it)}
               >
-                <Button text={appState.graph.nodes.shape} />
+                <Button  text={appState.graph.nodes.shape} />
               </Select>
+              </span>
             </p></section>          
           </div>
         </Collapsable>

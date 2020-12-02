@@ -54,7 +54,7 @@ module.exports = function(self) {
       if (self.selection.indexOf(n) != -1 || n == node) {
         // If the node is selected or the node is the node to be highlighted
         self.colorNodeOpacity(n, 1);
-        self.colorNodeEdge(n, 0.5, 0.5);
+        self.colorNodeEdge(n, true);
         for (var i = 0; n.linkObjs && i < n.linkObjs.length; i++) {
           n.linkObjs[i].linecolor = n.renderData.linecolor;
         }
@@ -65,13 +65,13 @@ module.exports = function(self) {
         // If the node is not selected or highlighted and
         // if the node is present in either froms or tos arrays
         self.colorNodeOpacity(n, 1);
-        self.colorNodeEdge(n, 0.3, 0.9);
+        self.colorNodeEdge(n, false);
       } else if (
         !self.prevHighlights ||
         self.prevHighlights.indexOf(n.id) == -1
       ) {
         self.colorNodeOpacity(n, 0.5);
-        self.colorNodeEdge(n, 0.3, 0.9);
+        self.colorNodeEdge(n, false);
         self.highlightNode(n, false, def.ADJACENT_HIGHLIGHT);
       }
     });
@@ -80,10 +80,20 @@ module.exports = function(self) {
   /**
    *  Change color of node edges
    */
-  self.colorNodeEdge = function(node, dc, c) {
-    node.renderData.linecolor.r = self.darkMode ? dc : c;
-    node.renderData.linecolor.g = self.darkMode ? dc : c;
-    node.renderData.linecolor.b = self.darkMode ? dc : c;
+  self.colorNodeEdge = function(node, isHighlighted) {
+    let red = new THREE.Color(appState.graph.edges.color).r;
+    let blue = new THREE.Color(appState.graph.edges.color).g;
+    let green = new THREE.Color(appState.graph.edges.color).b;
+    if(isHighlighted) {
+      node.renderData.linecolor.r = red;
+      node.renderData.linecolor.g = blue;
+      node.renderData.linecolor.b = green;
+    } else {
+      node.renderData.linecolor.r =  self.darkMode ? 0.25 : .75;
+      node.renderData.linecolor.g = self.darkMode ? 0.25 : .75;
+      node.renderData.linecolor.b = self.darkMode ? 0.25 : .75;
+    }
+    
   };
 
   /**

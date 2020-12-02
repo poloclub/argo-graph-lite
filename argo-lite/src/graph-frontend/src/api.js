@@ -143,10 +143,14 @@ module.exports = function(self) {
   };
 
   self.showSelectedLabels = () => {
+    document.getElementById("showSelected").style.display="none";
+    document.getElementById("hideSelected").style.display="inline";
     self.showLabels(self.selection.map(n => n.id));
   };
 
   self.hideSelectedLabels = () => {
+    document.getElementById("hideSelected").style.display="none";
+    document.getElementById("showSelected").style.display="inline";
     self.hideLabels(self.selection.map(n => n.id));
   };
 
@@ -187,6 +191,8 @@ module.exports = function(self) {
   };
 
   self.hideAllLabels = () => {
+    document.getElementById("hideAll").style.display="none";
+    document.getElementById("showAll").style.display="inline";
     self.graph.forEachNode(function(node) {
       var node = self.graph.getNode(node.id);
       node.renderData.textHolder.children[0].element.override = false;
@@ -195,6 +201,8 @@ module.exports = function(self) {
   };
 
   self.showAllLabels = () => {
+    document.getElementById("showAll").style.display="none";
+    document.getElementById("hideAll").style.display="inline";
     self.graph.forEachNode(function(node) {
       var node = self.graph.getNode(node.id);
       node.renderData.textHolder.children[0].element.override = true;
