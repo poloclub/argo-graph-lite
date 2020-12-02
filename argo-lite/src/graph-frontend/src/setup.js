@@ -5,12 +5,16 @@ var Node = def.Node;
 var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
+var MeshLine = require('three.meshline').MeshLine;
+var MeshLineMaterial = require('three.meshline').MeshLineMaterial;
+THREE.MeshLine = require("../include/THREE.MeshLine").MeshLine;
+THREE.MeshLineMaterial = require("../include/THREE.MeshLine").MeshLineMaterial;
 
-module.exports = function(self) {
+module.exports = function (self) {
   /**
    * Creates or converts ngraph or d3 graph
    */
-  self.setupGraph = function() {
+  self.setupGraph = function () {
     var createNGraph = require("ngraph.graph");
     self.graph = createNGraph();
     if (self.inGraph) {
@@ -21,7 +25,7 @@ module.exports = function(self) {
   /**
    *  Create layout using d3
    */
-  self.setupLayout = function() {
+  self.setupLayout = function () {
     if (self.options.layout == "ngraph") {
       self.setupNgraphLayout();
     } else if (self.options.layout == "d3") {
@@ -32,14 +36,14 @@ module.exports = function(self) {
   /**
    * Set graph layout to ngraph
    */
-  self.setupNgraphLayout = function() {
+  self.setupNgraphLayout = function () {
     self.force = require("ngraph.forcelayout")(self.graph);
   };
 
   /**
    * Set graph layout to D3 Force Directed and set decay parameters
    */
-  self.setupD3Layout = function() {
+  self.setupD3Layout = function () {
     self.force = d3
       .forceSimulation()
       .force("charge", d3.forceManyBody().strength(-1))
@@ -57,7 +61,7 @@ module.exports = function(self) {
     self.force.velocityDecay(0.1);
   };
 
-  self.setDisplayParams = function() {
+  self.setDisplayParams = function () {
     self.element = document.getElementById("graph-container");
     self.clientRect = self.element.getBoundingClientRect();
     self.width = self.clientRect.width;
@@ -66,7 +70,7 @@ module.exports = function(self) {
     self.resolution = new THREE.Vector2(self.width, self.height);
   };
 
-  self.setRendererParams = function() {
+  self.setRendererParams = function () {
     self.renderer.setSize(self.width, self.height);
     self.cssRenderer = new THREE.CSS3DRenderer();
     self.cssRenderer.setSize(self.width, self.height);
@@ -83,7 +87,7 @@ module.exports = function(self) {
   /**
    *  Create initial camera and parameters
    */
-  self.setupCamera = function() {
+  self.setupCamera = function () {
     self.ccamera = new THREE.PerspectiveCamera(
       self.fov,
       self.width / self.height,
@@ -104,7 +108,7 @@ module.exports = function(self) {
   /**
    *  Create minimap
    */
-  self.setupMinimap = function() {
+  self.setupMinimap = function () {
     self.minimap = {};
     self.minimap.camera = new THREE.PerspectiveCamera(
       self.fov,
@@ -124,7 +128,7 @@ module.exports = function(self) {
        * @param coordX mouse position on screen returned by relMouseCoords
        * @param coordY mouse position on screen returned by relMouseCoords
        */
-      (self.minimap.panToMousePosition = function(coordX, coordY) {
+      (self.minimap.panToMousePosition = function (coordX, coordY) {
         // ensures that the camera position is updated from the last pan.
         if (
           self.ccamera.position.x == self.oldCoords.x &&
@@ -145,11 +149,11 @@ module.exports = function(self) {
           ((coordX / self.minimap.width) * 4000 -
             2000 -
             self.ccamera.position.x) *
-            -coefficient,
+          -coefficient,
           (((self.height - coordY) / self.minimap.height) * 4000 -
             2000 -
             self.ccamera.position.y) *
-            coefficient
+          coefficient
         );
       });
   };
@@ -157,7 +161,7 @@ module.exports = function(self) {
   /**
    *  Create initial scene geometry and attributes
    */
-  self.setupGeometry = function() {
+  self.setupGeometry = function () {
     self.scene = new THREE.Scene();
 
     self.points = new THREE.BufferGeometry();
@@ -180,7 +184,7 @@ module.exports = function(self) {
   /**
    * Setup data structures for fancy edges
    */
-  self.setupFancyEdges = function() {
+  self.setupFancyEdges = function () {
     self.edges = [];
     self.edgeCount = 0;
   };
@@ -188,15 +192,17 @@ module.exports = function(self) {
   /**
    * Sets up data structures for simple edges
    */
-  self.setUpSimpleEdges = function() {
+  self.setUpSimpleEdges = function () {
     self.edges = new THREE.BufferGeometry();
-    var material = new THREE.LineBasicMaterial({
-      linewidth: 2,
+    var meshLine = new MeshLine();
+    var material = new MeshLineMaterial({
+      linewidth: 10,
       color: 0xffffff,
-      vertexColors: THREE.VertexColors,
-      shading: THREE.FlatShading
+      useMap: 0
+      // vertexColors: THREE.VertexColors,
+      // shading: THREE.FlatShading
     });
-    self.line = new THREE.LineSegments(self.edges, material);
+    self.line = new THREE.Mesh(self.edges, material);
     self.line.frustumCulled = false;
     self.scene.add(self.line);
 
@@ -217,7 +223,7 @@ module.exports = function(self) {
   /**
    * Adds box to screen that is displayed when selecting groups of nodes
    */
-  self.setupSelectionBox = function(rect) {
+  self.setupSelectionBox = function (rect) {
     self.selectBox = new THREE.Line(
       rect,
       new THREE.LineBasicMaterial({ linewidth: 3, color: 0x3399aa })
@@ -229,11 +235,11 @@ module.exports = function(self) {
   /**
    * Sets boundaries for max edges of graph
    */
-  self.setupBoundaries = function(rect) {
+  self.setupBoundaries = function (rect) {
     self.boundaries = new THREE.Line(
       rect,
       new THREE.LineBasicMaterial({ linewidth: 3, color: 0x999999 })
-    ); 
+    );
     self.scene.add(self.boundaries);
     self.setBoundarySize(self.renderWidth * 2);
   };
@@ -241,10 +247,10 @@ module.exports = function(self) {
   /**
    * Sets viewport to match size of display
    */
-  self.setupViewPort = function(rect) {
+  self.setupViewPort = function (rect) {
     self.viewPort = new THREE.Line(
       rect,
-      new THREE.LineBasicMaterial({ linewidth: 3, color: self.darkMode? 0xffffff : 0x000000})
+      new THREE.LineBasicMaterial({ linewidth: 3, color: self.darkMode ? 0xffffff : 0x000000 })
     );
     self.scene.add(self.viewPort);
     self.setViewPortSize(self.ccamera);
@@ -253,15 +259,15 @@ module.exports = function(self) {
   /**
    *  Creates listeners and events for selecting nodes
    */
-  self.setupSelect = function() {
+  self.setupSelect = function () {
     self.points.addAttribute(
       "position",
       new THREE.BufferAttribute(new Float32Array(20 * 3), 3)
     );
     self.points.computeBoundingSphere();
     self.nodeCount = 0;
-    var mouseHandler = function(callback) {
-      return function(event) {
+    var mouseHandler = function (callback) {
+      return function (event) {
         event.preventDefault();
         let pageX, pageY;
         if (event.touches && event.touches.length > 0) {
@@ -272,7 +278,7 @@ module.exports = function(self) {
           pageX = event.pageX;
           pageY = event.pageY;
         }
-        
+
         var coords = self.relMouseCoords(pageX, pageY, this);
         var mouseX = (coords.x / self.width) * 2 - 1;
         var mouseY = 1 - (coords.y / self.height) * 2;
@@ -327,7 +333,7 @@ module.exports = function(self) {
   /**
    * Checks if a node has been clicked, and calls the appropriate mouse handler function
    */
-  self.callMouseHandler = function(event, raycaster, pos, callback) {
+  self.callMouseHandler = function (event, raycaster, pos, callback) {
     var intersects = raycaster.intersectObjects(self.nodes.children);
     if (intersects.length) {
       // If a node has been clicked
@@ -348,7 +354,7 @@ module.exports = function(self) {
   /**
    * Add Mouse Event Listeners to page
    */
-  self.setupMouseHandlers = function(mouseHandler) {
+  self.setupMouseHandlers = function (mouseHandler) {
     self.element.addEventListener(
       "mousemove",
       mouseHandler(self.onMouseMove),
