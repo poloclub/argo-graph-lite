@@ -192,34 +192,38 @@ class RegularNavbar extends React.Component {
           {appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
               
-              {/** Pauses graph after ~2 minutes of inactivity */}
+              {/** Smart Pause functionality: pauses graph after ~2 minutes of inactivity */}
               {(() => {
               let self = this;
               setInterval(function () {
                   let timeNow = Date.now();
-
-                  //smart pausing
-                  if(!appState.graph.frame.paused && 
-                    appState.graph.smartPause.lastUnpaused && 
-                    !appState.graph.smartPause.interactingWithGraph && timeNow - appState.graph.smartPause.lastUnpaused > 300){
-                      appState.graph.frame.pauseLayout();
+                  //stops initial default active layout
+                  if(appState.graph.smartPause.defaultActive.isActive) {
+                    if(timeNow - appState.graph.smartPause.defaultActive.startTime > 10000) {
                       appState.graph.frame.paused = true;
-                      appState.graph.smartPause.smartPaused = true;
-                      self.forceUpdate();
+                      appState.graph.smartPause.defaultActive.isActive = false;
+                    }
+                  } else {
+                      //smart pausing
+                    if(!appState.graph.frame.paused && 
+                      appState.graph.smartPause.lastUnpaused && 
+                      !appState.graph.smartPause.interactingWithGraph && timeNow - appState.graph.smartPause.lastUnpaused > 300){
+                        appState.graph.frame.pauseLayout();
+                        appState.graph.frame.paused = true;
+                        appState.graph.smartPause.smartPaused = true;
+                        self.forceUpdate();
+                    }
+                    //un-smart pausing
+                    if(appState.graph.smartPause.smartPaused && appState.graph.smartPause.interactingWithGraph) {
+                        appState.graph.frame.resumeLayout();
+                        appState.graph.frame.paused = false;
+                        appState.graph.smartPause.smartPaused = false;
+                        self.forceUpdate();
+                    }
                   }
-
-                  //un-smart pausing
-                  if(appState.graph.smartPause.smartPaused && appState.graph.smartPause.interactingWithGraph) {
-                      appState.graph.frame.resumeLayout();
-                      appState.graph.frame.paused = false;
-                      appState.graph.smartPause.smartPaused = false;
-                      self.forceUpdate();
-                  }
-
                 }, 200)})()}
 
-
-              <Tooltip
+             {!appState.graph.smartPause.defaultActive.isActive && <Tooltip
                 content={(appState.graph.frame.paused) ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
                 position={Position.BOTTOM}
               >
@@ -245,6 +249,7 @@ class RegularNavbar extends React.Component {
                   }}
                 />
               </Tooltip>
+          }
             </div>
           )}
         </div>

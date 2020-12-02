@@ -52,6 +52,10 @@ export default class GraphStore {
   //if graph is smart paused,
   //and if nodes are being interacted with
   @observable smartPause = {
+    defaultActive: { 
+      isActive: true,
+      startTime: Date.now(),
+    },
     lastUnpaused: undefined,
     smartPaused: false,
     interactingWithGraph: false,
