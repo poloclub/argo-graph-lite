@@ -434,24 +434,39 @@ async function readCSV(fileObject, hasHeader, delimiter) {
   return new Promise((resolve, reject) => {
     reader.onload = () => {
       const content = reader.result;
-      if (hasHeader) {
+      try {
+        if (hasHeader) {
+          resolve(parse(content, {
+            comment: "#",
+            trim: true,
+            auto_parse: true,
+            skip_empty_lines: true,
+            columns: hasHeader,
+            delimiter
+          }));
+        }
         resolve(parse(content, {
           comment: "#",
           trim: true,
           auto_parse: true,
           skip_empty_lines: true,
-          columns: hasHeader,
+          columns: undefined,
           delimiter
         }));
+      } catch(err) {
+        let msg =  err.message
+        let mismatch = msg.indexOf("Invalid Record Length:") == 0
+        if (mismatch) {
+          msg = msg.replace("is", "set to")
+          msg = msg.replace("got", "but detected")
+        } 
+        toaster.show({
+          message: "Error: " + msg,
+          intent: Intent.DANGER,
+          timeout: -1
+      });
+        appState.import.loading = false;
       }
-      resolve(parse(content, {
-        comment: "#",
-        trim: true,
-        auto_parse: true,
-        skip_empty_lines: true,
-        columns: undefined,
-        delimiter
-      }));
     }
   });
 }
