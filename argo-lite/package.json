@@ -2,7 +2,7 @@
   "name": "argo-lite",
   "version": "1.0.1",
   "private": true,
-  "homepage": "https://poloclub.github.io/argo-graph-lite/smart-pause",
+  "homepage": "https://poloclub.github.io/argo-graph-lite",
   "dependencies": {
     "@babel/core": "7.5.5",
     "@blueprintjs/core": "^1.40.0",
