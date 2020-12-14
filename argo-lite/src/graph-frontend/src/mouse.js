@@ -12,7 +12,9 @@ module.exports = function (self) {
    * Mouse move event that selections nodes in selection box
    */
   self.onMouseMove = function (selection, mouseX, mouseY, button, ctrl) {
-
+    appState.graph.graph = self.graph;
+  
+  
 
     // check if left button is not down
     self.mouseX = mouseX;
@@ -101,7 +103,7 @@ module.exports = function (self) {
       }
     }
   };
-
+  
 
 
 
