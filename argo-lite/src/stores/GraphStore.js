@@ -32,6 +32,8 @@ export default class GraphStore {
     }
   }
 
+  @observable graph = undefined;
+
   @observable nodes = this.initialGlobalConfig.nodes;
   @observable edges = this.initialGlobalConfig.edges
 
