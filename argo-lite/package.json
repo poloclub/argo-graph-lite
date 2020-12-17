@@ -2,7 +2,7 @@
   "name": "argo-lite",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://poloclub.github.io/argo-graph-lite",
+  "homepage": "https://poloclub.github.io/argo-graph-lite/demo-centrality",
   "dependencies": {
     "@babel/core": "7.5.5",
     "@blueprintjs/core": "^1.35.4",
