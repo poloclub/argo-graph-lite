@@ -17,10 +17,7 @@ module.exports = function(self) {
     var colors = self.edges.attributes.color.array;
 
     //directed arrows
-    self.directedArrows.attributes.position = new THREE.BufferAttribute(
-      new Float32Array(self.MAX_LINES * 3),
-      3
-    );
+    self.directedArrows.attributes.position.array = new Float32Array(self.MAX_LINES * 3);
     var arrowPosition = self.directedArrows.attributes.position.array;
     var arrowColor = self.directedArrows.attributes.color.array;
 
