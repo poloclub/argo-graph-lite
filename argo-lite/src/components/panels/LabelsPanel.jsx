@@ -10,42 +10,45 @@ class LabelsPanel extends React.Component {
   render() {
     return (
       <div>
+        <span style={{display: "inline-block"}}>
         <Button
+          style={{width:"100px"}}
           id="hideAll"
           iconName="eye-off"
           className={Classes.FILL}
           onClick={() => appState.graph.frame.hideAllLabels()}
         >
-          Hide All Labels
+          Hide All
         </Button>
         <Button
-          style={{display:"none"}}
+          style={{width:"100px",display:"none"}}
           id="showAll"
           iconName="eye-on"
           className={Classes.FILL}
           onClick={() => appState.graph.frame.showAllLabels()}
         >
-          Show All Labels
+          Show All
         </Button>
         <Button
-          style={{marginTop:"1em"}}
+          style={{width:"140px",marginLeft:"10px"}}
           id="hideSelected"
           iconName="eye-off"
           className={Classes.FILL}
           onClick={() => appState.graph.frame.hideSelectedLabels()}
         >
-          Hide Labels of Selected Nodes
+          Hide Selected
         </Button>
         <Button
-          style={{marginTop:"1em",display:"none"}}
+          style={{width:"140px",marginLeft:"10px",display:"none"}}
           id="showSelected"
           iconName="eye-on"
           className={Classes.FILL}
           onClick={() => appState.graph.frame.showSelectedLabels()}
         >
-          Show Labels of Selected Nodes
+          Show Selected
         </Button>
-        <div style={{height: '30px'}} />
+        </span>
+        <div style={{height: '20px'}} />
         <h6>Label Size</h6>
         <Slider
           min={0.5}
@@ -56,7 +59,7 @@ class LabelsPanel extends React.Component {
           }}
           value={appState.graph.nodes.labelSize}
         />
-        <div style={{height: '30px'}} />
+        <div style={{height: '20px'}} />
         <h6>Label Length</h6>
         <Slider
           min={1}
@@ -68,7 +71,7 @@ class LabelsPanel extends React.Component {
           }}
           value={appState.graph.nodes.labelLength}
         />
-        <div style={{height: '30px'}} />
+        <div style={{height: '20px'}} />
         <h6>Label By</h6> 
         <Select
           items={appState.graph.allPropertiesKeyList}
