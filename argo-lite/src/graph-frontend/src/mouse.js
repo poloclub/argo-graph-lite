@@ -154,7 +154,7 @@ module.exports = function (self) {
 
       if(selection) {
         //when any node is clicked, un-smartpause if smartpaused
-        appState.graph.smartPause.lastUnpaused = Date.now();
+        //appState.graph.smartPause.lastUnpaused = Date.now(); //old code using lastUnpaused
         appState.graph.smartPause.interactingWithGraph = true;
       }
 

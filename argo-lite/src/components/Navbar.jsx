@@ -199,13 +199,22 @@ class RegularNavbar extends React.Component {
                   let timeNow = Date.now();
                   //stops initial default active layout
                   if(appState.graph.smartPause.defaultActive.isActive) {
-                    if(timeNow - appState.graph.smartPause.defaultActive.startTime > 10000) {
+                    if(timeNow - appState.graph.smartPause.defaultActive.startTime > appState.graph.smartPause.defaultActive.duration) {
                       appState.graph.frame.paused = true;
                       appState.graph.smartPause.defaultActive.isActive = false;
                     }
                   } else {
                       //smart pausing
                     if(!appState.graph.frame.paused && 
+                      !appState.graph.smartPause.interactingWithGraph){
+                        appState.graph.frame.pauseLayout();
+                        appState.graph.frame.paused = true;
+                        appState.graph.smartPause.smartPaused = true;
+                        setTimeout(function(){ self.forceUpdate(); }, 100);
+                    }
+                    //old code using lastUnpaused:
+                    /**
+                     * if(!appState.graph.frame.paused && 
                       appState.graph.smartPause.lastUnpaused && 
                       !appState.graph.smartPause.interactingWithGraph && timeNow - appState.graph.smartPause.lastUnpaused > 300){
                         appState.graph.frame.pauseLayout();
@@ -213,12 +222,14 @@ class RegularNavbar extends React.Component {
                         appState.graph.smartPause.smartPaused = true;
                         self.forceUpdate();
                     }
+                     */
+
                     //un-smart pausing
                     if(appState.graph.smartPause.smartPaused && appState.graph.smartPause.interactingWithGraph) {
                         appState.graph.frame.resumeLayout();
                         appState.graph.frame.paused = false;
                         appState.graph.smartPause.smartPaused = false;
-                        self.forceUpdate();
+                        setTimeout(function(){ self.forceUpdate(); }, 100);
                     }
                   }
                 }, 200)})()}
@@ -232,11 +243,14 @@ class RegularNavbar extends React.Component {
                   iconName={(!appState.graph.smartPause.smartPaused && appState.graph.frame.paused) ? "play" : "pause"}
                   text={(!appState.graph.smartPause.smartPaused && appState.graph.frame.paused) ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
+                    let that = this;
                     if (appState.graph.frame.paused && !appState.graph.smartPause.smartPaused) {
                       //graph is in "pause layout" mode
-                      appState.graph.smartPause.lastUnpaused = Date.now();
+                      
+                      //appState.graph.smartPause.lastUnpaused = Date.now(); //old code using lastUnpaused
                       appState.graph.frame.resumeLayout();
-                      this.forceUpdate();
+                      setTimeout(function(){ that.forceUpdate(); }, 100);
+                      
                     } else if(appState.graph.smartPause.smartPaused) {
                       //graph is in "resume layout" mode but is smart paused
                       appState.graph.frame.paused = true;
@@ -244,7 +258,7 @@ class RegularNavbar extends React.Component {
                     } else {
                       //graph is in "resume layout" mode
                       appState.graph.frame.pauseLayout();
-                      this.forceUpdate();
+                      setTimeout(function(){ that.forceUpdate(); }, 100);
                     }
                   }}
                 />

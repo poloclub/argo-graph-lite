@@ -55,8 +55,9 @@ export default class GraphStore {
     defaultActive: { 
       isActive: true,
       startTime: Date.now(),
+      duration: 10000,
     },
-    lastUnpaused: undefined,
+    //lastUnpaused: undefined, //old code using lastUnpaused
     smartPaused: false,
     interactingWithGraph: false,
   }
