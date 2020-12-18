@@ -210,7 +210,7 @@ class RegularNavbar extends React.Component {
                         appState.graph.frame.pauseLayout();
                         appState.graph.frame.paused = true;
                         appState.graph.smartPause.smartPaused = true;
-                        setTimeout(function(){ self.forceUpdate(); }, 100);
+                        setTimeout(function(){ self.forceUpdate(); }, 500);
                     }
                     //old code using lastUnpaused:
                     /**
@@ -229,10 +229,10 @@ class RegularNavbar extends React.Component {
                         appState.graph.frame.resumeLayout();
                         appState.graph.frame.paused = false;
                         appState.graph.smartPause.smartPaused = false;
-                        setTimeout(function(){ self.forceUpdate(); }, 100);
+                        setTimeout(function(){ self.forceUpdate(); }, 500);
                     }
                   }
-                }, 200)})()}
+                }, 5)})()}
 
              {!appState.graph.smartPause.defaultActive.isActive && <Tooltip
                 content={(appState.graph.frame.paused) ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
@@ -249,7 +249,7 @@ class RegularNavbar extends React.Component {
                       
                       //appState.graph.smartPause.lastUnpaused = Date.now(); //old code using lastUnpaused
                       appState.graph.frame.resumeLayout();
-                      setTimeout(function(){ that.forceUpdate(); }, 100);
+                      setTimeout(function(){ that.forceUpdate(); }, 500);
                       
                     } else if(appState.graph.smartPause.smartPaused) {
                       //graph is in "resume layout" mode but is smart paused
@@ -258,7 +258,7 @@ class RegularNavbar extends React.Component {
                     } else {
                       //graph is in "resume layout" mode
                       appState.graph.frame.pauseLayout();
-                      setTimeout(function(){ that.forceUpdate(); }, 100);
+                      setTimeout(function(){ that.forceUpdate(); }, 500);
                     }
                   }}
                 />
