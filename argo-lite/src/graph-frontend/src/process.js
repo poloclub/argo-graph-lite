@@ -12,7 +12,7 @@ var ee = def.ee;
 var Frame = function(graph, options) {
   // Needed to reference "this" in functions
   var self = this;
-
+  appState.graph.process = this;
   // Options
   this.inGraph = graph;
   this.options = options || {
