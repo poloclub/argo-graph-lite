@@ -59,7 +59,7 @@ class EdgesPanel extends React.Component {
                                     <SketchPicker
                                     color={appState.graph.edges.color}
                                     onChange={(it) => {
-                                         graph.forEachNode(n => {
+                                        appState.graph.process.graph.forEachNode(n => {
                                              
                                              let red = new THREE.Color(appState.graph.edges.color).r;
                                              let blue = new THREE.Color(appState.graph.edges.color).g;
@@ -69,6 +69,7 @@ class EdgesPanel extends React.Component {
                                              n.renderData.linecolor.b = green;
                                            });
                                         (appState.graph.edges.color = it.hex);
+                                        appState.graph.process.onHover(); //update edge color in real time
                                     }}
                                     />
                                 </Popover2>
