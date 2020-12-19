@@ -69,7 +69,8 @@ class EdgesPanel extends React.Component {
                                              n.renderData.linecolor.b = green;
                                            });
                                         (appState.graph.edges.color = it.hex);
-                                        appState.graph.process.onHover(); //update edge color in real time
+                                        /**update edge color in real time*/
+                                        appState.graph.process.onHover(); 
                                     }}
                                     />
                                 </Popover2>
