@@ -65,7 +65,14 @@ class GlobalPanel extends React.Component {
             <section >
               <p style={{textAlign:"left"}}>Gradient: &nbsp;  
                 <span style={{float:"right"}}>
-                    <Popover2>
+                    <Popover2
+                        placement="bottom"
+                        modifiers={{
+                            preventOverflow: {
+                              enabled: false,
+                            },
+                          }}
+                    >
                       <Button                  
                         text="  "
                         style={{
@@ -79,7 +86,14 @@ class GlobalPanel extends React.Component {
                       />
                     </Popover2>
                     &nbsp; &#8594; &nbsp;
-                    <Popover2>
+                    <Popover2 
+                    placement="bottom"
+                                modifiers={{
+                                    preventOverflow: {
+                                      enabled: false,
+                                    },
+                                  }}
+                                  >
                     <Button
                       text="  "
                       style={{
