@@ -88,6 +88,7 @@ module.exports = function(self) {
       node.renderData.linecolor.r = red;
       node.renderData.linecolor.g = blue;
       node.renderData.linecolor.b = green;
+      self.arrow.material.color.setRGB(red, blue, green);
     } else {
       node.renderData.linecolor.r =  self.darkMode ? 0.25 : .75;
       node.renderData.linecolor.g = self.darkMode ? 0.25 : .75;
