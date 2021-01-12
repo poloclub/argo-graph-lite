@@ -52,7 +52,6 @@ module.exports = function(self) {
           colors[i * 3 + 4] = v2color.g;
           colors[i * 3 + 5] = v2color.b;
 
-
           //directed edges
           if (appState.graph.directedOrNot) {
             self.arrow.visible = true;
