@@ -80,7 +80,8 @@ class EdgesPanel extends React.Component {
                     </div>
                 </Collapsable>
 
-                <div>
+                 {/**  Commented out until highlighting arrow bug is fixed */}
+                {/* <div>
                      <section>
                          <p style={{display: "inline"}}>Show Edge Direction: </p>
                          <div style={{display: "inline", float: "right"}}>
@@ -94,7 +95,7 @@ class EdgesPanel extends React.Component {
                                />
                          </div>
                      </section>
-                 </div>
+                 </div> */}
 
                 {/* Collapsable Option: Thickness */}
                 {/* <Collapsable
