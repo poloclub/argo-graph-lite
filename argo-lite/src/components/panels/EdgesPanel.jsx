@@ -81,7 +81,7 @@ class EdgesPanel extends React.Component {
                 </Collapsable>
 
                 <div>
-                     <section>
+                     <section style = {{marginTop: "15px"}}>
                          <p style={{display: "inline"}}>Show Edge Direction: </p>
                          <div style={{display: "inline", float: "right"}}>
                                <input 
