@@ -31,7 +31,7 @@ export default class GraphStore {
       color: "#7f7f7f"
     }
   }
-
+  
   @observable nodes = this.initialGlobalConfig.nodes;
   @observable edges = this.initialGlobalConfig.edges
 
@@ -40,6 +40,9 @@ export default class GraphStore {
   @observable enableDiameter = false;
   @observable enableCoefficient = true;
   @observable enableComponent = true;
+
+  //access to process.js "self"
+  @observable process = undefined;
 
   // Updated by frame event
   @observable selectedNodes = [];
@@ -63,6 +66,9 @@ export default class GraphStore {
   }
 
 
+  // Directed or not
+  @observable directedOrNot = false;
+  
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog

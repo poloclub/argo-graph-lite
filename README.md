@@ -48,6 +48,11 @@ Argo Lite allows you to embed your interactive graph visualization snapshots int
 <img src="https://github.com/poloclub/argo-graph-lite/raw/master/img/img-embedded.png" width=60% alt="Argo Lite embedded widget mode">
 
 
+### Graphs for Testing and Demos
+
+[Toy graphs for testing Argo Lite](https://github.com/RSLi/graph-test-data)
+
+
 ---
 
 ♥ Developed and maintained by [Polo Club of Data Science](https://poloclub.github.io/). [MIT License](LICENSE).

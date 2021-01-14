@@ -131,7 +131,13 @@ class SelectionPanel extends React.Component {
           <section> <p style={{textAlign:"left"}}>
             Choose Color:
             <span style={{float:"right"}}>
-            <Popover2>
+            <Popover2
+              placement="bottom"
+              modifiers={{
+                preventOverflow: {
+                  enabled: false,
+                },
+              }}>
               <Button
                 text="  "
                 style={{

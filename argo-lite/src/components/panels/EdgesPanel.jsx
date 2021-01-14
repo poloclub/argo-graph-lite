@@ -1,16 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react";
 import appState from "../../stores";
-import GlobalPanel from "./GlobalPanel";
-import SelectionPanel from "./SelectionPanel";
 import { Button, Classes, RangeSlider } from "@blueprintjs/core";
 import { SketchPicker } from "react-color";
 import { Popover2, Select } from "@blueprintjs/labs";
 import classnames from "classnames";
-import { scales } from "../../constants/index";
 import Collapsable from "../utils/Collapsable";
 import SimpleSelect from "../utils/SimpleSelect";
 import mouse from "../../graph-frontend/src/select";
+
 @observer
 class EdgesPanel extends React.Component {
 
@@ -24,6 +22,7 @@ class EdgesPanel extends React.Component {
       }
 
     render() {
+        let graph = appState.graph.graph;
         return (
             <div>
                 <p>{`Modifying All Edges`}</p>
@@ -59,8 +58,19 @@ class EdgesPanel extends React.Component {
                                     />
                                     <SketchPicker
                                     color={appState.graph.edges.color}
-                                    onChange={it => {
-                                        (appState.graph.edges.color = it.hex)
+                                    onChange={(it) => {
+                                        appState.graph.process.graph.forEachNode(n => {
+                                             
+                                             let red = new THREE.Color(appState.graph.edges.color).r;
+                                             let blue = new THREE.Color(appState.graph.edges.color).g;
+                                             let green = new THREE.Color(appState.graph.edges.color).b;
+                                             n.renderData.linecolor.r = red;
+                                             n.renderData.linecolor.g = blue;
+                                             n.renderData.linecolor.b = green;
+                                           });
+                                        (appState.graph.edges.color = it.hex);
+                                        /**update edge color in real time*/
+                                        appState.graph.process.onHover(); 
                                     }}
                                     />
                                 </Popover2>
@@ -69,6 +79,22 @@ class EdgesPanel extends React.Component {
                         </section>
                     </div>
                 </Collapsable>
+
+                <div>
+                     <section>
+                         <p style={{display: "inline"}}>Show Edge Direction: </p>
+                         <div style={{display: "inline", float: "right"}}>
+                               <input 
+                                 type="checkbox"
+                                 onChange={it => {
+                                     console.log(appState.graph.directedOrNot);
+                                     appState.graph.directedOrNot = !appState.graph.directedOrNot;
+                                 }
+                                 }
+                               />
+                         </div>
+                     </section>
+                 </div>
 
                 {/* Collapsable Option: Thickness */}
                 {/* <Collapsable
