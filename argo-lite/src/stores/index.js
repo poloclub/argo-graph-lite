@@ -134,7 +134,9 @@ autorun(() => {
 autorun(() => {
   if (appState.graph.frame && appState.graph.positions) {
     // If positions are saved in a snapshot, pause layout upon loading.
-    appState.graph.frame.paused = true;
+
+    //layout is active by default
+    appState.graph.frame.paused = false;
     appState.graph.frame.updatePositions(appState.graph.positions);
     appState.graph.positions = null;
     console.log('[autorun] Positions updated.');

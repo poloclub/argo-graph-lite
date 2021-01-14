@@ -70,15 +70,14 @@ class App extends React.Component {
         className={classnames({
           "app-wrapper": true,
           [Classes.DARK]: appState.preferences.darkMode
-        })}
-      >
+        })}>
         <Navbar />
         <main className="main">
           {appState.graph.hasGraph ? (
             <ThreeJSVis />
           ) : (
-            <WorkspaceView />
-          )}
+              <WorkspaceView />
+            )}
         </main>
         {appState.graph.hasGraph && <FloatingCards />}
         <Dialogs />

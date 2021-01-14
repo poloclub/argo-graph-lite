@@ -19,7 +19,7 @@ import appState from "../stores/index";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import argologo from '../images/argologo.png';
-
+import { toaster } from '../notifications/client';
 import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS } from '../constants';
 
 @observer
@@ -191,27 +191,83 @@ class RegularNavbar extends React.Component {
           <span className={Classes.NAVBAR_DIVIDER} />
           {appState.graph.hasGraph && appState.graph.frame && (
             <div style={{ display: "inline" }}>
+              
+              {/** Smart Pause functionality: pauses graph when no interaction */}
+              {(() => {
+              let self = this;
+              setInterval(function () {
+                  let timeNow = Date.now();
+                  /**stops initial default active layout*/
+                  if(appState.graph.smartPause.defaultActive.isActive) {
+                    if(timeNow - appState.graph.smartPause.defaultActive.startTime > appState.graph.smartPause.defaultActive.duration
+                      || appState.graph.smartPause.interactingWithGraph) {
+                      appState.graph.smartPause.defaultActive.isActive = false;
+                    }
+                  } else {
+                      /**smart pausing*/
+                    if(!appState.graph.frame.paused && 
+                      !appState.graph.smartPause.interactingWithGraph){
+                        appState.graph.frame.pauseLayout();
+                        appState.graph.frame.paused = true;
+                        appState.graph.smartPause.smartPaused = true;
+                        self.forceUpdate();
+                    }
+                    /**old code using lastUnpaused:*/
+                    /**
+                     * if(!appState.graph.frame.paused && 
+                      appState.graph.smartPause.lastUnpaused && 
+                      !appState.graph.smartPause.interactingWithGraph && timeNow - appState.graph.smartPause.lastUnpaused > 300){
+                        appState.graph.frame.pauseLayout();
+                        appState.graph.frame.paused = true;
+                        appState.graph.smartPause.smartPaused = true;
+                        self.forceUpdate();
+                    }
+                     */
 
+                    /**un-smart pausing*/
+                    if(appState.graph.smartPause.smartPaused && appState.graph.smartPause.interactingWithGraph) {
+                        appState.graph.frame.resumeLayout();
+                        appState.graph.frame.paused = false;
+                        appState.graph.smartPause.smartPaused = false;
+                        self.forceUpdate();
+                    }
+                  }
+                }, 10)})()}
 
-              <Tooltip
-                content={appState.graph.frame.paused ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
+             {<Tooltip
+                content={(appState.graph.frame.paused) ? "Resume Layout Algorithm" : "Pause Layout Algorithm"}
                 position={Position.BOTTOM}
               >
                 <Button
                   className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-                  iconName={appState.graph.frame.paused ? "play" : "pause"}
-                  text={appState.graph.frame.paused ? "Resume Layout" : "Pause Layout"}
+                  iconName={(!appState.graph.smartPause.smartPaused && appState.graph.frame.paused) ? "play" : "pause"}
+                  text={(!appState.graph.smartPause.smartPaused && appState.graph.frame.paused) ? "Resume Layout" : "Pause Layout"}
                   onClick={() => {
-                    if (appState.graph.frame.paused) {
+                    if (appState.graph.frame.paused && !appState.graph.smartPause.smartPaused) {
+                      /**graph is going from "pause layout" mode to "resume layout"*/
+                      
+                      /** graph runs for default duration when unpaused */
+                      appState.graph.frame.paused = false;
+                      appState.graph.smartPause.defaultActive.isActive = true;
+                      appState.graph.smartPause.defaultActive.startTime = Date.now();
+                      appState.graph.smartPause.smartPaused = false;
+
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();
+                      /**appState.graph.smartPause.lastUnpaused = Date.now(); //old code using lastUnpaused*/
+                    } else if(appState.graph.smartPause.smartPaused) {
+                      /**graph is going from smart paused "resume layout" mode to "pause layout" mode*/
+                      appState.graph.frame.paused = true;
+                      appState.graph.smartPause.smartPaused = false;
                     } else {
+                      /**graph is going from in "resume layout" mode to "pause layout" mode*/
                       appState.graph.frame.pauseLayout();
                       this.forceUpdate();
                     }
                   }}
                 />
               </Tooltip>
+          }
             </div>
           )}
         </div>

@@ -51,6 +51,24 @@ export default class GraphStore {
   @observable currentlyHovered = undefined;
 
 
+  //Data on when graph was unpaused,
+  //if graph is smart paused,
+  //and if nodes are being interacted with
+  @observable smartPause = {
+    defaultActive: { 
+      isActive: true,
+      startTime: Date.now(),
+      duration: 10000,
+    },
+    //lastUnpaused: undefined, //old code using lastUnpaused
+    smartPaused: false,
+    interactingWithGraph: false,
+  }
+
+
+  // Directed or not
+  @observable directedOrNot = false;
+  
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog
@@ -422,4 +440,3 @@ export default class GraphStore {
     return exactGraphDiameter(snapshot);
   }
 }
-

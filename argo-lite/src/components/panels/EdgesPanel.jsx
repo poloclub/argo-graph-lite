@@ -80,6 +80,22 @@ class EdgesPanel extends React.Component {
                     </div>
                 </Collapsable>
 
+                <div>
+                     <section>
+                         <p style={{display: "inline"}}>Show Edge Direction: </p>
+                         <div style={{display: "inline", float: "right"}}>
+                               <input 
+                                 type="checkbox"
+                                 onChange={it => {
+                                     console.log(appState.graph.directedOrNot);
+                                     appState.graph.directedOrNot = !appState.graph.directedOrNot;
+                                 }
+                                 }
+                               />
+                         </div>
+                     </section>
+                 </div>
+
                 {/* Collapsable Option: Thickness */}
                 {/* <Collapsable
                     name="Thickness"
