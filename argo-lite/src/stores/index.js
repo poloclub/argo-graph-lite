@@ -76,30 +76,30 @@ window.loadAndDisplaySnapshotFromURL = loadAndDisplaySnapshotFromURL;
 window.loadAndDisplaySnapshotFromStrapi = loadAndDisplaySnapshotFromStrapi;
 
 window.loadInitialSampleGraph = async () => {
-  // // default fallback url
-  // let url = "https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json";
+  // default fallback url
+  let url = "https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json";
 
-  // // check url hash
-  // if (window.location.hash) {
-  //   const hash = window.location.hash.substring(1);
-  //   // If the hash component begins with http.
-  //   if (hash.length >= 4 && hash.startsWith('http')) {
-  //     try {
-  //       url = decodeURIComponent(hash);
-  //     } catch (e) {
-  //       console.error(e);
-  //       alert('Provided URL is not valid.');
-  //     }
-  //   } else {
-  //     // If the hash component does not begin with http
-  //     // treat it as a uuid in strapi.
-  //     loadAndDisplaySnapshotFromStrapi(hash);
-  //     return;
-  //   }
+  // check url hash
+  if (window.location.hash) {
+    const hash = window.location.hash.substring(1);
+    // If the hash component begins with http.
+    if (hash.length >= 4 && hash.startsWith('http')) {
+      try {
+        url = decodeURIComponent(hash);
+      } catch (e) {
+        console.error(e);
+        alert('Provided URL is not valid.');
+      }
+    } else {
+      // If the hash component does not begin with http
+      // treat it as a uuid in strapi.
+      loadAndDisplaySnapshotFromStrapi(hash);
+      return;
+    }
     
-  // }
-  // loadAndDisplaySnapshotFromURL(url)
-  loadAndDisplaySnapshotFromStrapi(SAMPLE_GRAPH_SNAPSHOTS[0][1]);
+  }
+  loadAndDisplaySnapshotFromURL(url)
+  // loadAndDisplaySnapshotFromStrapi(SAMPLE_GRAPH_SNAPSHOTS[0][1]);
 };
 
 window.saveSnapshotToString = () => {
