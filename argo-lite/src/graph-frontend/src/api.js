@@ -44,6 +44,8 @@ module.exports = function(self) {
   };
 
   self.pinSelectedNodes = () => {
+    console.log("self selecion");
+    console.log(self.selection);
     self.mapNodeAttributes([true, "", "pinned"], self.selection);
   };
 
@@ -322,6 +324,22 @@ module.exports = function(self) {
     });
     return poses;
   };
+
+  // retrieves current graph's pinned nodes 
+  self.getPinnedNodes = function() {
+    var poses = {};
+    self.graph.forEachNode(function(node) {
+      if(node.pinnedx && node.pinnedy) {
+        poses[node.id] = node.id;
+      }
+    });
+    return poses;
+  }
+
+  //pins nodes that were pinned from a graph loaded in
+  self.setPinnedNodes = function(nodesToPin) {
+    self.mapNodeAttributes([true, "", "pinned"], nodesToPin);
+  }
 
   var alias = false;
   self.toggleAlias = () => {

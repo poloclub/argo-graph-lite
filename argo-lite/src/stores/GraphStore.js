@@ -265,6 +265,7 @@ export default class GraphStore {
       overrides: this.overrides,
       nodesShowingLabels: this.nodesShowingLabels,
       positions: this.frame.getPositions(),
+      pinnedNodes: this.frame.getPinnedNodes(),
       metadata: this.metadata,
       global: {
         nodes: this.nodes,
@@ -297,6 +298,7 @@ export default class GraphStore {
         snapshot.overrides = undefined;
       }
     }
+    JSON.stringify(snapshot);
     return JSON.stringify(snapshot);
   }
 
@@ -326,6 +328,17 @@ export default class GraphStore {
     this.rawGraph = savedStates.rawGraph;
     if (savedStates.positions) {
       this.positions = savedStates.positions;
+    }
+
+    //pins nodes
+    if (savedStates.pinnedNodes) {
+      var nodesToPin = [];
+      this.process.graph.forEachNode(function(n) {
+        if(savedStates.pinnedNodes[n.id]) {
+          nodesToPin.push(n);
+      }
+      });
+      this.frame.setPinnedNodes(nodesToPin);
     }
     if (savedStates.nodesShowingLabels) {
       this.initialNodesShowingLabels = savedStates.nodesShowingLabels;
