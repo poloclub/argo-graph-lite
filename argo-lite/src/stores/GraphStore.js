@@ -335,6 +335,8 @@ export default class GraphStore {
     }
     //pins nodes
     if (savedStates.pinnedNodes) {
+      //ensures layout is static to easily identify pinned nodes
+      this.smartPause.defaultActive.isActive = false;
       setTimeout(() => {
         var nodesToPin = [];
         this.process.graph.forEachNode(function (n) {
@@ -343,7 +345,13 @@ export default class GraphStore {
           }
         });
         this.frame.setPinnedNodes(nodesToPin);
-      }, 100);
+        //TODO: Ask if we should have graph default active when loaded in by url/snapshot
+        // //default active layout when new graph imported
+        // appState.graph.frame.paused = false;
+        // appState.graph.smartPause.defaultActive.isActive = true;
+        // appState.graph.smartPause.defaultActive.startTime = Date.now();
+        // appState.graph.smartPause.smartPaused = false;
+      }, 300);
     }
   }
 
