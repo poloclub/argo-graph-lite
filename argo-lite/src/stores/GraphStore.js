@@ -268,6 +268,7 @@ export default class GraphStore {
       metadata: this.metadata,
       global: {
         nodes: this.nodes,
+        edges: this.edges,
       },
     };
     return snapshot;
@@ -319,8 +320,8 @@ export default class GraphStore {
     }
     if (savedStates.global) {
       this.nodes = savedStates.global.nodes;
+      this.edges = savedStates.global.edges ? savedStates.global.edges : this.edges; 
     }
-
     // The following lines trigger autoruns.
     this.rawGraph = savedStates.rawGraph;
     if (savedStates.positions) {
