@@ -2,7 +2,7 @@ import { observable, computed, action, runInAction } from "mobx";
 import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
 import uniq from "lodash/uniq";
-import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter} from "../services/AlgorithmUtils";
+import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter } from "../services/AlgorithmUtils";
 import { ContextMenu, MenuFactory, MenuItemFactory } from "@blueprintjs/core";
 import { Frame } from "../graph-frontend";
 
@@ -31,7 +31,7 @@ export default class GraphStore {
       color: "#7f7f7f"
     }
   }
-  
+
   @observable nodes = this.initialGlobalConfig.nodes;
   @observable edges = this.initialGlobalConfig.edges
 
@@ -55,7 +55,7 @@ export default class GraphStore {
   //if graph is smart paused,
   //and if nodes are being interacted with
   @observable smartPause = {
-    defaultActive: { 
+    defaultActive: {
       isActive: true,
       startTime: Date.now(),
       duration: 10000,
@@ -68,12 +68,12 @@ export default class GraphStore {
 
   // Directed or not
   @observable directedOrNot = false;
-  
+
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog
   _lastSelectedSingleNode = null;
-  @computed 
+  @computed
   get lastSelectedSingleNode() {
     if (this.selectedNodes.length === 1) {
       this._lastSelectedSingleNode = this.selectedNodes[0];
@@ -173,14 +173,14 @@ export default class GraphStore {
   getNeighborNodesFromRawGraph(selectedNodeId) {
     const setOfNeighborIds = new Set();
     this.rawGraph.edges.forEach(e => {
-        const source = e.source_id.toString();
-        const target = e.target_id.toString();
-        if (source === selectedNodeId && target !== selectedNodeId) {
-            setOfNeighborIds.add(target);
-        }
-        if (target === selectedNodeId && source !== selectedNodeId) {
-            setOfNeighborIds.add(source);
-        }
+      const source = e.source_id.toString();
+      const target = e.target_id.toString();
+      if (source === selectedNodeId && target !== selectedNodeId) {
+        setOfNeighborIds.add(target);
+      }
+      if (target === selectedNodeId && source !== selectedNodeId) {
+        setOfNeighborIds.add(source);
+      }
     });
     return this.rawGraph.nodes.filter(node => setOfNeighborIds.has(node.id.toString()));
   }
@@ -228,7 +228,7 @@ export default class GraphStore {
     runInAction('show hidden nodes by ids', () => {
       this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
         if (nodeids.includes(n.id)) {
-          return {...n, isHidden: false};
+          return { ...n, isHidden: false };
         }
         return n;
       });
@@ -240,7 +240,7 @@ export default class GraphStore {
       this.frame.removeNodesByIds(nodeids);
       this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
         if (nodeids.includes(n.id)) {
-          return {...n, isHidden: true};
+          return { ...n, isHidden: true };
         }
         return n;
       });
@@ -322,27 +322,28 @@ export default class GraphStore {
     }
     if (savedStates.global) {
       this.nodes = savedStates.global.nodes;
-      this.edges = savedStates.global.edges ? savedStates.global.edges : this.edges; 
+      this.edges = savedStates.global.edges ? savedStates.global.edges : this.edges;
     }
     // The following lines trigger autoruns.
     this.rawGraph = savedStates.rawGraph;
     if (savedStates.positions) {
       this.positions = savedStates.positions;
     }
-
-    //pins nodes
-    if (savedStates.pinnedNodes) {
-      var nodesToPin = [];
-      this.process.graph.forEachNode(function(n) {
-        if(savedStates.pinnedNodes[n.id]) {
-          nodesToPin.push(n);
-      }
-      });
-      this.frame.setPinnedNodes(nodesToPin);
-    }
     if (savedStates.nodesShowingLabels) {
       this.initialNodesShowingLabels = savedStates.nodesShowingLabels;
       this.nodesShowingLabels = savedStates.nodesShowingLabels;
+    }
+    //pins nodes
+    if (savedStates.pinnedNodes) {
+      setTimeout(() => {
+        var nodesToPin = [];
+        this.process.graph.forEachNode(function (n) {
+          if (savedStates.pinnedNodes[n.id]) {
+            nodesToPin.push(n);
+          }
+        });
+        this.frame.setPinnedNodes(nodesToPin);
+      }, 100);
     }
   }
 
@@ -388,7 +389,7 @@ export default class GraphStore {
                 const neighbors = this.getNeighborNodesFromRawGraph(rightClickedNodeId);
                 neighbors.sort((n1, n2) => {
                   if (n1["pagerank"] && n2["pagerank"]) {
-                      return n2["pagerank"] - n1["pagerank"];
+                    return n2["pagerank"] - n1["pagerank"];
                   }
                   return 0;
                 });
@@ -411,10 +412,10 @@ export default class GraphStore {
     });
   }
 
- /*
-  * Graph algorithms used in StatisticsDialog.
-  */
- 
+  /*
+   * Graph algorithms used in StatisticsDialog.
+   */
+
   get averageClustering() {
     const snapshot = {
       rawGraph: this.rawGraph,
@@ -422,7 +423,7 @@ export default class GraphStore {
     return averageClusteringCoefficient(snapshot);
   }
 
- 
+
   get components() {
     const snapshot = {
       rawGraph: this.rawGraph,
