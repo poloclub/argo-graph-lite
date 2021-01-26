@@ -120,11 +120,11 @@ autorun(() => {
   if (!appState.graph.hasGraph && appState.graph.rawGraph.nodes.length > 0) {
     appState.graph.hasGraph = true;
   }
-})
+}) 
 
 autorun(() => {
   if (appState.graph.frame) {
-    appState.graph.frame.updateGraph(appState.graph.computedGraph);
+    appState.graph.frame.updateGraph(appState.graph.computedGraph); //loads nodes on screen when snapshot loaded
     appState.graph.frame.setAllNodesShapeWithOverride(appState.graph.nodes.shape, appState.graph.overrides);
     appState.graph.frame.setLabelRelativeSize(appState.graph.nodes.labelSize);
     appState.graph.frame.setLabelLength(appState.graph.nodes.labelLength);
