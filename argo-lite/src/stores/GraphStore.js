@@ -51,18 +51,18 @@ export default class GraphStore {
   @observable currentlyHovered = undefined;
 
 
-  //Data on when graph was unpaused,
-  //if graph is smart paused,
-  //and if nodes are being interacted with
+  /**
+   * Stores data relevant to smart pause feature
+   */
   @observable smartPause = {
-    defaultActive: {
-      isActive: true,
-      startTime: Date.now(),
-      duration: 10000,
+    defaultActive: { //data for when graph layout is resumed and smart pause is not in effect 
+      isActive: true, //true when layout is resumed and smart pause is not in effect
+      startTime: Date.now(), //keeps track of most recent time graph was unpaused
+      duration: 10000, //duration of resumed layout
     },
     //lastUnpaused: undefined, //old code using lastUnpaused
-    smartPaused: false,
-    interactingWithGraph: false,
+    smartPaused: false, //true when resumed, but graph layout is paused due to inactivity
+    interactingWithGraph: false, //true when node is clicked or dragged. TODO: refactor to more understandable name
   }
 
 
@@ -99,6 +99,9 @@ export default class GraphStore {
     edges: []
   };
 
+  //saved states from loaded graph snapshot
+  @observable savedStates = null;
+
   @observable
   metadata = {
     fullNodes: 0,
@@ -120,6 +123,7 @@ export default class GraphStore {
 
   @observable.ref frame = null;
   @observable.ref positions = null;
+  @observable pinnedNodes = null;
 
   @observable overrides = new Map();
   @observable searchOrder = "degree";
@@ -298,13 +302,13 @@ export default class GraphStore {
         snapshot.overrides = undefined;
       }
     }
-    JSON.stringify(snapshot);
     return JSON.stringify(snapshot);
   }
 
   @action
   loadImmediateStates(savedStatesStr) {
     const savedStates = JSON.parse(savedStatesStr);
+    this.savedStates = savedStates;
     if (!savedStates) {
       return;
     }
@@ -333,25 +337,38 @@ export default class GraphStore {
       this.initialNodesShowingLabels = savedStates.nodesShowingLabels;
       this.nodesShowingLabels = savedStates.nodesShowingLabels;
     }
-    //pins nodes
+
+    //stores data pinned nodes in appState
     if (savedStates.pinnedNodes) {
-      //ensures layout is static to easily identify pinned nodes
-      this.smartPause.defaultActive.isActive = false;
-      setTimeout(() => {
-        var nodesToPin = [];
-        this.process.graph.forEachNode(function (n) {
-          if (savedStates.pinnedNodes[n.id]) {
-            nodesToPin.push(n);
-          }
-        });
-        this.frame.setPinnedNodes(nodesToPin);
-        //TODO: Ask if we should have graph default active when loaded in by url/snapshot
-        // //default active layout when new graph imported
-        // appState.graph.frame.paused = false;
-        // appState.graph.smartPause.defaultActive.isActive = true;
-        // appState.graph.smartPause.defaultActive.startTime = Date.now();
-        // appState.graph.smartPause.smartPaused = false;
-      }, 300);
+      this.pinnedNodes = savedStates.pinnedNodes;
+    }
+
+
+    this.runActiveLayout();
+  }
+
+
+  //resumes graph layout for a set duration before smart-pausing
+  runActiveLayout() {
+    if(this.frame) {
+      this.frame.paused = false;
+    } 
+    this.smartPause.defaultActive.isActive = true;
+    this.smartPause.defaultActive.startTime = Date.now();
+    this.smartPause.smartPaused = false;
+  }
+
+  //selects which nodes should be pinned based on saved state of loaded snapshot
+  pinNodes() {
+    if (this.pinnedNodes) {
+      let nodesToPin = [];
+      let that = this; //"this" will not work inside of forEach, so it needs to be stored
+      this.process.graph.forEachNode(function (n) {
+        if (that.savedStates.pinnedNodes[n.id]) {
+          nodesToPin.push(n);
+        }
+      });
+      this.frame.setPinnedNodes(nodesToPin);
     }
   }
 

@@ -129,17 +129,18 @@ autorun(() => {
     appState.graph.frame.setLabelRelativeSize(appState.graph.nodes.labelSize);
     appState.graph.frame.setLabelLength(appState.graph.nodes.labelLength);
   }
+
+  //pins nodes only after nodes are loaded
+  appState.graph.pinNodes();
 });
 
 autorun(() => {
   if (appState.graph.frame && appState.graph.positions) {
     // If positions are saved in a snapshot, pause layout upon loading.
-
-    //layout is active by default
-    appState.graph.frame.paused = false;
     appState.graph.frame.updatePositions(appState.graph.positions);
     appState.graph.positions = null;
     console.log('[autorun] Positions updated.');
+
   }
   if (appState.graph.frame && appState.graph.initialNodesShowingLabels) {
     appState.graph.frame.showLabels(appState.graph.initialNodesShowingLabels);
