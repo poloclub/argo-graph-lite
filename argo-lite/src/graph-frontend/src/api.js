@@ -327,10 +327,10 @@ module.exports = function(self) {
 
   // retrieves current graph's pinned nodes 
   self.getPinnedNodes = function() {
-    var poses = {};
+    var poses = new Set();
     self.graph.forEachNode(function(node) {
       if(node.pinnedx && node.pinnedy) {
-        poses[node.id] = node.id;
+        poses.add(node.id);
       }
     });
     return poses;

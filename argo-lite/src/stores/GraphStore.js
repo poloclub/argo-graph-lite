@@ -265,7 +265,7 @@ export default class GraphStore {
       overrides: this.overrides,
       nodesShowingLabels: this.nodesShowingLabels,
       positions: this.frame.getPositions(),
-      pinnedNodes: this.frame.getPinnedNodes(),
+      pinnedNodes: Array.from(this.frame.getPinnedNodes()),
       metadata: this.metadata,
       global: {
         nodes: this.nodes,
@@ -337,8 +337,9 @@ export default class GraphStore {
     if (savedStates.pinnedNodes) {
       setTimeout(() => {
         var nodesToPin = [];
+        var pinnedNodesSet = new Set(savedStates.pinnedNodes);
         this.process.graph.forEachNode(function (n) {
-          if (savedStates.pinnedNodes[n.id]) {
+          if (pinnedNodesSet.has(n.id)) {
             nodesToPin.push(n);
           }
         });
