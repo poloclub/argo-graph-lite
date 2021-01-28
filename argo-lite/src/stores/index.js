@@ -120,26 +120,27 @@ autorun(() => {
   if (!appState.graph.hasGraph && appState.graph.rawGraph.nodes.length > 0) {
     appState.graph.hasGraph = true;
   }
-})
+}) 
 
 autorun(() => {
   if (appState.graph.frame) {
-    appState.graph.frame.updateGraph(appState.graph.computedGraph);
+    appState.graph.frame.updateGraph(appState.graph.computedGraph); //loads nodes on screen when snapshot loaded
     appState.graph.frame.setAllNodesShapeWithOverride(appState.graph.nodes.shape, appState.graph.overrides);
     appState.graph.frame.setLabelRelativeSize(appState.graph.nodes.labelSize);
     appState.graph.frame.setLabelLength(appState.graph.nodes.labelLength);
   }
+
+  //pins nodes only after nodes are loaded
+  appState.graph.pinNodes();
 });
 
 autorun(() => {
   if (appState.graph.frame && appState.graph.positions) {
     // If positions are saved in a snapshot, pause layout upon loading.
-
-    //layout is active by default
-    appState.graph.frame.paused = false;
     appState.graph.frame.updatePositions(appState.graph.positions);
     appState.graph.positions = null;
     console.log('[autorun] Positions updated.');
+
   }
   if (appState.graph.frame && appState.graph.initialNodesShowingLabels) {
     appState.graph.frame.showLabels(appState.graph.initialNodesShowingLabels);

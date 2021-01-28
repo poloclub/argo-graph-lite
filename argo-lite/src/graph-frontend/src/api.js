@@ -44,8 +44,6 @@ module.exports = function(self) {
   };
 
   self.pinSelectedNodes = () => {
-    console.log("self selecion");
-    console.log(self.selection);
     self.mapNodeAttributes([true, "", "pinned"], self.selection);
   };
 
