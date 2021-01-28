@@ -340,7 +340,7 @@ export default class GraphStore {
 
     //stores data pinned nodes in appState
     if (savedStates.pinnedNodes) {
-      this.pinnedNodes = savedStates.pinnedNodes;
+      this.pinnedNodes = new Set(savedStates.pinnedNodes);
     }
 
 
@@ -364,7 +364,7 @@ export default class GraphStore {
       let nodesToPin = [];
       let that = this; //"this" will not work inside of forEach, so it needs to be stored
       this.process.graph.forEachNode(function (n) {
-        if (that.savedStates.pinnedNodes[n.id]) {
+        if (that.pinnedNodes.has(n.id)) {
           nodesToPin.push(n);
         }
       });
