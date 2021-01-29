@@ -39,8 +39,8 @@ class EdgesPanel extends React.Component {
                     }
                     >
                     <div className={classnames(Classes.CARD, "sub-option")}>
-                        <section>
-                            <p style={{textAlign:"left"}}>Select Edge Color: 
+                        <div> 
+                            <p style={{display: "inline"}}>Select Edge Color: </p>
                             <span style={{float:"right"}}>
                                 <Popover2 
                                 placement="bottom"
@@ -75,8 +75,8 @@ class EdgesPanel extends React.Component {
                                     />
                                 </Popover2>
                             </span>
-                            </p>
-                        </section>
+                            </div>
+                        
                     </div>
                 </Collapsable>
 

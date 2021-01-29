@@ -38,8 +38,8 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-            <section>
-              <p style={{textAlign:"left"}}>Color By:
+            <div> 
+                <p style={{display: "inline"}}>Color By: </p>
                 <span style={{float:"right"}}>
                   <SimpleSelect  
                     items={appState.graph.allPropertiesKeyList}
@@ -47,11 +47,10 @@ class GlobalPanel extends React.Component {
                     value={appState.graph.nodes.colorBy}
                   />
                 </span>
-              </p>
-            </section>
-           
-            <section> 
-              <p style={{textAlign:"left"}}>Scale Type:
+              </div>
+            
+              <div style={{marginTop:"10px"}}> 
+                <p style={{display: "inline"}}>Scale Type: </p>
                 <span style={{float:"right"}}>
                   <SimpleSelect
                     items={Object.keys(scales)}
@@ -59,11 +58,11 @@ class GlobalPanel extends React.Component {
                     value={appState.graph.nodes.color.scale}
                   />
                 </span>
-              </p>
-            </section>
-           
-            <section >
-              <p style={{textAlign:"left"}}>Gradient: &nbsp;  
+              </div>
+          
+            <div>
+              <div style={{marginTop:"10px"}}> 
+                <p style={{display: "inline"}}>Gradient: &nbsp;</p>
                 <span style={{float:"right"}}>
                     <Popover2
                         placement="bottom"
@@ -107,9 +106,9 @@ class GlobalPanel extends React.Component {
                     />
                   </Popover2>
                 </span>
-              </p>
-            </section>
-            <section style={{marginTop:"-1em"}}>
+              </div>
+            </div>
+            <div style={{marginTop:"-1em"}}>
               <svg width="100%" height="10" className="gradient-preview">
               <defs>
                 <linearGradient
@@ -139,7 +138,7 @@ class GlobalPanel extends React.Component {
                 fill="url(#theGradient)"
               />
             </svg>
-            </section>
+            </div>
           </div>
         </Collapsable>
         
@@ -155,8 +154,8 @@ class GlobalPanel extends React.Component {
         >
          
           <div className={classnames(Classes.CARD, "sub-option")}>
-            <section> 
-              <p style={{textAlign:"left"}}>Scale By:
+            <div> 
+                <p style={{display: "inline"}}>Scale By:</p>
                 <span style={{float:"right"}}>
                   <Select
                     items={appState.graph.allPropertiesKeyList}
@@ -167,10 +166,10 @@ class GlobalPanel extends React.Component {
                     <Button text={appState.graph.nodes.sizeBy} />
                   </Select>
                 </span>
-              </p>
-            </section>
-            <section> 
-              <p style={{textAlign:"left"}}>Scale Type:
+              
+            </div>
+            <div style={{marginTop:"10px"}}> 
+                <p style={{display: "inline"}}>Scale Type:</p>
                 <span style={{float:"right"}}>
                   <Select
                   items={Object.keys(scales)}
@@ -181,10 +180,10 @@ class GlobalPanel extends React.Component {
                     <Button text={appState.graph.nodes.size.scale} />
                   </Select>
                 </span>
-              </p>
-            </section>
+            </div>
          
-            Size Range:
+            <div style={{marginTop:"10px"}}> 
+              <p style={{display: "inline"}}>Size Range:</p>
             <br />
             <RangeSlider
               min={1}
@@ -202,6 +201,7 @@ class GlobalPanel extends React.Component {
                 appState.graph.nodes.size.max
               ]}
             />
+            </div>
           </div>
         </Collapsable>
         
@@ -216,7 +216,8 @@ class GlobalPanel extends React.Component {
           }
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-          <section> <p style={{textAlign:"left"}}> Node Shape:
+          <div>
+          <p style={{display: "inline"}}>Node Shape:</p>
           <span style={{float:"right"}}>
             <Select
                 items={[
@@ -234,7 +235,7 @@ class GlobalPanel extends React.Component {
                 <Button  text={appState.graph.nodes.shape} />
               </Select>
               </span>
-            </p></section>          
+            </div>        
           </div>
         </Collapsable>
         <br/>

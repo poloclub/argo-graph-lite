@@ -128,9 +128,9 @@ class SelectionPanel extends React.Component {
           }}
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-          <section> <p style={{textAlign:"left"}}>
-            Choose Color:
-            <span style={{float:"right"}}>
+            <div>
+              <p style={{display: "inline"}}>Choose Color:</p>
+              <span style={{float:"right"}}>
             <Popover2
               placement="bottom"
               modifiers={{
@@ -158,8 +158,7 @@ class SelectionPanel extends React.Component {
               />
             </Popover2>
             </span>
-            </p>
-            </section>
+            </div>
           </div>
         </SwitchCollapsable>
         <br/>
@@ -195,7 +194,7 @@ class SelectionPanel extends React.Component {
           }}
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-            Custom Label:
+            <p style={{display: "inline"}}>Custom Label:</p>
             <input
               value={appState.graph.overrideConfig.label}
               onChange={it => {
@@ -242,34 +241,33 @@ class SelectionPanel extends React.Component {
           }}
         >
           <div className={classnames(Classes.CARD, "sub-option")}>
-          <section> <p style={{textAlign:"left"}}>
-            Node Shape:
-            <span style={{float:"right"}}>
-            <Select
-              items={[
-                "circle",
-                "square",
-                "triangle",
-                "pentagon",
-                "hexagon",
-                "octagon"
-              ]}
-              itemRenderer={CommonItemRenderer}
-              filterable={false}
-              onItemSelect={it => {
-                appState.graph.overrideConfig.shape = it;
-                this.batchTwoLayerUpdate(
-                  appState.graph.selectedNodes,
-                  "shape",
-                  it
-                );
-              }}
-            >
-              <Button text={appState.graph.overrideConfig.shape} />
-            </Select>
-            </span>
-            </p>
-            </section>
+            <div> 
+              <p style={{display: "inline"}}>Node Shape:</p>
+              <span style={{float:"right"}}>
+                <Select
+                items={[
+                  "circle",
+                  "square",
+                  "triangle",
+                  "pentagon",
+                  "hexagon",
+                  "octagon"
+                ]}
+                itemRenderer={CommonItemRenderer}
+                filterable={false}
+                onItemSelect={it => {
+                  appState.graph.overrideConfig.shape = it;
+                  this.batchTwoLayerUpdate(
+                    appState.graph.selectedNodes,
+                    "shape",
+                    it
+                  );
+                }}
+              >
+                <Button text={appState.graph.overrideConfig.shape} />
+              </Select>
+              </span>        
+            </div>
           </div>
         </SwitchCollapsable>
       </div>
