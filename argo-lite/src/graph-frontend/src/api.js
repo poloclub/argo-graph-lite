@@ -323,6 +323,22 @@ module.exports = function(self) {
     return poses;
   };
 
+  // retrieves current graph's pinned nodes 
+  self.getPinnedNodes = function() {
+    var poses = new Set();
+    self.graph.forEachNode(function(node) {
+      if(node.pinnedx && node.pinnedy) {
+        poses.add(node.id);
+      }
+    });
+    return poses;
+  }
+
+  //pins nodes that were pinned from a graph loaded in
+  self.setPinnedNodes = function(nodesToPin) {
+    self.mapNodeAttributes([true, "", "pinned"], nodesToPin);
+  }
+
   var alias = false;
   self.toggleAlias = () => {
     // TODO: recreate renderer with new antialias

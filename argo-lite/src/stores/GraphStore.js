@@ -2,7 +2,7 @@ import { observable, computed, action, runInAction } from "mobx";
 import createGraph from "ngraph.graph";
 import { scales } from "../constants/index";
 import uniq from "lodash/uniq";
-import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter} from "../services/AlgorithmUtils";
+import { averageClusteringCoefficient, connectedComponents, graphDensity, averageDegree, exactGraphDiameter } from "../services/AlgorithmUtils";
 import { ContextMenu, MenuFactory, MenuItemFactory } from "@blueprintjs/core";
 import { Frame } from "../graph-frontend";
 
@@ -31,7 +31,7 @@ export default class GraphStore {
       color: "#7f7f7f"
     }
   }
-  
+
   @observable nodes = this.initialGlobalConfig.nodes;
   @observable edges = this.initialGlobalConfig.edges
 
@@ -51,29 +51,29 @@ export default class GraphStore {
   @observable currentlyHovered = undefined;
 
 
-  //Data on when graph was unpaused,
-  //if graph is smart paused,
-  //and if nodes are being interacted with
+  /**
+   * Stores data relevant to smart pause feature
+   */
   @observable smartPause = {
-    defaultActive: { 
-      isActive: true,
-      startTime: Date.now(),
-      duration: 10000,
+    defaultActive: { //data for when graph layout is resumed and smart pause is not in effect 
+      isActive: true, //true when layout is resumed and smart pause is not in effect
+      startTime: Date.now(), //keeps track of most recent time graph was unpaused
+      duration: 10000, //duration of resumed layout
     },
     //lastUnpaused: undefined, //old code using lastUnpaused
-    smartPaused: false,
-    interactingWithGraph: false,
+    smartPaused: false, //true when resumed, but graph layout is paused due to inactivity
+    interactingWithGraph: false, //true when node is clicked or dragged. TODO: refactor to more understandable name
   }
 
 
   // Directed or not
   @observable directedOrNot = false;
-  
+
   // Cache the single node that's been selected last time
   // and will not update unless exactly one node is selected again
   // useful for NeighborDialog
   _lastSelectedSingleNode = null;
-  @computed 
+  @computed
   get lastSelectedSingleNode() {
     if (this.selectedNodes.length === 1) {
       this._lastSelectedSingleNode = this.selectedNodes[0];
@@ -99,6 +99,9 @@ export default class GraphStore {
     edges: []
   };
 
+  //saved states from loaded graph snapshot
+  @observable savedStates = null;
+
   @observable
   metadata = {
     fullNodes: 0,
@@ -120,6 +123,7 @@ export default class GraphStore {
 
   @observable.ref frame = null;
   @observable.ref positions = null;
+  @observable pinnedNodes = null;
 
   @observable overrides = new Map();
   @observable searchOrder = "degree";
@@ -173,14 +177,14 @@ export default class GraphStore {
   getNeighborNodesFromRawGraph(selectedNodeId) {
     const setOfNeighborIds = new Set();
     this.rawGraph.edges.forEach(e => {
-        const source = e.source_id.toString();
-        const target = e.target_id.toString();
-        if (source === selectedNodeId && target !== selectedNodeId) {
-            setOfNeighborIds.add(target);
-        }
-        if (target === selectedNodeId && source !== selectedNodeId) {
-            setOfNeighborIds.add(source);
-        }
+      const source = e.source_id.toString();
+      const target = e.target_id.toString();
+      if (source === selectedNodeId && target !== selectedNodeId) {
+        setOfNeighborIds.add(target);
+      }
+      if (target === selectedNodeId && source !== selectedNodeId) {
+        setOfNeighborIds.add(source);
+      }
     });
     return this.rawGraph.nodes.filter(node => setOfNeighborIds.has(node.id.toString()));
   }
@@ -228,7 +232,7 @@ export default class GraphStore {
     runInAction('show hidden nodes by ids', () => {
       this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
         if (nodeids.includes(n.id)) {
-          return {...n, isHidden: false};
+          return { ...n, isHidden: false };
         }
         return n;
       });
@@ -240,7 +244,7 @@ export default class GraphStore {
       this.frame.removeNodesByIds(nodeids);
       this.rawGraph.nodes = this.rawGraph.nodes.map(n => {
         if (nodeids.includes(n.id)) {
-          return {...n, isHidden: true};
+          return { ...n, isHidden: true };
         }
         return n;
       });
@@ -265,6 +269,7 @@ export default class GraphStore {
       overrides: this.overrides,
       nodesShowingLabels: this.nodesShowingLabels,
       positions: this.frame.getPositions(),
+      pinnedNodes: Array.from(this.frame.getPinnedNodes()),
       metadata: this.metadata,
       global: {
         nodes: this.nodes,
@@ -303,6 +308,7 @@ export default class GraphStore {
   @action
   loadImmediateStates(savedStatesStr) {
     const savedStates = JSON.parse(savedStatesStr);
+    this.savedStates = savedStates;
     if (!savedStates) {
       return;
     }
@@ -320,7 +326,7 @@ export default class GraphStore {
     }
     if (savedStates.global) {
       this.nodes = savedStates.global.nodes;
-      this.edges = savedStates.global.edges ? savedStates.global.edges : this.edges; 
+      this.edges = savedStates.global.edges ? savedStates.global.edges : this.edges;
     }
     // The following lines trigger autoruns.
     this.rawGraph = savedStates.rawGraph;
@@ -330,6 +336,39 @@ export default class GraphStore {
     if (savedStates.nodesShowingLabels) {
       this.initialNodesShowingLabels = savedStates.nodesShowingLabels;
       this.nodesShowingLabels = savedStates.nodesShowingLabels;
+    }
+
+    //stores data pinned nodes in appState
+    if (savedStates.pinnedNodes) {
+      this.pinnedNodes = new Set(savedStates.pinnedNodes);
+    }
+
+
+    this.runActiveLayout();
+  }
+
+
+  //resumes graph layout for a set duration before smart-pausing
+  runActiveLayout() {
+    if(this.frame) {
+      this.frame.paused = false;
+    } 
+    this.smartPause.defaultActive.isActive = true;
+    this.smartPause.defaultActive.startTime = Date.now();
+    this.smartPause.smartPaused = false;
+  }
+
+  //selects which nodes should be pinned based on saved state of loaded snapshot
+  pinNodes() {
+    if (this.pinnedNodes) {
+      let nodesToPin = [];
+      let that = this; //"this" will not work inside of forEach, so it needs to be stored
+      this.process.graph.forEachNode(function (n) {
+        if (that.pinnedNodes.has(n.id)) {
+          nodesToPin.push(n);
+        }
+      });
+      this.frame.setPinnedNodes(nodesToPin);
     }
   }
 
@@ -375,7 +414,7 @@ export default class GraphStore {
                 const neighbors = this.getNeighborNodesFromRawGraph(rightClickedNodeId);
                 neighbors.sort((n1, n2) => {
                   if (n1["pagerank"] && n2["pagerank"]) {
-                      return n2["pagerank"] - n1["pagerank"];
+                    return n2["pagerank"] - n1["pagerank"];
                   }
                   return 0;
                 });
@@ -398,10 +437,10 @@ export default class GraphStore {
     });
   }
 
- /*
-  * Graph algorithms used in StatisticsDialog.
-  */
- 
+  /*
+   * Graph algorithms used in StatisticsDialog.
+   */
+
   get averageClustering() {
     const snapshot = {
       rawGraph: this.rawGraph,
@@ -409,7 +448,7 @@ export default class GraphStore {
     return averageClusteringCoefficient(snapshot);
   }
 
- 
+
   get components() {
     const snapshot = {
       rawGraph: this.rawGraph,
