@@ -92,6 +92,11 @@ module.exports = function(self) {
     );
     self.ccamera.position.z = 200;
     var controls = new OrbitControls(self.ccamera, self.element);
+    
+    //ANISH WORK IN PROGRESS
+    appState.controls = controls
+
+
     controls.spacePan = true; // Space bar panning
     controls.bothPan = true; // Space bar and right click panning
     controls.minDistance = 10;

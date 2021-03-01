@@ -1,3 +1,5 @@
+const { default: appState } = require("../../stores");
+
 module.exports = function(THREE) {
   /**
    * @author qiao / https://github.com/qiao
@@ -15,6 +17,10 @@ module.exports = function(THREE) {
   //    Pan - right mouse, or arrow keys / touch: three finter swipe
 
   function OrbitControls(object, domElement) {
+
+    
+    
+
     this.object = object;
 
     this.domElement = domElement !== undefined ? domElement : document;
@@ -233,7 +239,6 @@ module.exports = function(THREE) {
     //
 
     var scope = this;
-
     var changeEvent = { type: "change" };
     var startEvent = { type: "start" };
     var endEvent = { type: "end" };
@@ -401,6 +406,17 @@ module.exports = function(THREE) {
         );
         scope.enableZoom = false;
       }
+    }
+
+    //ANISH
+    this.dollyIn = function(scale) {
+      dollyIn(scale);
+      scope.update()
+    }
+    //ANISH
+    this.dollyOut = function(scale) {
+      dollyOut(scale);
+      scope.update()
     }
 
     //
@@ -864,6 +880,9 @@ module.exports = function(THREE) {
     // force an update at start
 
     this.update();
+
+    
+    
   }
 
   OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);
@@ -977,6 +996,8 @@ module.exports = function(THREE) {
       }
     }
   });
+
+  
 
   return OrbitControls;
 };

@@ -12,6 +12,7 @@ import NodeDetail from "./panels/NodeDetailPanel";
 import Legends from "./Legends";
 import StatusBar from './StatusBar';
 import SelectionActionPanel from "./panels/SelectionActionPanel";
+import ZoomPanel from "./panels/ZoomPanel";
 
 // TODO: migrate to simple select
 
@@ -277,11 +278,15 @@ class FloatingCards extends React.Component {
           <NodeDetail node={appState.graph.currentlyHovered.data.ref} />
         )}
 
+       
+
         <Legends />
         <StatusBar />
         {// This menu only shows when there are nodes selected
           appState.graph.selectedNodes.length > 0 && !appState.preferences.isNavbarInMinimalMode && <SelectionActionPanel />
         }
+
+        <ZoomPanel/>
       </div>
     );
   }
