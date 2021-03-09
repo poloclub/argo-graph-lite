@@ -72,6 +72,21 @@ html {
   max-height: 530px;
 }
 
+.zoom-buttons {
+  margin-top: -1em;
+  padding-top: 1.1em;
+  right: -106em;
+  top: 40em;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: all;
+}
+
+.zoom-button {
+  margin-bottom: "5px";
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

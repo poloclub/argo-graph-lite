@@ -5,6 +5,8 @@ var Node = def.Node;
 var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
+const { default: appState } = require("../../stores");
+
 
 module.exports = function(self) {
   /**
@@ -157,6 +159,8 @@ module.exports = function(self) {
             coefficient
         );
       });
+
+      appState.panToMousePosition = self.minimap.panToMousePosition;
   };
 
   /**

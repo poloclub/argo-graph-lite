@@ -408,12 +408,12 @@ module.exports = function(THREE) {
       }
     }
 
-    //ANISH
+    //public zoom in function
     this.dollyIn = function(scale) {
       dollyIn(scale);
       scope.update()
     }
-    //ANISH
+    //public zoom out function
     this.dollyOut = function(scale) {
       dollyOut(scale);
       scope.update()

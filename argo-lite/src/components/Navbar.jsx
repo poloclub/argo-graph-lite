@@ -268,18 +268,6 @@ class RegularNavbar extends React.Component {
             </div>
           )}
 
-
-        {/**ANISH WORK IN PROGRESS */}
-        <button onClick={() => {
-          let controls = appState.controls
-          controls.dollyIn(1.3)
-        }}>zoom in</button>
-
-        <button onClick={() => {
-          let controls = appState.controls
-          controls.dollyIn(0.7)
-        }}>zoom out</button>
-
         </div>
         <div
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
