@@ -1,4 +1,5 @@
 const { default: appState } = require("../../stores");
+var $ = require("jquery");
 
 module.exports = function(THREE) {
   /**
@@ -372,7 +373,24 @@ module.exports = function(THREE) {
     // Expose panning for external usage
     this.pan = pan;
 
-    function dollyIn(dollyScale) {
+    function dollyIn(dollyScale, mousePos) {
+
+      
+
+
+    /////// ANISH WORK IN PROGRESS /////////////////////////
+    if(mousePos) {
+      a = $(window).height() / 2
+      b = $(window).width() / 2
+      a = 742
+      b = 370
+      x = -(a - mousePos.x)/70
+      y = (b - mousePos.y)/70
+      i = new THREE.Vector3(-x,-y,0);
+      panOffset.add(i)
+    }
+    /////////////////////////////////////////////////////////////
+
       if (scope.object instanceof THREE.PerspectiveCamera) {
         scale /= dollyScale;
       } else if (scope.object instanceof THREE.OrthographicCamera) {
@@ -390,7 +408,24 @@ module.exports = function(THREE) {
       }
     }
 
-    function dollyOut(dollyScale) {
+    function dollyOut(dollyScale, mousePos) {
+
+      /////// ANISH WORK IN PROGRESS /////////////////////////
+      if(mousePos) {
+        a = $(window).height() / 2
+        b = $(window).width() / 2
+        a = 742
+        b = 370
+        console.log(scope.object)
+        x = -(a - mousePos.x)/70
+        y = (b - mousePos.y)/70
+        i = new THREE.Vector3(x,y,0);
+        panOffset.add(i)
+      }
+      /////////////////////////////////////////////////////////////
+
+
+
       if (scope.object instanceof THREE.PerspectiveCamera) {
         scale *= dollyScale;
       } else if (scope.object instanceof THREE.OrthographicCamera) {
@@ -408,12 +443,12 @@ module.exports = function(THREE) {
       }
     }
 
-    //public zoom in function
+    //public zoom in function, used when zoom in button clicked
     this.dollyIn = function(scale) {
       dollyIn(scale);
       scope.update()
     }
-    //public zoom out function
+    //public zoom out function, used when zoom out button clicked
     this.dollyOut = function(scale) {
       dollyOut(scale);
       scope.update()
@@ -431,7 +466,6 @@ module.exports = function(THREE) {
 
     function handleMouseDownDolly(event) {
       //console.log( 'handleMouseDownDolly' );
-
       dollyStart.set(event.clientX, event.clientY);
     }
 
@@ -443,7 +477,7 @@ module.exports = function(THREE) {
 
     function handleMouseMoveRotate(event) {
       //console.log( 'handleMouseMoveRotate' );
-
+    
       rotateEnd.set(event.clientX, event.clientY);
       rotateDelta.subVectors(rotateEnd, rotateStart);
 
@@ -471,7 +505,6 @@ module.exports = function(THREE) {
 
     function handleMouseMoveDolly(event) {
       //console.log( 'handleMouseMoveDolly' );
-
       dollyEnd.set(event.clientX, event.clientY);
 
       dollyDelta.subVectors(dollyEnd, dollyStart);
@@ -506,12 +539,13 @@ module.exports = function(THREE) {
     }
 
     function handleMouseWheel(event) {
-      //console.log( 'handleMouseWheel' );
+      
+      mousePos = {x: event.clientX, y: event.clientY}
 
       if (event.deltaY < 0) {
-        dollyOut(getZoomScale());
+        dollyOut(getZoomScale(), mousePos);
       } else if (event.deltaY > 0) {
-        dollyIn(getZoomScale());
+        dollyIn(getZoomScale(), mousePos);
       }
 
       scope.update();
