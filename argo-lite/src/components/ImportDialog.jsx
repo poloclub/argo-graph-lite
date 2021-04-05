@@ -242,11 +242,8 @@ class ImportDialog extends React.Component {
                   onClick={() => {
                     // TODO: this might be unsafe, check if there's racing condition
 
-                    //default active layout when new graph imported
-                    appState.graph.frame.paused = false;
-                    appState.graph.smartPause.defaultActive.isActive = true;
-                    appState.graph.smartPause.defaultActive.startTime = Date.now();
-                    appState.graph.smartPause.smartPaused = false;
+                    //active layout when new graph imported
+                    appState.graph.runActiveLayout();
 
                     requestCreateNewProject({
                       name: appState.project.newProjectName,

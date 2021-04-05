@@ -248,10 +248,7 @@ class RegularNavbar extends React.Component {
                       /**graph is going from "pause layout" mode to "resume layout"*/
                       
                       /** graph runs for default duration when unpaused */
-                      appState.graph.frame.paused = false;
-                      appState.graph.smartPause.defaultActive.isActive = true;
-                      appState.graph.smartPause.defaultActive.startTime = Date.now();
-                      appState.graph.smartPause.smartPaused = false;
+                      appState.graph.runActiveLayout();
 
                       appState.graph.frame.resumeLayout();
                       this.forceUpdate();

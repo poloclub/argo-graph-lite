@@ -30,11 +30,8 @@ class GEXFImportDialog extends React.Component {
             onClick={() => {
               // Temp
               
-               //default active layout when new graph imported
-               appState.graph.frame.paused = false;
-               appState.graph.smartPause.defaultActive.isActive = true;
-               appState.graph.smartPause.defaultActive.startTime = Date.now();
-               appState.graph.smartPause.smartPaused = false;
+               //active layout when new graph imported
+               appState.graph.runActiveLayout();
 
               appState.import.loading = true;
               requestImportGraphFromGexf();
