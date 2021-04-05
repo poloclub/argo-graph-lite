@@ -1,4 +1,3 @@
-const { default: appState } = require("../../stores");
 var $ = require("jquery");
 
 module.exports = function(THREE) {
@@ -17,10 +16,10 @@ module.exports = function(THREE) {
   //    Zoom - middle mouse, or mousewheel / touch: two finger spread or squish
   //    Pan - right mouse, or arrow keys / touch: three finter swipe
 
-  function OrbitControls(object, domElement) {
+  function OrbitControls(object, domElement, appState) {
 
     
-    
+    this.appState = appState;
 
     this.object = object;
 
@@ -373,21 +372,31 @@ module.exports = function(THREE) {
     // Expose panning for external usage
     this.pan = pan;
 
-    function dollyIn(dollyScale, mousePos) {
+
+    function dollyIn(dollyScale, mousePos, event) {
 
       
 
-
-    /////// ANISH WORK IN PROGRESS /////////////////////////
+    /////// WORK IN PROGRESS /////////////////////////
+    if(this.appState) {
+      prevX = this.appState.graph.mouseZoom.prevX;
+      prevY = this.appState.graph.mouseZoom.prevY;
+      currX = this.appState.graph.mouseZoom.currX;
+      currY = this.appState.graph.mouseZoom.currY;
+      // console.log(prevX);
+      // console.log(prevY);
+      // console.log(currX);
+      // console.log(currY);
+    }
     if(mousePos) {
-      a = $(window).height() / 2
-      b = $(window).width() / 2
-      a = 742
-      b = 370
-      x = -(a - mousePos.x)/70
-      y = (b - mousePos.y)/70
-      i = new THREE.Vector3(-x,-y,0);
-      panOffset.add(i)
+      // a = $(window).height() / 2
+      // b = $(window).width() / 2
+      // a = 742
+      // b = 370
+      // x = -(a - mousePos.x)/70
+      // y = (b - mousePos.y)/70
+      // i = new THREE.Vector3(-x,-y,0);
+      // panOffset.add(i)
     }
     /////////////////////////////////////////////////////////////
 
@@ -412,15 +421,22 @@ module.exports = function(THREE) {
 
       /////// ANISH WORK IN PROGRESS /////////////////////////
       if(mousePos) {
-        a = $(window).height() / 2
-        b = $(window).width() / 2
-        a = 742
-        b = 370
-        console.log(scope.object)
-        x = -(a - mousePos.x)/70
-        y = (b - mousePos.y)/70
-        i = new THREE.Vector3(x,y,0);
-        panOffset.add(i)
+        // a = $(window).height() / 2
+        // b = $(window).width() / 2
+        // div = 742/370
+        // a = 742
+        // b = 370
+        // x = -(a - mousePos.x)
+        // y = (b - mousePos.y)
+        
+        // normalizedX = x/Math.sqrt(x*x + y*y);
+        // normalizedY = y/Math.sqrt(x*x + y*y)
+
+        // x = x/Math.abs(-(a - mousePos.x))
+        // y = y/Math.abs((b - mousePos.y))
+
+        // i = new THREE.Vector3(dollyScale*x,dollyScale*div*y,0);
+        // panOffset.add(i)
       }
       /////////////////////////////////////////////////////////////
 
@@ -543,9 +559,9 @@ module.exports = function(THREE) {
       mousePos = {x: event.clientX, y: event.clientY}
 
       if (event.deltaY < 0) {
-        dollyOut(getZoomScale(), mousePos);
+        dollyOut(getZoomScale(), mousePos, event);
       } else if (event.deltaY > 0) {
-        dollyIn(getZoomScale(), mousePos);
+        dollyIn(getZoomScale(), mousePos, event);
       }
 
       scope.update();

@@ -9,6 +9,9 @@ var $ = require("jquery");
 const { default: appState } = require("../../stores");
 
 module.exports = function (self) {
+  
+
+
   /**
    * Mouse move event that selections nodes in selection box
    */
@@ -72,6 +75,15 @@ module.exports = function (self) {
         self.selectBox.visible = false;
       }
     }
+
+
+    //ANISH WORK IN PROGRESS: mouse zoom 
+    appState.graph.mouseZoom.prevX = appState.graph.mouseZoom.currX;
+    appState.graph.mouseZoom.prevY = appState.graph.mouseZoom.currY;
+    appState.graph.mouseZoom.currX = mouseX;
+    appState.graph.mouseZoom.currY = mouseY; 
+    console.log(mouseX + " " + mouseY)
+    // console.log("currY: " +  appState.graph.mouseZoom.currY)
   };
 
   /**
@@ -259,4 +271,12 @@ module.exports = function (self) {
       });
     }
   };
+
+  /**
+   * Scroll event for adjusting camera 
+   */
+  self.onScroll = function(selection, mouseX, mouseY, button, ctrl) {
+    console.log(mouseX + " " + mouseY)
+  }
+
 };

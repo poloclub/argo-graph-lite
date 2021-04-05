@@ -66,6 +66,17 @@ export default class GraphStore {
   }
 
 
+  /**
+   *  ANISH WORK IN PROGRESS FOR MOUSE ZOOM
+   */
+  @observable mouseZoom = {
+    prevX: 0,
+    prevY: 0,
+    currX: 0,
+    currY: 0,
+  };
+
+
   // Directed or not
   @observable directedOrNot = false;
 

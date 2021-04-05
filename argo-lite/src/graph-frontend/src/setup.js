@@ -93,7 +93,7 @@ module.exports = function(self) {
       self.far
     );
     self.ccamera.position.z = 200;
-    var controls = new OrbitControls(self.ccamera, self.element);
+    var controls = new OrbitControls(self.ccamera, self.element, appState);
     
     //ANISH WORK IN PROGRESS
     appState.controls = controls
@@ -379,6 +379,11 @@ module.exports = function(self) {
    * Add Mouse Event Listeners to page
    */
   self.setupMouseHandlers = function(mouseHandler) {
+    self.element.addEventListener(
+      "wheel",
+      mouseHandler(self.onScroll),
+      false
+    );
     self.element.addEventListener(
       "mousemove",
       mouseHandler(self.onMouseMove),
