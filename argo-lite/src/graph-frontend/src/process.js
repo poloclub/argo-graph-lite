@@ -174,6 +174,8 @@ var Frame = function(graph, options) {
   var stage = 0;
   var numberOfFrameSinceMiniMapRerender = 1;
   this.render = function() {
+    if(self.graph.getNodesCount() == 0) 
+      return 
     self.updateCamera();
     self.updateNodes();
     if (stage == 1) {

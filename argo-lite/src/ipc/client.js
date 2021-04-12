@@ -345,6 +345,7 @@ export function requestSaveSnapshot(snapshotName) {
 }
 
 export function requestImportGraphFromCSV(hasNodeFile, delimiter, newProjectName) {
+  // appState.graph.frame.getGraph().clear()
   if (!newProjectName) {
     newProjectName = 'Test Project';
   }
