@@ -374,32 +374,6 @@ module.exports = function(THREE) {
 
 
     function dollyIn(dollyScale, mousePos, event) {
-
-      
-
-    /////// WORK IN PROGRESS /////////////////////////
-    if(this.appState) {
-      prevX = this.appState.graph.mouseZoom.prevX;
-      prevY = this.appState.graph.mouseZoom.prevY;
-      currX = this.appState.graph.mouseZoom.currX;
-      currY = this.appState.graph.mouseZoom.currY;
-      // console.log(prevX);
-      // console.log(prevY);
-      // console.log(currX);
-      // console.log(currY);
-    }
-    if(mousePos) {
-      // a = $(window).height() / 2
-      // b = $(window).width() / 2
-      // a = 742
-      // b = 370
-      // x = -(a - mousePos.x)/70
-      // y = (b - mousePos.y)/70
-      // i = new THREE.Vector3(-x,-y,0);
-      // panOffset.add(i)
-    }
-    /////////////////////////////////////////////////////////////
-
       if (scope.object instanceof THREE.PerspectiveCamera) {
         scale /= dollyScale;
       } else if (scope.object instanceof THREE.OrthographicCamera) {
@@ -418,30 +392,6 @@ module.exports = function(THREE) {
     }
 
     function dollyOut(dollyScale, mousePos) {
-
-      /////// ANISH WORK IN PROGRESS /////////////////////////
-      if(mousePos) {
-        // a = $(window).height() / 2
-        // b = $(window).width() / 2
-        // div = 742/370
-        // a = 742
-        // b = 370
-        // x = -(a - mousePos.x)
-        // y = (b - mousePos.y)
-        
-        // normalizedX = x/Math.sqrt(x*x + y*y);
-        // normalizedY = y/Math.sqrt(x*x + y*y)
-
-        // x = x/Math.abs(-(a - mousePos.x))
-        // y = y/Math.abs((b - mousePos.y))
-
-        // i = new THREE.Vector3(dollyScale*x,dollyScale*div*y,0);
-        // panOffset.add(i)
-      }
-      /////////////////////////////////////////////////////////////
-
-
-
       if (scope.object instanceof THREE.PerspectiveCamera) {
         scale *= dollyScale;
       } else if (scope.object instanceof THREE.OrthographicCamera) {

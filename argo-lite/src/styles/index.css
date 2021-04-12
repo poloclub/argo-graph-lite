@@ -73,13 +73,11 @@ html {
 }
 
 .zoom-buttons {
-  margin-top: -1em;
-  padding-top: 1.1em;
-  right: -106em;
-  top: 40em;
+  margin-right: 20px;
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  bottom:0;
+  right:0;
+  margin-bottom: 100px;
   pointer-events: all;
 }
 

@@ -65,18 +65,6 @@ export default class GraphStore {
     interactingWithGraph: false, //true when node is clicked or dragged. TODO: refactor to more understandable name
   }
 
-
-  /**
-   *  ANISH WORK IN PROGRESS FOR MOUSE ZOOM
-   */
-  @observable mouseZoom = {
-    prevX: 0,
-    prevY: 0,
-    currX: 0,
-    currY: 0,
-  };
-
-
   // Directed or not
   @observable directedOrNot = false;
 

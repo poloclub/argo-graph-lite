@@ -95,9 +95,8 @@ module.exports = function(self) {
     self.ccamera.position.z = 200;
     var controls = new OrbitControls(self.ccamera, self.element, appState);
     
-    //ANISH WORK IN PROGRESS
+    //add orbitcontrols to appstate
     appState.controls = controls
-
 
     controls.spacePan = true; // Space bar panning
     controls.bothPan = true; // Space bar and right click panning
@@ -379,11 +378,6 @@ module.exports = function(self) {
    * Add Mouse Event Listeners to page
    */
   self.setupMouseHandlers = function(mouseHandler) {
-    self.element.addEventListener(
-      "wheel",
-      mouseHandler(self.onScroll),
-      false
-    );
     self.element.addEventListener(
       "mousemove",
       mouseHandler(self.onMouseMove),
