@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import appState from "../../stores";
-import { Button, Classes, RangeSlider } from "@blueprintjs/core";
+import { Button, Checkbox, Classes, RangeSlider } from "@blueprintjs/core";
 import { SketchPicker } from "react-color";
 import { Popover2, Select } from "@blueprintjs/labs";
 import classnames from "classnames";
@@ -16,8 +16,11 @@ class EdgesPanel extends React.Component {
         super(props);
         this.state = {
           timeOutRef: null,
-          sizeOptionOpen: false,
-          thicknessOptionOpen: false,
+        //   sizeOptionOpen: false,
+          colorOptionOpen:false,
+          directionOptionOpen:false,
+        //   colorOptionOpen:false,
+        //   thicknessOptionOpen: false,
         };
       }
 
@@ -79,7 +82,36 @@ class EdgesPanel extends React.Component {
                         
                     </div>
                 </Collapsable>
-
+            
+                <Collapsable
+                    name="Direction"
+                    isOpen={this.state.directionOptionOpen}
+                    onToggle={() =>
+                        this.setState({
+                        directionOptionOpen: !this.state.directionOptionOpen
+                        })
+                    }
+                    >
+                    <div className={classnames(Classes.CARD, "sub-option")}>
+                        <div> 
+                            <p style={{display: "inline"}}>Show Edge Direction: </p>
+                            <span style={{float:"right"}}>
+                            <label class=".pt-large">
+                            <input 
+                                 type="checkbox"
+                                 onChange={it => {
+                                     console.log(appState.graph.directedOrNot);
+                                     appState.graph.directedOrNot = !appState.graph.directedOrNot;
+                                 }
+                                 }
+                               />
+                            </label>
+                            </span>
+                            </div>
+                        
+                    </div>
+                </Collapsable>
+{/* 
                 <div>
                      <section style = {{marginTop: "15px"}}>
                          <p style={{display: "inline"}}>Show Edge Direction: </p>
@@ -94,7 +126,7 @@ class EdgesPanel extends React.Component {
                                />
                          </div>
                      </section>
-                 </div>
+                 </div> */}
 
                 {/* Collapsable Option: Thickness */}
                 {/* <Collapsable
