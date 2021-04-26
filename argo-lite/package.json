@@ -2,6 +2,7 @@
   "name": "argo-lite",
   "version": "1.0.1",
   "private": true,
+  "homepage": "https://poloclub.github.io/argo-graph-lite",
   "dependencies": {
     "@babel/core": "7.5.5",
     "@blueprintjs/core": "^1.40.0",
@@ -103,7 +104,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "predeploy": "npm run build",
-    "deploy": "npm run build && cp build/index.html build/200.html && surge build https://argo_ui_update.surge.sh"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app",
