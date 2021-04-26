@@ -37,9 +37,7 @@ To do this, you need to do the following steps:
 
   5) In the terminal, run `npm run build`
 
-  6) Type `cd build` to switch to the build directory, and rename `index.html` to `200.html`
- 
-  7) After renaming `index.html` to `200.html`, run `npx surge`
+  6) Type `cd build` to switch to the build directory. Rename `index.html` to `200.html`. Then run `npx surge`.
 
-  8) Running `npx surge` will prompt you to enter an email and a password of your choice, as well as the directory for your project. After doing this, you must specify the domain name of the link. Use the same name as what you used in the package.json file. After hitting enter, you will be given a shareable URL.
+  7) Running `npx surge` will prompt you to enter an email and a password of your choice, as well as the directory for your project. After doing this, you must specify the domain name of the link. Use the same name as what you used in the package.json file. After hitting enter, you will be given a shareable URL.
   
