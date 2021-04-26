@@ -12,7 +12,7 @@ Install node.js, head to `cd argo-lite` and run `npm install` to install the dep
 
 Argo Lite has a sharing server for sharing graph snapshots. See [the Deployment Guide](deploy.md).
 
-## Testing Changes to Argo Lite with Surge
+## Creating Live Demo on Surge to Test New Argo Lite Features
 
 After changes are made to the Argo Lite code base, [Surge](https://surge.sh/) can be used to deploy these changes to a URL that can be shared with others for testing new features. 
 
