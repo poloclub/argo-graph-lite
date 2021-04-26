@@ -19,7 +19,7 @@ After changes are made to the Argo Lite code base, [Surge](https://surge.sh/) ca
 To do this, you need to do the following steps:
 1) Navigate to the Argo Lite react-app in your terminal
 
-2) Open the package.json file and find the `"homepage"` attribute. Completely remove: `"homepage": "https://poloclub.github.io/argo-graph-lite"`
+2) Open the package.json file and find the `"homepage"` attribute. Completely remove the attribute: `"homepage": "https://poloclub.github.io/argo-graph-lite"`
 
 3) Inside the package.json file, find the `"scripts"` attribute. Within this attribute, there is an attribute named `"deploy"`. Remove the value and replace it with `"npm run build && cp build/index.html build/200.html && surge build https://{YOUR DESIRED URL NAME}.surge.sh"`. An example is shown below:
 
