@@ -23,16 +23,15 @@ To do this, you need to do the following steps:
 
 3) Inside the package.json file, find the `"scripts"` attribute. Within this attribute, there is an attribute named `"deploy"`. Remove the value and replace it with `"npm run build && cp build/index.html build/200.html && surge build https://{YOUR DESIRED URL NAME}.surge.sh"`. An example is shown below:
 
-  `
+  ```
   "scripts": {
-  
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "predeploy": "npm run build",
     "deploy": "npm run build && cp build/index.html build/200.html && surge build https://your_desired_url_name.surge.sh"
   },
-  `
+  ```
   
   4) The package.json file is finished. In the terminal, run `npm install -g surge`
 
