@@ -17,7 +17,7 @@ Argo Lite has a sharing server for sharing graph snapshots. See [the Deployment 
 After changes are made to the Argo Lite code base, [Surge](https://surge.sh/) can be used to deploy these changes to a URL that can be shared with others for testing new features. 
 
 To do this, you need to do the following steps:
-1) Switch to the branch where your changes have been made and make a duplicate branch. Use the duplicate branch to complete the rest of the steps in order to preserve the files in the original branch.
+1) Switch to the branch where your changes have been made and make a duplicate branch (e.g., named as "demo/branch-name" to help group all surge demo branches). Use the duplicate branch to complete the rest of the steps in order to preserve the files in the original branch.
 
 2) Navigate to the Argo Lite react-app in your terminal
 
