@@ -65,7 +65,6 @@ export default class GraphStore {
     interactingWithGraph: false, //true when node is clicked or dragged. TODO: refactor to more understandable name
   }
 
-
   // Directed or not
   @observable directedOrNot = false;
 

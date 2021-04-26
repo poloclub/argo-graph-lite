@@ -9,6 +9,9 @@ var $ = require("jquery");
 const { default: appState } = require("../../stores");
 
 module.exports = function (self) {
+  
+
+
   /**
    * Mouse move event that selections nodes in selection box
    */

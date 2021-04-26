@@ -268,6 +268,7 @@ class RegularNavbar extends React.Component {
           }
             </div>
           )}
+
         </div>
         <div
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}

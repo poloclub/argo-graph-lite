@@ -5,6 +5,8 @@ var Node = def.Node;
 var OrbitControls = def.OrbitControls;
 var d3 = def.d3;
 var ee = def.ee;
+const { default: appState } = require("../../stores");
+
 
 module.exports = function(self) {
   /**
@@ -91,7 +93,11 @@ module.exports = function(self) {
       self.far
     );
     self.ccamera.position.z = 200;
-    var controls = new OrbitControls(self.ccamera, self.element);
+    var controls = new OrbitControls(self.ccamera, self.element, appState);
+    
+    //add orbitcontrols to appstate
+    appState.controls = controls
+
     controls.spacePan = true; // Space bar panning
     controls.bothPan = true; // Space bar and right click panning
     controls.minDistance = 10;
@@ -152,6 +158,8 @@ module.exports = function(self) {
             coefficient
         );
       });
+
+      appState.panToMousePosition = self.minimap.panToMousePosition;
   };
 
   /**
