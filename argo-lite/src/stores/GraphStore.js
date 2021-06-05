@@ -372,6 +372,9 @@ export default class GraphStore {
   }
 
   setUpFrame() {
+    if (this.frame) {
+      this.frame.getGraph().clear()
+    }
     const graphFrame = new Frame(this.computedGraph);
     graphFrame.init();
     graphFrame.display();
