@@ -21,7 +21,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import argologo_dark from '../images/new_argologo_dark.svg';
 import argologo_light from '../images/new_argologo_light.svg';
 import { toaster } from '../notifications/client';
-import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS } from '../constants';
+import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPHS } from '../constants';
 
 @observer
 class RegularNavbar extends React.Component {
@@ -53,9 +53,9 @@ class RegularNavbar extends React.Component {
               <Menu>
                 <MenuItem text="Load Sample" iconName="graph">
                   {
-                    SAMPLE_GRAPH_SNAPSHOTS.map((sample) => {
+                    SAMPLE_GRAPHS.map((sample) => {
                       const sampleSnapshotTitle = sample[0];
-                      const sampleSnapshotStrapiUuid = sample[1];
+                      const sampleSnapshotUrl = sample[1];
 
                       return (
                         <MenuItem
@@ -63,7 +63,7 @@ class RegularNavbar extends React.Component {
                           iconName="graph"
                           text={sampleSnapshotTitle}
                           onClick={() => {
-                            window.loadAndDisplaySnapshotFromStrapi(sampleSnapshotStrapiUuid);
+                            window.loadAndDisplaySnapshotFromURL(sampleSnapshotUrl);
                           }}
                         />
                       );
@@ -95,11 +95,6 @@ class RegularNavbar extends React.Component {
                     appState.project.stringCopyOfSnapshot = appState.graph.saveImmediateStates();
                     appState.project.isSaveSnapshotDialogOpen = true
                   }}
-                />
-                <MenuItem
-                  iconName="pt-icon-document-share"
-                  text="Publish and Share Snapshot"
-                  onClick={() => { appState.preferences.shareDialogOpen = true }}
                 />
               </Menu>
             }

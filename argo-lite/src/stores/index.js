@@ -10,7 +10,7 @@ import parse from "csv-parse/lib/sync";
 import SearchStore from "./SearchStore";
 import { runSearch } from "../ipc/client";
 
-import { BACKEND_URL, SAMPLE_GRAPH_SNAPSHOTS} from "../constants";
+import { SAMPLE_GRAPHS } from "../constants";
 import { toaster } from '../notifications/client';
 
 export class AppState {
@@ -41,21 +41,6 @@ const loadSnapshotFromURL = (url) => {
   });
 };
 
-const loadSnapshotFromStrapi = (uuid) => {
-  const url = `${BACKEND_URL}/snapshots?uuid=${uuid}`;
-  return fetch(url, {
-    method: 'GET',
-    mode: 'cors'
-  }).then(response => response.json()).then(json => json[0].body).catch(error => {
-    toaster.show({
-      message: 'Failed to fetch graph snapshot',
-      intent: Intent.DANGER,
-      timeout: -1
-    });
-    console.error(error);
-  });
-};
-
 const loadAndDisplaySnapshotFromURL = (url) => {
   loadSnapshotFromURL(url).then(snapshotString => {
     // use filename/last segment of URL as title in Navbar
@@ -64,20 +49,11 @@ const loadAndDisplaySnapshotFromURL = (url) => {
   });
 };
 
-const loadAndDisplaySnapshotFromStrapi = (uuid) => {
-  loadSnapshotFromStrapi(uuid).then(snapshotString => {
-    // TODO: use more sensible snapshot name
-    appState.graph.metadata.snapshotName = 'Shared';
-    appState.graph.loadImmediateStates(snapshotString);
-  });
-};
-
 window.loadAndDisplaySnapshotFromURL = loadAndDisplaySnapshotFromURL;
-window.loadAndDisplaySnapshotFromStrapi = loadAndDisplaySnapshotFromStrapi;
 
 window.loadInitialSampleGraph = async () => {
   // default fallback url
-  let url = "https://argo-graph-lite.s3.amazonaws.com/lesmiserables.json";
+  let url = SAMPLE_GRAPHS[0][1];
 
   // check url hash
   if (window.location.hash) {
@@ -90,16 +66,12 @@ window.loadInitialSampleGraph = async () => {
         console.error(e);
         alert('Provided URL is not valid.');
       }
-    } else {
-      // If the hash component does not begin with http
-      // treat it as a uuid in strapi.
-      loadAndDisplaySnapshotFromStrapi(hash);
-      return;
     }
-    
+    if (hash.startsWith('/')) {
+      url = hash;
+    }
   }
-  // loadAndDisplaySnapshotFromURL(url)
-  loadAndDisplaySnapshotFromStrapi(SAMPLE_GRAPH_SNAPSHOTS[0][1]);
+  loadAndDisplaySnapshotFromURL(url);
 };
 
 window.saveSnapshotToString = () => {
