@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: npm
+          cache-dependency-path: argo-lite/package-lock.json
+
+      - name: Install
+        working-directory: argo-lite
+        run: npm ci --legacy-peer-deps
+
+      - name: Build
+        working-directory: argo-lite
+        env:
+          CI: "false"
+        run: npm run build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: argo-lite/build
+          publish_branch: gh-pages
