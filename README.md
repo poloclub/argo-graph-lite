@@ -1,6 +1,6 @@
 # Argo Lite
 
-[![Build Status](https://travis-ci.org/poloclub/argo-graph-lite.svg?branch=master)](https://travis-ci.org/poloclub/argo-graph-lite)
+[![Build Status](https://github.com/poloclub/argo-graph-lite/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/poloclub/argo-graph-lite/actions/workflows/deploy.yml)
 
 An interactive graph visualization system that runs in your web browsers. No installation needed.
 
