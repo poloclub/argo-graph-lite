@@ -82,12 +82,12 @@ class RegularNavbar extends React.Component {
                   text="Import from GEXF..."
                   onClick={() => (appState.import.gexfDialogOpen = true)}
                 />
+                <MenuDivider />
                 <MenuItem
                   iconName="pt-icon-document-open"
                   text="Open Snapshot"
                   onClick={() => { appState.preferences.openSnapshotDialogOpen = true }}
                 />
-                <MenuDivider />
                 <MenuItem
                   iconName="download"
                   text="Save Snapshot"
