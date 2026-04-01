@@ -10,9 +10,11 @@ export const IS_IFRAME_WIDGET = window.location !== window.parent.location;
 export const FRONTEND_URL = "https://poloclub.github.io/argo-graph-lite";
 export const LOGO_URL = "https://github.com/poloclub/argo-graph-lite";
 export const GITHUB_URL = "https://github.com/poloclub/argo-graph-lite";
+const PUBLIC_URL = process.env.PUBLIC_URL || "";
+const withPublicUrl = (path) => `${PUBLIC_URL}${path}`;
 export const SAMPLE_GRAPHS = [
-  ["Les Miserables", "/samples/les-miserables.json"],
-  ["CORD-19 Citations Network", "/samples/cord-19.json"]
+  ["Les Miserables", withPublicUrl("/samples/les-miserables.json")],
+  ["CORD-19 Citations Network", withPublicUrl("/samples/cord-19.json")]
 ];
 
 // When resizing window or running on mobile,

@@ -27,11 +27,40 @@ const appState = new AppState();
 
 window.appState = appState;
 
+const resolveSnapshotUrl = (url) => {
+  if (!url) {
+    return url;
+  }
+
+  const publicUrl = process.env.PUBLIC_URL || "";
+
+  if (/^(https?:)?\/\//.test(url)) {
+    return url;
+  }
+
+  if (publicUrl && url.startsWith(`${publicUrl}/`)) {
+    return url;
+  }
+
+  if (url.startsWith("/")) {
+    return `${publicUrl}${url}`;
+  }
+
+  return url;
+};
+
 const loadSnapshotFromURL = (url) => {
-  return fetch(url, {
+  const resolvedUrl = resolveSnapshotUrl(url);
+
+  return fetch(resolvedUrl, {
     method: 'GET',
     mode: 'cors'
-  }).then(response => response.text()).catch(error => {
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error(`Failed to fetch graph snapshot: ${response.status} ${response.statusText}`);
+    }
+    return response.text();
+  }).catch(error => {
     toaster.show({
       message: 'Failed to fetch graph snapshot',
       intent: Intent.DANGER,
@@ -43,8 +72,13 @@ const loadSnapshotFromURL = (url) => {
 
 const loadAndDisplaySnapshotFromURL = (url) => {
   loadSnapshotFromURL(url).then(snapshotString => {
+    if (!snapshotString) {
+      return;
+    }
+
+    const resolvedUrl = resolveSnapshotUrl(url);
     // use filename/last segment of URL as title in Navbar
-    appState.graph.metadata.snapshotName = url.split('/').pop() || url.split('/').pop().pop();
+    appState.graph.metadata.snapshotName = resolvedUrl.split('/').pop() || resolvedUrl.split('/').pop().pop();
     appState.graph.loadImmediateStates(snapshotString);
   });
 };
