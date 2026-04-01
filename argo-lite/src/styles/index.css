@@ -198,45 +198,6 @@ button.pt-fill.text-align-left {
   justify-content: space-between;
 }
 
-.announcement-banner {
-  position: fixed;
-  top: 60px;
-  left: 55%;
-  transform: translateX(-50%);
-  width: 50vw;
-  min-width: 320px;
-  max-width: 520px;
-  padding: 8px 14px 0 14px;
-  z-index: 1000;
-}
-
-.announcement-banner__callout {
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.announcement-banner__summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.announcement-banner__actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.announcement-banner__lead {
-  font-weight: 600;
-}
-
-.announcement-banner__list {
-  margin: 10px 0 0 18px;
-}
-
 button.pt-fill.text-align-left > .pt-icon-standard.pt-align-right {
   margin-top: 7px;
 }

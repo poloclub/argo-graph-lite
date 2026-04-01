@@ -10,13 +10,9 @@ export const IS_IFRAME_WIDGET = window.location !== window.parent.location;
 export const FRONTEND_URL = "https://poloclub.github.io/argo-graph-lite";
 export const LOGO_URL = "https://github.com/poloclub/argo-graph-lite";
 export const GITHUB_URL = "https://github.com/poloclub/argo-graph-lite";
-// Argo-lite Graph Sharing backend Strapi Server:
-export const BACKEND_URL = "https://argo-share.herokuapp.com"; // for production
-// export const BACKEND_URL = "https://sleepy-brushlands-57948.herokuapp.com"; // for free heroku
-// export const BACKEND_URL = "http://localhost:1337"; // for local strapi development
-export const SAMPLE_GRAPH_SNAPSHOTS = [
-  ["Les Miserables", "31d8fb5a-b540-4db6-a2df-9c0158e152f0"],
-  ["CORD-19 Citation Graph 06-02", "4bf882d3-8966-4f41-a590-acafeb998d2a"]
+export const SAMPLE_GRAPHS = [
+  ["Les Miserables", "/samples/les-miserables.json"],
+  ["CORD-19 Citations Network", "/samples/cord-19.json"]
 ];
 
 // When resizing window or running on mobile,

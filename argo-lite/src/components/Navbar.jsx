@@ -2,7 +2,6 @@ import React from "react";
 import classnames from "classnames";
 import {
   Button,
-  Callout,
   Classes,
   InputGroup,
   Intent,
@@ -22,18 +21,10 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import argologo_dark from '../images/new_argologo_dark.svg';
 import argologo_light from '../images/new_argologo_light.svg';
 import { toaster } from '../notifications/client';
-import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPH_SNAPSHOTS } from '../constants';
+import { LOGO_URL, GITHUB_URL, SAMPLE_GRAPHS } from '../constants';
 
 @observer
 class RegularNavbar extends React.Component {
-  state = {
-    eolDismissed: false
-  };
-
-  dismissEol = () => {
-    this.setState({ eolDismissed: true });
-  };
-
   render() {
     return (
       <nav className={classnames([Classes.NAVBAR])}>
@@ -62,9 +53,9 @@ class RegularNavbar extends React.Component {
               <Menu>
                 <MenuItem text="Load Sample" iconName="graph">
                   {
-                    SAMPLE_GRAPH_SNAPSHOTS.map((sample) => {
+                    SAMPLE_GRAPHS.map((sample) => {
                       const sampleSnapshotTitle = sample[0];
-                      const sampleSnapshotStrapiUuid = sample[1];
+                      const sampleSnapshotUrl = sample[1];
 
                       return (
                         <MenuItem
@@ -72,7 +63,7 @@ class RegularNavbar extends React.Component {
                           iconName="graph"
                           text={sampleSnapshotTitle}
                           onClick={() => {
-                            window.loadAndDisplaySnapshotFromStrapi(sampleSnapshotStrapiUuid);
+                            window.loadAndDisplaySnapshotFromURL(sampleSnapshotUrl);
                           }}
                         />
                       );
@@ -104,11 +95,6 @@ class RegularNavbar extends React.Component {
                     appState.project.stringCopyOfSnapshot = appState.graph.saveImmediateStates();
                     appState.project.isSaveSnapshotDialogOpen = true
                   }}
-                />
-                <MenuItem
-                  iconName="pt-icon-document-share"
-                  text="Publish and Share Snapshot"
-                  onClick={() => { appState.preferences.shareDialogOpen = true }}
                 />
               </Menu>
             }
@@ -282,52 +268,6 @@ class RegularNavbar extends React.Component {
           )}
 
         </div>
-        {!this.state.eolDismissed && (
-          <div
-            className={classnames([Classes.NAVBAR_GROUP])}
-            style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}
-          >
-            <Popover
-              content={
-                <div style={{ maxWidth: 500, padding: 0 }}>
-                  <Callout
-                    iconName="warning-sign"
-                    intent={Intent.WARNING}
-                    title="Snapshot Publishing and Sharing Feature — End-of-Life Service Notice"
-                  >
-                    <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.6 }}>
-                      <li>The snapshot publishing and sharing feature for Argo Scholar and Argo Lite will reach end-of-life on <strong style={{ textDecoration: 'underline' }}>March 31, 2026</strong>.</li>
-                      <li>The applications will remain accessible until this date.</li>
-                      <li><strong>Publishing, saving, or loading shared (server-hosted) snapshots may be unavailable or unreliable</strong> during this period.</li>
-                      <li>After <strong style={{ textDecoration: 'underline' }}>March 31, 2026</strong>, <strong>backend services supporting snapshot publishing and sharing will be fully shut down</strong>. Users will still be able to save and load snapshots locally, but shared or server-hosted snapshots will no longer be supported.</li>
-                      <li>If you rely on snapshot publishing or sharing for active projects or teaching, please <strong>export any important shared snapshots before <span style={{ textDecoration: 'underline' }}>March 31, 2026</span></strong>.</li>
-                      <li>For questions or concerns, please contact the Argo maintainers.</li>
-                    </ul>
-                    <div style={{ marginTop: 8 }}>
-                      <Button
-                        minimal
-                        small
-                        iconName="cross"
-                        onClick={this.dismissEol}
-                      >
-                        Dismiss
-                      </Button>
-                    </div>
-                  </Callout>
-                </div>
-              }
-              position={Position.BOTTOM}
-            >
-              <Button
-                className={classnames([Classes.BUTTON, Classes.MINIMAL])}
-                iconName="warning-sign"
-                intent={Intent.WARNING}
-              >
-                End-of-Life Service Notice
-              </Button>
-            </Popover>
-          </div>
-        )}
         <div
           className={classnames([Classes.NAVBAR_GROUP, Classes.ALIGN_RIGHT])}
         >

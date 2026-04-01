@@ -7,7 +7,6 @@ export default class PreferencesStore {
 
   @observable openDialogOpen = false;
   @observable openSnapshotDialogOpen = false;
-  @observable shareDialogOpen = false;
   @observable statisticsDialogOpen = false;
   @observable helpDialogOpen = false;
   @observable neighborDialogOpen = false;
